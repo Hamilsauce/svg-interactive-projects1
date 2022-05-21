@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body{
+      touch-action: none;
+    }
+  </style>
+  <title>SVG MoveAndResizeTool - Part 1</title>
+
+  <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+</head>
+
+<body>
+  <svg width="190" height="160" xmlns="http://www.w3.org/2000/svg">
+
+  <path d="M 10 10 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/>
+  <path d="M 70 10 C 70 20, 110 20, 110 10" stroke="black" fill="transparent"/>
+  <path d="M 130 10 C 120 20, 180 20, 170 10" stroke="black" fill="transparent"/>
+  <path d="M 10 60 C 20 80, 40 80, 50 60" stroke="black" fill="transparent"/>
+  <path d="M 70 60 C 70 80, 110 80, 110 60" stroke="black" fill="transparent"/>
+  <path d="M 130 60 C 120 80, 180 80, 170 60" stroke="black" fill="transparent"/>
+  <path d="M 10 110 C 20 140, 40 140, 50 110" stroke="black" fill="transparent"/>
+  <path d="M 70 110 C 70 140, 110 140, 110 110" stroke="black" fill="transparent"/>
+  <path d="M 130 110 C 120 140, 180 140, 170 110" stroke="black" fill="transparent"/>
+
+</svg>
+
+  <div style="left:100px;top:100px;position:relative;width:350px;height:200px" id="wrapper">
+    <div style="left:8px;top:8px;position:absolute" class="internalWrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width:350px;height:200px" id="myShape">
+        <ellipse cx="50%" cy="50%" rx="50%" ry="50%" stroke="#FF0000" stroke-width="2" fill="#800000" />
+      </svg>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="left:0px;top:0px;position:relative;width:100%;height:100%">
+      <style type="text/css">
+        .actionTrigger {
+          transition: opacity 0.5s;
+          opacity: 0;
+        }
+
+        .actionTrigger:hover {
+          transition: opacity 0.3s;
+          opacity: 0.3;
+        }
+      </style>
+
+      <line x1="0" y1="0" x2="100%" y2="0" stroke="#808080" stroke-width="1" stroke-dasharray="5,5" class="topDrawing" />
+      <line x1="0" y1="100%" x2="100%" y2="100%" stroke="#808080" stroke-width="1" stroke-dasharray="5,5" class="bottomDrawing" />
+      <line x1="0" y1="0" x2="0" y2="100%" stroke="#808080" stroke-width="1" stroke-dasharray="5,5" class="leftDrawing" />
+      <line x1="100%" y1="0" x2="100%" y2="100%" stroke="#808080" stroke-width="1" stroke-dasharray="5,5" class="rightDrawing" />
+      <circle cx="0" cy="0" r="3" stroke="#0000FF" stroke-width="1" fill="#CCCCFF" class="topLeftDrawing" />
+      <circle cx="100%" cy="0" r="3" stroke="#0000FF" stroke-width="1" fill="#CCCCFF" class="topRightDrawing" />
+      <circle cx="0" cy="100%" r="3" stroke="#0000FF" stroke-width="1" fill="#CCCCFF" class="bottomLeftDrawing" />
+      <circle cx="100%" cy="100%" r="3" stroke="#0000FF" stroke-width="1" fill="#CCCCFF" class="bottomRightDrawing" />
+
+      <rect x="0" y="0" width="100%" height="100%" fill-opacity="0.5" opacity="0" class="actionTrigger moveActionTrigger" style="cursor:move" />
+      <line x1="0" y1="0" x2="100%" y2="0" stroke="#000" stroke-width="5" opacity="0" class="actionTrigger topActionTrigger" style="cursor:n-resize" />
+      <line x1="0" y1="100%" x2="100%" y2="100%" stroke="#000" stroke-width="5" opacity="0" class="actionTrigger bottomActionTrigger" style="cursor:s-resize" />
+      <line x1="0" y1="0" x2="0" y2="100%" stroke="#000" stroke-width="5" opacity="0" class="actionTrigger leftActionTrigger" style="cursor:w-resize" />
+      <line x1="100%" y1="0" x2="100%" y2="100%" stroke="#000" stroke-width="5" opacity="0" class="actionTrigger rightActionTrigger" style="cursor:e-resize" />
+      <circle cx="0" cy="0" r="8" stroke="#000" stroke-width="0" fill="#000" opacity="0" class="actionTrigger topLeftActionTrigger" style="cursor:nw-resize" />
+      <circle cx="100%" cy="0" r="8" stroke="#000" stroke-width="0" fill="#000" opacity="0" class="actionTrigger topRightActionTrigger" style="cursor:ne-resize" />
+      <circle cx="0" cy="100%" r="8" stroke="#000" stroke-width="0" fill="#000" opacity="0" class="actionTrigger bottomLeftActionTrigger" style="cursor:sw-resize" />
+      <circle cx="100%" cy="100%" r="8" stroke="#000" stroke-width="0" fill="#000" opacity="0" class="actionTrigger bottomRightActionTrigger" style="cursor:se-resize" />
+    </svg>
+  </div>
+  <script src="dejquery.js" type="module" charset="utf-8"></script>
+  <!-- <script type="text/javascript">
+    var ActionsEnum = {
+      None: 0,
+      LeftResize: 1,
+      TopResize: 2,
+      RightResize: 3,
+      BottomResize: 4,
+      TopLeftResize: 5,
+      BottomLeftResize: 6,
+      TopRightResize: 7,
+      BottomRightResize: 8,
+      Move: 9
+    }
+
+    var externalWrapperQueryStr = '#wrapper';
+    var internalWrapperQueryStr = externalWrapperQueryStr + ' .internalWrapper';
+
+    // Query strings for the action-triggers.
+    var moveActionTriggerQueryStr = externalWrapperQueryStr + ' .moveActionTrigger';
+    var topActionTriggerQueryStr = externalWrapperQueryStr + ' .topActionTrigger';
+    var bottomActionTriggerQueryStr = externalWrapperQueryStr + ' .bottomActionTrigger';
+    var leftActionTriggerQueryStr = externalWrapperQueryStr + ' .leftActionTrigger';
+    var rightActionTriggerQueryStr = externalWrapperQueryStr + ' .rightActionTrigger';
+    var topLeftActionTriggerQueryStr = externalWrapperQueryStr + ' .topLeftActionTrigger';
+    var topRightActionTriggerQueryStr = externalWrapperQueryStr + ' .topRightActionTrigger';
+    var bottomLeftActionTriggerQueryStr = externalWrapperQueryStr + ' .bottomLeftActionTrigger';
+    var bottomRightActionTriggerQueryStr = externalWrapperQueryStr + ' .bottomRightActionTrigger';
+
+    // Query strings for the resizing border's drawings.
+    var topDrawingQueryStr = externalWrapperQueryStr + ' .topDrawing';
+    var bottomDrawingQueryStr = externalWrapperQueryStr + ' .bottomDrawing';
+    var leftDrawingQueryStr = externalWrapperQueryStr + ' .leftDrawing';
+    var rightDrawingQueryStr = externalWrapperQueryStr + ' .rightDrawing';
+    var topLeftDrawingQueryStr = externalWrapperQueryStr + ' .topLeftDrawing';
+    var topRightDrawingQueryStr = externalWrapperQueryStr + ' .topRightDrawing';
+    var bottomLeftDrawingQueryStr = externalWrapperQueryStr + ' .bottomLeftDrawing';
+    var bottomRightDrawingQueryStr = externalWrapperQueryStr + ' .bottomRightDrawing';
+
+    var currentAction = ActionsEnum.None;
+
+    var lastPointerX = 0;
+    var lastPointerY = 0;
+
+    var cornerActionTriggerRadius = 8;
+
+    function initializeEventHandlers() {
+      $(moveActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.Move;
+      });
+
+      $(topActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.TopResize;
+      });
+
+      $(bottomActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.BottomResize;
+      });
+
+      $(leftActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.LeftResize;
+      });
+
+      $(rightActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.RightResize;
+      });
+
+      $(topLeftActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.TopLeftResize;
+      });
+
+      $(topRightActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.TopRightResize;
+      });
+
+      $(bottomLeftActionTriggerQueryStr).pointerdown(function(event) {
+      
+        currentAction = ActionsEnum.BottomLeftResize;
+      });
+
+      $(bottomRightActionTriggerQueryStr).pointerdown(function(event) {
+        currentAction = ActionsEnum.BottomRightResize;
+      });
+
+      $(document).pointerup(function(event) {
+        // Clear the current action.
+        currentAction = ActionsEnum.None;
+      });
+
+      document .addEventListener('pointermove',onPointerMove);
+      document .addEventListener('pointerup',onPointerUp);
+      
+      // onpointermove(function(event) {
+      //   onPointerMove(event);
+      // });
+    }
+    function onPointerMove(event) {
+      var currPointerX = event.clientX;
+      var currPointerY = event.clientY;
+
+      var deltaX = currPointerX - lastPointerX;
+      var deltaY = currPointerY - lastPointerY;
+
+      applyPointerMoveAction(deltaX, deltaY);
+
+      lastPointerX = event.pageX;
+      lastPointerY = event.pageY;
+  console.log('event', event)
+    }
+
+    function applyPointerMoveAction(deltaX, deltaY) {
+      var deltaTop = 0;
+      var deltaLeft = 0;
+      var deltaWidth = 0;
+      var deltaHeight = 0;
+
+      if (currentAction == ActionsEnum.RightResize ||
+        currentAction == ActionsEnum.TopRightResize ||
+        currentAction == ActionsEnum.BottomRightResize) {
+        deltaWidth = deltaX;
+      }
+
+      if (currentAction == ActionsEnum.LeftResize ||
+        currentAction == ActionsEnum.TopLeftResize ||
+        currentAction == ActionsEnum.BottomLeftResize) {
+        deltaWidth = -deltaX;
+        deltaLeft = deltaX;
+      }
+
+      if (currentAction == ActionsEnum.BottomResize ||
+        currentAction == ActionsEnum.BottomLeftResize ||
+        currentAction == ActionsEnum.BottomRightResize) {
+        deltaHeight = deltaY;
+      }
+
+      if (currentAction == ActionsEnum.TopResize ||
+        currentAction == ActionsEnum.TopLeftResize ||
+        currentAction == ActionsEnum.TopRightResize) {
+        deltaHeight = -deltaY;
+        deltaTop = deltaY;
+      }
+
+      if (currentAction == ActionsEnum.Move) {
+        deltaLeft = deltaX;
+        deltaTop = deltaY;
+      }
+
+      updatePosition(deltaLeft, deltaTop);
+      updateSize(deltaWidth, deltaHeight);
+      adjustWrapper();
+    }
+
+    function updateSize(deltaWidth, deltaHeight)  {
+      // Calculate the new size.
+      var elemWidth = parseInt($("#myShape").width());
+      var elemHeight = parseInt($("#myShape").height());
+      var newWidth = elemWidth + deltaWidth;
+      var newHeight = elemHeight + deltaHeight;
+
+      // Don't allow a too small size.
+      var minumalSize = cornerActionTriggerRadius * 2;
+      if (newWidth < minumalSize) {
+        newWidth = minumalSize;
+      }
+      if (newHeight < minumalSize) {
+        newHeight = minumalSize;
+      }
+
+      // Set the new size.
+      $("#myShape").css('width', newWidth + 'px');
+      $("#myShape").css('height', newHeight + 'px');
+    }
+
+    function updatePosition(deltaLeft, deltaTop)  {
+      // Calculate the new position.
+      var elemLeft = parseInt($(externalWrapperQueryStr).css('left'));
+      var elemTop = parseInt($(externalWrapperQueryStr).css('top'));
+      var newLeft = elemLeft + deltaLeft;
+      var newTop = elemTop + deltaTop;
+
+      // Set the new position.
+      $(externalWrapperQueryStr).css('left', newLeft + 'px');
+      $(externalWrapperQueryStr).css('top', newTop + 'px');
+    }
+
+    function adjustWrapper()  {
+      var elemWidth = parseInt($("#myShape").width());
+      var elemHeight = parseInt($("#myShape").height());
+      var externalWrapperWidth = (elemWidth + cornerActionTriggerRadius * 2) + 'px';
+      var externalWrapperHeight = (elemHeight + cornerActionTriggerRadius * 2) + 'px';
+
+      $(internalWrapperQueryStr).width($("#myShape").width());
+      $(internalWrapperQueryStr).height($("#myShape").height());
+      $(externalWrapperQueryStr).width(externalWrapperWidth);
+      $(externalWrapperQueryStr).height(externalWrapperHeight);
+
+      // Adjust the resizing border.
+      adjustResizingBorder();
+    }
+
+    function adjustResizingBorder() {
+      var elemWidth = parseInt($("#myShape").width());
+      var elemHeight = parseInt($("#myShape").height());
+
+      // Get the minimum and maximum values for X and Y.
+      var minX = cornerActionTriggerRadius + 'px';
+      var minY = cornerActionTriggerRadius + 'px';
+      var maxX = (cornerActionTriggerRadius + elemWidth) + 'px';
+      var maxY = (cornerActionTriggerRadius + elemHeight) + 'px';
+
+      // Adjust moving rectange.
+      setRectangleAttributes(moveActionTriggerQueryStr, minX, minY, elemWidth + 'px', elemHeight + 'px');
+
+      // Adjust resizing border lines.
+      setLineAttributes(topDrawingQueryStr, minX, minY, maxX, minY);
+      setLineAttributes(bottomDrawingQueryStr, minX, maxY, maxX, maxY);
+      setLineAttributes(leftDrawingQueryStr, minX, minY, minX, maxY);
+      setLineAttributes(rightDrawingQueryStr, maxX, minY, maxX, maxY);
+      setLineAttributes(topActionTriggerQueryStr, minX, minY, maxX, minY);
+      setLineAttributes(bottomActionTriggerQueryStr, minX, maxY, maxX, maxY);
+      setLineAttributes(leftActionTriggerQueryStr, minX, minY, minX, maxY);
+      setLineAttributes(rightActionTriggerQueryStr, maxX, minY, maxX, maxY);
+
+      // Adjust resizing border circles.
+      setCircleAttributes(topLeftDrawingQueryStr, minX, minY);
+      setCircleAttributes(topRightDrawingQueryStr, maxX, minY);
+      setCircleAttributes(bottomLeftDrawingQueryStr, minX, maxY);
+      setCircleAttributes(bottomRightDrawingQueryStr, maxX, maxY);
+      setCircleAttributes(topLeftActionTriggerQueryStr, minX, minY);
+      setCircleAttributes(topRightActionTriggerQueryStr, maxX, minY);
+      setCircleAttributes(bottomLeftActionTriggerQueryStr, minX, maxY);
+      setCircleAttributes(bottomRightActionTriggerQueryStr, maxX, maxY);
+    }
+
+    function setRectangleAttributes(rectQueryStr, x, y, width, height) {
+      var rectElem = $(rectQueryStr);
+      rectElem.attr('x', x);
+      rectElem.attr('y', y);
+      rectElem.attr('width', width);
+      rectElem.attr('height', height);
+    }
+
+    function setLineAttributes(lineQueryStr, x1, y1, x2, y2) {
+      var lineElem = $(lineQueryStr);
+      lineElem.attr('x1', x1);
+      lineElem.attr('y1', y1);
+      lineElem.attr('x2', x2);
+      lineElem.attr('y2', y2);
+    }
+
+    function setCircleAttributes(circleQueryStr, cx, cy) {
+      var circleElem = $(circleQueryStr);
+      circleElem.attr('cx', cx);
+      circleElem.attr('cy', cy);
+    }
+
+    $(function() {
+      adjustWrapper();
+      initializeEventHandlers();
+    });
+    
+    console.log('{window}', {window})
+  </script>-->
+</body>
+
+</html>

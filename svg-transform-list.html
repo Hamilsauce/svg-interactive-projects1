@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>transformlst</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <div class="app-body">
+      <svg id="my-svg" viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <desc>Example showing how to transform svg elements that using SVGTransform objects</desc>
+        <script type="application/ecmascript">
+          <![CDATA[
+          function transformMe(evt) {
+            // svg root element to access the createSVGTransform() function
+            var svgroot = evt.target.parentNode;
+
+            // SVGTransformList of the element that has been clicked on
+            var tfmList = evt.target.transform.baseVal;
+
+            // Create a separate transform object for each transform
+            var translate = svgroot.createSVGTransform();
+            translate.setTranslate(50, 5);
+
+            var rotate = svgroot.createSVGTransform();
+            rotate.setRotate(10, 0, 0);
+
+            var scale = svgroot.createSVGTransform();
+            scale.setScale(0.8, 0.8);
+
+            // apply the transformations by appending the SVGTransform objects to the SVGTransformList associated with the element
+            tfmList.appendItem(translate);
+            tfmList.appendItem(rotate);
+            tfmList.appendItem(scale);
+          }
+          ]]>
+        </script>
+
+        <polygon fill="orange" stroke="black" stroke-width="5" points="100,225 100,115 130,115 70,15 70,15 10,115 40,115 40,225" onclick="transformMe(evt)" />
+        <rect x="200" y="100" width="100" height="100" fill="yellow" stroke="black" stroke-width="5" onclick="transformMe(evt)" />
+        <text x="40" y="250" font-family="Verdana" font-size="16" fill="green">
+          Click on a shape to transform it
+        </text>
+      </svg>
+    </div>
+  </div>
+  <script src="./xformlist.js" type="module"></script>
+</body>
+
+</html>

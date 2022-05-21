@@ -1,0 +1,423 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,800italic,400,600,700,800);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+html {
+  background-color: #eee;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding: 1em;
+  line-height: 1.5;
+}
+
+p {
+  margin: .75em 0;
+}
+
+.guide li span {
+  text-decoration: underline;
+}
+
+ul {
+  padding-left: 1em;
+}
+
+li {
+  margin-bottom: .75em;
+}
+
+code {
+  background-color: #eee;
+  padding: 1px 2px;
+}
+
+.wrapper {
+  background-color: #3B3F45;
+  height: 602px;
+  width: 1300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.guide {
+  width: 1300px;
+  margin: 1em auto;
+  background-color: #fff;
+  color: #3B3F45;
+  padding: 2em;
+}
+
+.guide code {
+  background-color: #fff;
+}
+
+.column {
+  float: left;
+}
+
+.svg-container {
+  position: relative;
+  width: 800px;
+  height: 600px;
+}
+
+.controls,
+.sidebar {
+  padding: 1em;
+  color: #fff;
+  width: 250px;
+}
+
+h2 {
+  text-align: center;
+  color: #EA575B;
+  margin-bottom: 1em;
+  font-size: 2.5em;
+}
+
+h3 {
+  margin-bottom: 1em;
+}
+
+label {
+  display: block;
+  margin-top: 1.5em;
+  color: #ddd;
+}
+
+.radios label {
+  display: inline-block;
+  margin-left: .25em;
+}
+
+select {
+  border: 1px solid transparent;
+  background-color: #eee;
+  color: #1B1F25;
+  border-radius: 3px;
+  padding: .5em;
+  margin: .5em 0;
+  width: 100%;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+}
+
+select option:nth-of-type(even) {
+  background-color: #fff;
+}
+
+.input {
+  width: 48.5%;
+  display: inline-block;
+}
+
+.input input {
+  max-width: 50px;
+  font-size: 1.05em;
+  font-weight: 400;
+
+}
+
+.outer {
+  overflow: scroll;
+}
+
+input {
+  background-color: #eee;
+  padding: .1em;
+  border: 2px solid transparent;
+  color: #1B1F25;
+  border-radius: 3px;
+  max-width: 100%;
+  margin-top: .5em;
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+input[type="text"]:required {
+  border: 2px solid #ff3e5a;
+}
+
+output {
+  width: 40px;
+  color: #2Cb2bA;
+}
+
+input[type="range"] {
+  display: inline-block;
+  margin-bottom: 1em;
+  margin-right: .2em;
+  width: 135px;
+  background: none !important;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input:focus {
+  border: 2px solid #2Cb2bA;
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 135px;
+  height: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #2Cb2bA;
+  margin-top: -8px;
+}
+
+input[type=range]::-moz-range-track {
+  width: 135px;
+  height: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #2Cb2bA;
+}
+
+input[type=range]::-ms-track {
+  width: 135px;
+  height: 20px;
+  background-color: #eee;
+  border: none;
+  border-radius: 10px;
+  color: transparent;
+}
+
+input[type=range]::-ms-thumb {
+  border: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #2Cb2bA;
+}
+
+fieldset {
+  padding: 0 1em 1em;
+  margin-bottom: 1em;
+  border-radius: 3px;
+}
+
+legend {
+  color: #fff;
+}
+
+svg {
+  position: absolute;
+}
+
+svg.outer {
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.inner .separator {
+  stroke: #4CD2DA;
+  stroke-width: 2;
+}
+
+.outer>.separator {
+  stroke: #aaa;
+  stroke-width: 1;
+}
+
+.inner .labels {
+  fill: #4CD2DA;
+  stroke: #2Cb2bA;
+  stroke-width: 1;
+}
+
+.outer>.labels {
+  fill: #CCC;
+}
+
+.cheatsheet {
+  background-color: white;
+  padding: 1em;
+  margin: 1em auto;
+  width: 1300px;
+}
+
+.container {
+  float: left;
+  width: 50%;
+  padding: 1.25em;
+}
+
+.plain {
+  margin-top: 1em;
+  color: #0077aa;
+  font-size: .9em;
+}
+
+dl {
+  margin: 1em 0;
+}
+
+dt {
+  font-weight: bolder;
+  margin: .5em 0;
+}
+
+dd {
+  padding-left: 1em;
+}
+
+.guide-trigger {
+  background-color: #2Cb2bA;
+  color: white;
+  padding: .5em 1em;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.5em;
+  color: #eee;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 14em;
+  -webkit-transition: background-color .2s linear;
+  transition: background-color .2s linear;
+}
+
+.guide-trigger:hover {
+  background-color: transparent;
+}
+
+button {
+  border: 2px solid transparent;
+}
+
+button:active,
+button:focus {
+  border: 2px solid #2Cb2bA;
+  outline: none;
+}
+
+footer {
+  text-align: center;
+}
+
+header {
+  width: 1300px;
+  background-color: white;
+  padding: .5em 1em;
+  margin: 0 auto 1em;
+}
+
+header a {
+  color: #bb4347;
+  font-weight: bold;
+}
+
+.ad-wrapper {
+  background-color: #f5f5f5;
+  border: 1px solid #eee;
+  padding-bottom: .5em;
+  margin-bottom: 2em;
+}
+
+.ad-wrapper a {
+  border-bottom: none !important;
+  margin: 0 auto;
+}
+
+.ad-wrapper a:hover {
+  border-bottom: none !important;
+}
+
+.one .bsa_it_ad {
+  font-family: inherit;
+  padding: .5em .5em 0 .5em;
+  background: transparent;
+  margin: 0;
+  border: none !important;
+  text-align: center;
+  width: 100%;
+  color: #333;
+}
+
+.one .bsa_it_p {
+  display: none !important;
+  clear: both;
+}
+
+.one .bsa_it_ad .bsa_it_i {
+  padding: 0;
+  margin: 5px auto !important;
+  display: inline-block;
+  float: none !important;
+}
+
+.one .bsa_it_ad .bsa_it_i img {
+  padding: 0;
+  border: none;
+}
+
+.one .bsa_it_ad .bsa_it_t {
+  padding: 6px 0;
+  margin-top: 10px;
+}
+
+.one .bsa_it_ad .bsa_it_d {
+  padding: 0;
+  font-size: 11px;
+  color: #333;
+}
+
+.one .bsa_it_p {
+  display: none;
+}
+
+#bsap_aplink,
+#bsap_aplink:hover {
+  display: block;
+  font-size: 10px;
+  margin: 0 1em 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: grey;
+  border-bottom: none;
+}

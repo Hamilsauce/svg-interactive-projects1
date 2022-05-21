@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  z-index: 0;
+  touch-action: none;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  /* min-width:100vw;min-height:100vh; */
+}
+
+#app,
+.app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* min-width:100vw;min-height:100vh; */
+}
+
+svg {
+  background: #4C515B;
+  touch-action: none;
+}
+
+#squiggly {
+  fill: none;
+  /* stroke: #D2D2D2; */
+  /* stroke: #C9C9C9; */
+  stroke-width: 1;
+}
+
+.axis {
+  stroke: #00000050;
+  stroke-width: 0.5;
+}
+
+.shape-container {}
+
+.shape-container[data-selected=false]>.shape-container-background {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 0.5;
+}
+
+.shape-container[data-selected=true]>.shape-container-background {
+  fill: #00000060;
+  stroke: #FF00FF85;
+  stroke: #FF00FF85;
+  stroke-width: 0.75;
+  stroke: #141414;
+}
+
+/* .shape-container[data-selected=true]>.shape-container-background {} */
+.shape-element {
+  stroke: #C9C9C9;
+}
+
+.curve {
+  stroke: #E8C313;
+  fill: transparent;
+}
+
+.shape-container[data-selected=false]>.shape-element {
+  stroke: #C9C9C9;
+}
+
+.shape-container[data-selected=true] .shape-element {}
+
+#surface-layer {
+  filter: blur(0.175px);
+}
+
+.hud-text {
+  font-size: 0.4em;
+}
+
+
+.circ1{
+  fill: #3DB2D1;
+}
+#dot{
+  fill: #FFFFFF;
+  /* filter: invert(100%)  */;
+}

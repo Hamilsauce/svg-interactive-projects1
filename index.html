@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>paths</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div id="app-body">
+      <input type="text" name="" id="time-input">
+      <svg id="canvas" width="384" height="722" viewBox="-50 -50 100 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+          <pattern id="smallGrid" width="2.5" height="2.5" patternUnits="userSpaceOnUse">
+            <path id="smallGridPath" d="M 2.5 0 H 0 V 2.5" fill="none" stroke="#C9C9C950" stroke-width="0.1" />
+          </pattern>
+          <pattern id="largeGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <rect id="largeGridRect" width="10" height="10" fill="url(#smallGrid)" />
+            <path id="largeGridPath" d="M 10 0 H 0 V 10" fill="none" stroke="#C9C9C950" stroke-width="0.1" />
+          </pattern>
+          <marker id="trianglestart" viewBox="0 0 1 1" refX="0" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M 10 0 L 0 5 L 10 10 z" />
+          </marker>
+          <marker id="triangleend" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" />
+          </marker>
+        </defs>
+        <g class="scene" id="scene" transform="translate(-0,-0)" x="0" y="0">
+          <g class="layer" id="surface-layer" data-layer="surface" transform="translate(-0,-0)" x="0" y="0" width="384" height="722">
+            <rect transform="translate(-200,-400)" id="grid" x="0" y="0" width="384" height="722" fill="url(#largeGrid)" />
+            <g id="axes" transform="translate(-0,-0)">
+              <line id="xaxis" class="axis" x1="-1000" x2="1000" y1="0" y2="0" stroke="#FFFFFF50" stroke-width="0.35"></line>
+              <line id="yaxis" class="axis" x1="0" x2="0" y1="-1000" y2="1000" stroke="#FFFFFF50" stroke-width="0.35"></line>
+            </g>
+          </g>
+
+          <g class="layer" id="objects-layer" data-layer="objects" transform="translate(0,-0)">
+       
+            <g class="shape-container" id="squiggly-container" data-selected="false" data-layer="objects" transform="translate(0,0) scale(1)">
+              <rect class="shape-container-background" x="-6" y="-8" width="90" height="50" />
+              <path class="curve" id="curve" d="
+                m 15,31
+                c 
+                  2,-6.5 3.5,-0.5 3,7 
+                  1,9.5 2,-3 3,5
+                  2,19 1,-14 1,-13.5
+                " />
+
+              <g id="controlSetA" class="control-set">
+                <line x1="-25" x2="-25" y1="-25" y2="25" class="control-line" stroke="#C2C2C280" stroke-width="0.5" />
+                <circle id="start" class="path-vertex _draggable" cx="-25" cy="25" r="2.5" fill="red" stroke="#FFFFFF" stroke-width="0.5" />
+                <circle id="controlA" class="control-point _draggable" cx="-25" cy="-25" r="5" fill="purple" stroke="#FFFFFF90" />
+              </g>
+
+              <g id="controlSetB" class="control-set">
+                <line x1="25" x2="25" y1="-25" y2="25" class="control-line" stroke="#C2C2C280" stroke-width="0.5" />
+                <circle id="end" class="path-vertex _draggable" cx="25" cy="25" r="2.5" fill="red" stroke="#FFFFFF" stroke-width="0.5" />
+                <circle id="controlB" class="control-point _draggable" cx="25" cy="-25" r="5" fill="purple" stroke="#FFFFFF90" />
+              </g>
+            </g>
+            <circle id="dot" class="container-background" cx="0" cy="0" r="2.5" fill="#FFFFFF50" />
+
+            <g class="shape-container" id="" data-layer="objects" transform="translate(0,0) scale(1)">
+              <circle class="container-background" cx="0" cy="0" r="5" fill="#FFFFFF50" />
+            </g>
+          </g>
+        </g>
+        <!-- <g id="hud" transform="translate(-50,70)">
+          <rect class="hud-background" x="0" y="0" width="100" height="40" fill="#FFFFFF50" stroke="#FFFFFF60" />
+          <foreignObject transform="translate(1.25,0) scale(0.5, 0.55)" width="195" height="50" fill="#FFFFFF80" stroke-width="0.5" stroke="rgba(87,61,46,1)" id="inputObject" x="0" y="0" width="100" height="50">
+            <div xmlns="http://www.w3.org/1999/xhtml" id="inputContainer" style="font-size:8px;width:100%;height:100%;background:#FFFFFF90;" xmlns="http://www.w3.org/1999/xhtml">
+              <div xmlns="http://www.w3.org/1999/xhtml">Path Coords: </div>
+              <div xmlns="http://www.w3.org/1999/xhtml">50px, 75px</div>
+            </div>
+          </foreignObject>
+        
+        </g> -->
+
+      </svg>
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    // const SVG_NS = 'http://www.w3.org/2000/svg';
+  </script>
+  <script src="./script.js" type="module"></script>
+  <script src="./oscillidot/main.js" type="module"></script>
+</body>
+
+</html>

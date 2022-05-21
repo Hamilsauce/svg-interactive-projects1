@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- Created with PainterSVG V3.92 -->
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:psvg="http://www.paintersvg.com/namespace.html" id="svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs></defs>
+  <g psvg:layer="layer1">
+    <g id="group2">
+      <path
+      id="path1" 
+      d="
+      M 51.5033,187.7477 
+      Q 90.753,237.6926 129.8622,187.6376 168.9714,137.5827 208.221,187.5276 247.4706,237.4725 286.5798,187.4176 325.689,137.3626 364.9386,187.3075 404.1883,237.2525 443.2975,187.1975"/>
+      <g transform="matrix(1,-0,-0,-1,0,464.7934)">
+        <path d=" M 51.5033,187.7477 Q 90.753,237.6926 129.8622,187.6376 168.9714,137.5827 208.221,187.5276 247.4706,237.4725 286.5798,187.4176 325.689,137.3626 364.9386,187.3075 404.1883,237.2525 443.2975,187.1975" styyle="fill:none;stroke:#000000;stroke-width:1;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+      </g>
+    </g>
+  </g>
+</svg>

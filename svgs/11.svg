@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- Created with PainterSVG V3.92 -->
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:psvg="http://www.paintersvg.com/namespace.html" id="svg" width="559.369" height="793.6992" viewBox="0 0 559.369 793.6992">
+  <defs></defs>
+  <g id="rightangle" transform="matrix(0,0,0,0,0,0)">
+    <path d=" M 0,0 0,100 100,100" style="fill:none;stroke:#000000;stroke-width:2;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+  </g>
+  <g id="squiggly-layer">
+    <path id="squiggly" d="
+    M 0,0
+    Q 0,0
+    145,286.7545
+    224.2023,283.0719
+    209.6912,360.5492
+    195.1799,438.0265
+    273.9183,434.3439
+    352.6567,430.6613
+    338.1456,508.1386
+    323.6345,585.6158
+    402.3727,581.9333" style="fill:none;stroke:#000000;stroke-width:1;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+  </g>
+</svg>

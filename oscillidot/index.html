@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Move dot along a curve</title>
+  <script src="main.js" type="module"></script>
+  <style type="text/css" media="all">
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      z-index: 0;
+    }
+
+    html {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      /* min-width:100vw;min-height:100vh; */
+    }
+
+    #app,
+    .app {
+      width: 100%;
+      height: 100%;
+      /* min-width:100vw;min-height:100vh; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form">
+    Duration:
+    <input id="time-input" type="text">
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" x="0" y="32" width="384" height="690" viewBox="-0 -0 1200 1200">
+    <!-- <path
+     id="curve"
+     d="M 29.928125,119.32884 C 59.868756,78.85387 99.789596,30.283895 138.66049,30.104515 c 80.46172,-0.37133 90.87185,137.794285 140.7729,129.699295 40.35037,-6.54568 49.90105,-80.94994 86.53937,-78.86548 33.24073,1.89117 22.2547,70.77048 73.14399,70.77048 39.92084,0 58.65264,-56.66496 99.80211,-56.66496 49.90105,0 69.86147,80.94995 99.8021,48.56997" 
+     style="fill: none; stroke: #000; stroke-width: 1" /> -->
+    <!-- d="M 29.928125,119.32884 C 131.2252,346.7477 320.4,321.8198 396.0145,453.8452 471.6291,585.8705 368.5939,641.8813 312.7832,652.6526 256.9724,663.4239 166.9551,644.6511 170.6943,552.6334 Q 183.5737,398.7577 318.1842,434.4568 C 453.6256,497.2381 381.0578,665.5781 260.2962,601.2581"  -->
+    <g transform="translate(-0,-0)">
+      <g id="grid" transform="translate(-20,-20)">
+        <rect class="tile" x="0" y="0" width="20" height="20" fill="#Ffff00"></rect>
+        <rect class="tile" x="20" y="0" width="20" height="20" fill="#0fdfff"></rect>
+        <rect class="tile" x="20" y="20" width="20" height="20" fill="#ff00ff"></rect>
+        <rect class="tile" x="0" y="20" width="20" height="20" fill="#F00f0f"></rect>
+      </g>
+      <circle cx="0" cy="0" r="10" fill="#000000"></circle>
+
+      <path id="curve" d="
+        M 271,310 C 271,310 271,310 271,310 270,310 268,310 267,310 280,301 287,291 287,280
+        287,247 224,221 148,221 143,221 139,221 134,221 123,212 99,205 72,205
+        34,205 2,218 2,235 2,242 10,250 22,255 13,262 8,271 8,280
+        8,312 71,339 148,339 156,339 164,338 171,338 165,343 162,349 162,356 162,381 211,402 271,402 331,402
+        380,381 380,356 380,331 331,310 271,310
+        C 150,260 400,500 500,700
+       532,100 250,300 200,200
+       Q 566,500
+       200,200
+       l 500, 300
+      " style="fill: none; stroke: #000; stroke-width: 1" />
+              <path class="curve" transform="scale(30)" id="curve" d="
+                  m 15.061236,30.72671 c 2.304358,-6.526234 3.463503,-0.446663 2.895145,7.247275 0.746651,9.532246 2.127925,-3.275809 3.042706,4.709987 2.205207,19.250883 0.800432,-14.304735 1.190626,-13.624389
+                  " />
+
+
+      <!-- <path id="curve" d="
+      M 0,0
+      C 150,260 400,500 500,700
+        850,500 500,0 700,1000
+        532,100 250,300 600,200
+      Q 566,500 
+        200,780
+      C 200,50
+        50,1300 
+        520,200
+        l 500, 300" style="fill: none; stroke: #000; stroke-width: 1" /> -->
+      <circle r="10" cy="0" cx="0" id="dot" style="fill: #dd1819" />
+    </g>
+  </svg>
+</body>
+
+</html>

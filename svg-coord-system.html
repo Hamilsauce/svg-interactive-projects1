@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Interactive SVG Coordinate System</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="svg-coord-system.css">
+</head>
+
+<body>
+  <header>
+    Demo for article: <a href="http://sarasoueidan.com/blog/svg-coordinate-systems">SVG Coordinate Systems &amp; Transformations (Part 1) &ndash; The viewport, <code>viewBox</code>, &amp; <code>preserveAspectRatio</code></a>
+  </header>
+  <div class="wrapper clearfix">
+    <div class="controls column">
+      <fieldset>
+        <legend>viewBox</legend>
+        <div class="input">
+          <label for="#min-x">&lt;min-x&gt;</label> <input type="text" id="min-x" class="viewbox-option" value="0">
+        </div>
+        <div class="input">
+          <label for="#min-y">&lt;min-y&gt;</label> <input type="text" id="min-y" class="viewbox-option" value="0">
+        </div>
+        <label for="#viewBox-width">&lt;width&gt;</label>
+        <input type="range" id="viewbox-width" class="viewbox-option" min="100" value="800" max="1600" step="10"><output for="viewbox-width">800</output>
+        <label for="#viewbox-height">&lt;height&gt;</label>
+        <input type="range" id="viewbox-height" class="viewbox-option" min="100" value="600" max="1200" step="10" data-current-value="300"><output for="viewbox-height">600</output>
+      </fieldset>
+      <fieldset>
+        <legend>preserveAspectRatio</legend>
+        <label for="alignment">&lt;align&gt;</label>
+        <select class="preserveAspectRatio-options" id="alignment">
+          <option value="none">None</option>
+          <option value="xMinYMin">xMinYMin</option>
+          <option value="xMinYMid">xMinYMid</option>
+          <option value="xMinYMax">xMinYMax</option>
+          <option value="xMidYMin">xMidYMin</option>
+          <option value="xMidYMid" selected>xMidYMid</option>
+          <option value="xMidYMax">xMidYMax</option>
+          <option value="xMaxYMin">xMaxYMin</option>
+          <option value="xMaxYMid">xMaxYMid</option>
+          <option value="xMaxYMax">xMaxYMax</option>
+          <option value="xMinYMin">xMinYMin</option>
+          <option value="xMinYMid">xMinYMid</option>
+          <option value="xMinYMax">xMinYMax</option>
+          <option value="xMidYMin">xMidYMin</option>
+          <option value="xMidYMid">xMidYMid</option>
+          <option value="xMidYMax">xMidYMax</option>
+          <option value="xMaxYMin">xMaxYMin</option>
+          <option value="xMaxYMid">xMaxYMid</option>
+          <option value="xMaxYMax">xMaxYMax</option>
+          <option value=""></option>
+        </select>
+        <div class="radios">
+          <input type="radio" value="meet" name="meetOrSlice" id="meet" checked="checked"><label for="meet" style="margin-right: 1em;">meet</label>
+          <input type="radio" value="slice" name="meetOrSlice" id="slice"><label for="slice">slice</label>
+        </div>
+      </fieldset>
+      <input type="checkbox" id="guidelines-visibility"><label for="guidelines-visibility" style="display:inline-block; margin-left: .5em;">Show x &amp; y Guidelines</label>
+    </div>
+    <div class="svg-container column">
+      <svg class="outer" width="800" height="600" viewBox="0 0 800 600">
+        <g class="guidelines">
+          <path id="midlines" class="separator guideline" stroke-dasharray="2" />
+        </g>
+        <path class="separator ruler" />
+        <svg class="inner" width="800" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+          <g id="parrot">
+            <path fill="#68A284" d="M98.595 272.797c-41.144 0-77.262-28.608-97.898-71.725 3.832 44.6 25.214 98.16 98.218 98.16 72.024 0 94.49-54.748 98.282-99.631C176.686 243.541 140.206 272.797 98.595 272.797z" />
+            <path fill="#5EEA99" d="M196.082 161.237c-20.703 42.64-56.618 70.872-97.487 70.872 -40.322 0-75.837-27.467-96.662-69.153C0.61 170.116 0 177.521 0 185.006c0 5.137 0.222 10.535 0.697 16.066 20.636 43.116 56.754 71.725 97.898 71.725 41.611 0 78.091-29.256 98.603-73.195 0.422-5.018 0.625-9.916 0.625-14.596C197.822 176.919 197.318 168.93 196.082 161.237z" />
+            <path fill="#B6382F" d="M98.915 94.931c-63.562 0-90.091 30.654-96.982 68.025 20.824 41.687 56.339 69.153 96.662 69.153 40.869 0 76.784-28.232 97.487-70.872C190.195 124.653 167.334 94.931 98.915 94.931z" />
+            <path fill="#B6382F" d="M118.635 0c0.559 3.308-0.557 11.669-8.582 20.761 -3.538 4.004-3.218 3.191-4.57 5.207 -1.356 2.023-3.029 3.832-5.068 5.396 -2.076 1.537-2.77 2.442-6.062 3.158 -0.569-3.316-0.999-3.953-1.232-8.067 -0.139-2.562 0.43-6.148 1.79-8.161 1.368-2.012 2.879-4.152 6.157-6.386C103.149 10.369 115.682 5.588 118.635 0z" />
+            <path fill="none" d="M95.193 185.62h-0.008c0.705 0.101 1.417 0.174 2.151 0.194C96.602 185.794 95.893 185.721 95.193 185.62z" />
+            <path fill="#B6382F" d="M42.493 82.895l-0.026-0.034c0 0 0.004 0.166 0.004 0.422 -0.117 1.52-0.226 3.046-0.226 4.599 0 0.471 0.045 0.934 0.057 1.407 -0.32 5.711-1.168 14.632-3.651 24.038 -1.752 6.597-4.295 13.434-8.063 19.572 -2.735 4.472-4.901 9.551-6.639 14.786 -6.816 20.509-6.842 43.583-6.842 43.583 1.07 44.281 37.275 109.358 81.81 109.358V185.713v-44.488V31.21C69.3 31.21 45.021 53.936 42.493 82.895zM95.185 185.62h0.008c0.7 0.101 1.409 0.174 2.144 0.194C96.602 185.794 95.89 185.721 95.185 185.62z" />
+            <path fill="#EA575B" d="M174.207 148.585c-1.775-5.548-4.021-10.947-6.907-15.687 -3.439-5.646-5.878-11.878-7.604-17.967 -2.954-10.397-3.847-20.393-4.137-26.365 0-0.23 0.026-0.458 0.026-0.686 0-1.032-0.102-2.044-0.155-3.063 -0.022-1.22-0.003-1.957-0.003-1.957l-0.087 0.128c-2.49-29.01-26.777-51.778-56.426-51.778v110.015 44.488 114.913c44.572 0 80.796-65.137 81.806-109.459C180.721 191.167 180.698 168.835 174.207 148.585z" />
+            <path fill="#CABA9F" d="M80.822 78.55c-2.656 4.653-5.429 12.289-2.901 16.539l16.07 26.983c1.266 2.134 2.935 3.199 4.604 3.199V60.084C93.127 60.084 82.571 75.489 80.822 78.55z" />
+            <path fill="#DDD2C0" d="M103.195 122.072l16.069-26.983c2.535-4.25 0.279-10.875-2.9-16.539 -1.323-2.356-13.207-18.466-17.77-18.466v65.186C100.26 125.271 101.933 124.206 103.195 122.072z" />
+            <path fill="#07171B" d="M56.912 70.246c0 5.746 2.878 10.404 6.436 10.404 3.553 0 6.431-4.659 6.431-10.404 0-5.748-2.878-10.403-6.431-10.403C59.791 59.843 56.912 64.499 56.912 70.246z" />
+            <path fill="#FFFFFF" d="M63.807 66.213c0 1.541-1.255 2.794-2.795 2.794 -1.545 0-2.796-1.253-2.796-2.794 0-1.544 1.251-2.794 2.796-2.794C62.552 63.419 63.807 64.668 63.807 66.213z" />
+            <ellipse fill="#07171B" cx="134.481" cy="70.246" rx="6.433" ry="10.404" />
+            <circle fill="#FFFFFF" cx="132.145" cy="66.213" r="2.794" />
+            <path fill="#CABA9F" d="M66.542 294.861c0 3.184-2.581 5.765-5.765 5.765l0 0c-3.188 0-5.769-2.581-5.769-5.765v-10.41c0-3.184 2.581-5.764 5.769-5.764l0 0c3.184 0 5.765 2.58 5.765 5.764V294.861z" />
+            <path fill="#CABA9F" d="M78.083 294.861c0 3.184-2.584 5.765-5.769 5.765l0 0c-3.187 0-5.772-2.581-5.772-5.765v-10.41c0-3.184 2.585-5.764 5.772-5.764l0 0c3.184 0 5.769 2.58 5.769 5.764V294.861z" />
+            <path fill="#CABA9F" d="M89.62 294.861c0 3.184-2.581 5.765-5.769 5.765l0 0c-3.188 0-5.769-2.581-5.769-5.765v-10.41c0-3.184 2.581-5.764 5.769-5.764l0 0c3.188 0 5.769 2.58 5.769 5.764V294.861z" />
+            <path fill="#DDD2C0" d="M119.743 294.861c0 3.184-2.581 5.765-5.769 5.765l0 0c-3.188 0-5.769-2.581-5.769-5.765v-10.41c0-3.184 2.581-5.764 5.769-5.764l0 0c3.188 0 5.769 2.58 5.769 5.764V294.861z" />
+            <path fill="#DDD2C0" d="M131.28 294.861c0 3.184-2.581 5.765-5.765 5.765l0 0c-3.191 0-5.772-2.581-5.772-5.765v-10.41c0-3.184 2.581-5.764 5.772-5.764l0 0c3.184 0 5.765 2.58 5.765 5.764V294.861z" />
+            <path fill="#DDD2C0" d="M142.821 294.861c0 3.184-2.585 5.765-5.773 5.765l0 0c-3.183 0-5.768-2.581-5.768-5.765v-10.41c0-3.184 2.585-5.764 5.768-5.764l0 0c3.188 0 5.773 2.58 5.773 5.764V294.861z" />
+            <path fill="#EA575B" d="M125.907 10.497c0.565 3.304-3.541 15.808-7.905 20.605 -1.729 1.899-10.165 10.726-18.8 12.396 -0.569-3.319-1.255-8.693-0.607-11.196 0.682-2.471 2.551-6.471 9.201-9.417C117.434 18.62 121.515 16.084 125.907 10.497z" />
+          </g>
+          <g class="guidelines">
+            <path id="minx" stroke="orange" stroke-width="5" class="guideline" />
+            <path id="midmaxx" stroke="orange" stroke-dasharray="1" stroke-width="2" class="guideline" />
+            <path id="miny" stroke="#9b59b6" stroke-width="5" class="guideline" />
+            <path id="midmaxy" stroke="#9b59b6" stroke-dasharray="1" stroke-width="2" class="guideline" />
+          </g>
+          <path class="separator ruler" />
+        </svg>
+      </svg>
+    </div>
+    <aside class="sidebar column">
+
+      <!-- <button class="guide-trigger">Guide</button> -->
+      <!--<script type="text/javascript" src="http://cdn.adpacks.com/adpacks.js?legacyid=1287837&zoneid=1386&key=13ef3eaa0a08baab445eed65885ebad2&serve=C6SI42Y&placement=wwwsarasoueidancom&circle=dev" id="_adpacks_js"></script>-->
+    </aside>
+
+  </div><!-- end wrapper -->
+  <section class="guide">
+    <!-- <h2>Guide</h2> -->
+    <ul>
+      <li>
+        The grey coordinates (grey ruler 800 x 600) represent the coordinates of the viewport established on the <code>&lt;svg&gt;</code> element using the <code>width</code> and <code>height</code> attributes.
+      </li>
+      <li>
+        The <span style="color: #2Cb2bA;">blue</span> coordinate system is the user coordinate system established on the <strong>SVG canvas</strong>&mdash;where all the drawing will be done&mdash;using the <code>viewBox</code> attribute on the <code>&lt;svg&gt;</code> element.
+      </li>
+      <li>
+        The <span style="color: orange;">orange</span> vertical line represents the position of the <code>&lt;min-x&gt;</code> value of the <code>viewBox</code>.
+      </li>
+      <li>
+        The dotted orange lines to the right of min-x represent the mid-x and max-x positions of the <code>viewBox</code>, respectively.
+      </li>
+      <li>
+        The <span style="color: #9b59b6;">purple</span> horizontal line represents the position of the <code>&lt;min-y&gt;</code> value.
+      </li>
+      <li>
+        The dotted purple lines below the min-y represent the mid-y and max-y positions of the <code>viewBox</code>, respectively.
+      </li>
+    </ul>
+    <p>
+      When the min-x and min-y values change, the mid-x, max-x, mid-y, and max-y values change accordingly.
+    </p>
+    <p>
+      The <strong>“show x &amp; y guidelines”</strong> option allows you to show and hide the above mentioned lines to better visualize the position of the <code>viewBox</code> with respect to the viewport.
+    </p>
+    <p>
+      Note that the grey dotted horizontal and vertical lines represent the horizontal and vertical midpoints of the viewport, used to align the <code>viewBox</code> when a <code>xMid*</code> or <code>*YMid</code> value is used.
+    </p>
+  </section>
+  <section class="cheatsheet clearfix">
+    <h2>CheatSheet</h2>
+    <div class="container">
+      <h3>preserveAspectRatio</h3>
+      <pre class="brush:html">
+preserveAspectRatio = defer? &lt;align&gt; &lt;meetOrSlice&gt;?
+			</pre>
+      <p class="plain">
+        The <code>align</code> and <code>meetOrSlice</code> parameters work together in a way similar to how <code>background-position</code> and <code>background-size</code> work together. Read further for more information.
+      </p>
+      <p>
+        The <code>&lt;align&gt;</code> parameter indicates whether to force uniform scaling and, if so, the alignment method to use <strong>in case the aspect ratio of the <code>viewBox</code> doesn’t match the aspect ratio of the viewport</strong>. It can take one of the following values:
+      </p>
+      <div class="plain">
+        The alignment of the <code>viewBox</code> inside the viewport is&mdash;in a way&mdash;similar to the positioning of a background image inside a background positioning area <strong>when using percentage values to position the image</strong>.
+      </div>
+      <dl>
+        <dt>none</dt>
+        <dd>
+          Do not force uniform scaling. Scale the graphic content of the given element non-uniformly (without preserving aspect ratio) if necessary such that the element’s bounding box exactly matches the viewport rectangle.
+          <p class="plain">
+            In other words, the <code>viewBox</code> is stretched or shrunk as necssary so that it fills the entire viewport exactly, disregarding the aspect ratio. The graphic may be distorted.
+          </p>
+          <p>
+            (Note: if <code>&lt;align&gt;</code> is none, then the optional <code>&lt;meetOrSlice&gt;</code> value is ignored.)
+          </p>
+        </dd>
+        <dt>xMinYMin</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the <code>&lt;min-x&gt;</code> of the element’s <code>viewBox</code> with the smallest X value of the viewport.
+          <br>
+          Align the <code>&lt;min-y&gt;</code> of the element’s <code>viewBox</code> with the smallest Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 0% 0%;</code>.
+          </div>
+        </dd>
+        <dt>xMinYMid</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the <code>&lt;min-x&gt;</code> of the element’s <code>viewBox</code> with the smallest X value of the viewport.
+          <br>
+          Align the midpoint Y value of the element’s <code>viewBox</code> with the midpoint Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>background-position: 0% 50%;</code>.
+          </div>
+        </dd>
+        <dt>xMinYMax</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the <code>&lt;min-x&gt;</code> of the element’s <code>viewBox</code> with the smallest X value of the viewport.
+          <br>
+          Align the <code>&lt;min-y&gt;</code>+<code>&lt;height&gt;</code> of the element’s <code>viewBox</code> with the maximum Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 0% 100%;</code>.
+          </div>
+        </dd>
+        <dt>xMidYMin</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the midpoint X value of the element’s <code>viewBox</code> with the midpoint X value of the viewport.
+          <br>
+          Align the <code>&lt;min-y&gt;</code> of the element’s <code>viewBox</code> with the smallest Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 50% 0%;</code>.
+          </div>
+        </dd>
+        <dt>xMidYMid (The default value)</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the midpoint X value of the element’s <code>viewBox</code> with the midpoint X value of the viewport.
+          <br>
+          Align the midpoint Y value of the element’s <code>viewBox</code> with the midpoint Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 50% 50%;</code>.
+          </div>
+        </dd>
+        <dt>xMidYMax</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the midpoint X value of the element’s <code>viewBox</code> with the midpoint X value of the viewport.
+          <br>
+          Align the <codE>&lt;min-y&gt;</code>+<code>&lt;height&gt;</code> of the element’s <code>viewBox</code> with the maximum Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 50% 100%;</code>.
+          </div>
+        </dd>
+        <dt>xMaxYMin</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the <code>&lt;min-x&gt;</code>+<code>&lt;width&gt;</code> of the element’s <code>viewBox</code> with the maximum X value of the viewport.
+          <br>
+          Align the <code>&lt;min-y&gt;</code> of the element’s <code>viewBox</code> with the smallest Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 100% 0%;</code>.
+          </div>
+        </dd>
+        <dt>xMaxYMid</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the <code>&lt;min-x&gt;</code>+<code>&lt;width&gt;</code> of the element’s <code>viewBox</code> with the maximum X value of the viewport.
+          <br>
+          Align the midpoint Y value of the element’s <code>viewBox</code> with the midpoint Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 100% 50%;</code>.
+          </div>
+        </dd>
+        <dt>xMaxYMax</dt>
+        <dd>
+          Force uniform scaling.
+          <br>
+          Align the <code>&lt;min-x&gt;</code>+<code>&lt;width&gt;</code> of the element’s <code>viewBox</code> with the maximum X value of the viewport.
+          <br>
+          Align the <code>&lt;min-y&gt;</code>+<code>&lt;height&gt;</code> of the element’s <code>viewBox</code> with the maximum Y value of the viewport.
+          <div class="plain">
+            Think of this as being similar to <code>backrgound-position: 100% 100%;</code>.
+          </div>
+        </dd>
+      </dl>
+
+    </div>
+    <div class="container">
+      The <code>&lt;meetOrSlice&gt;</code> parameter is optional and, if provided, is separated from the <code>&lt;align&gt;</code> value by one or more spaces and then must be one of the following strings:
+      <dl>
+        <dt>meet (The default value)</dt>
+        <dd>
+          Scale the graphic as much as possible while maintaining the following two criteria:
+          <ul>
+            <li>aspect ratio is preserved</li>
+            <li>the entire <code>viewBox</code> is visible within the viewport</li>
+          </ul>
+          <p>
+            In this case, if the aspect ratio of the graphic does not match the viewport, some of the viewport will extend beyond the bounds of the <code>viewBox</code> (i.e., the area into which the <code>viewBox</code> will draw will be smaller than the viewport).
+          </p>
+          <p class="plain">
+            You can think of this as being similar to <code>backrgound-size: contain</code>. The background image is scaled as much as possible while preserving its aspect ratio and making sure it fits entirely into the background painting area. If the aspect ratio of the background is not the same as that of the element it is being applied to, parts of the background painting area will not be covered by the background image.
+          </p>
+        </dd>
+        <dt>slice</dt>
+        <dd>
+          Scale the graphic so that the <code>viewBox</code> covers the entire viewport area, while maintaining its aspect ratio. The <code>viewBox</code> is scaled <strong>just enough</strong> to cover the viewport area (in both dimensions), but it is not scaled any more than needed to achieve that. In other words, it is scaled to the smallest size such that the width and height of the <code>viewBox</code> can completely cover the viewport.
+          <p>
+            In this case, if the aspect ratio of the <code>viewBox</code> does not match the viewport, some of the <code>viewBox</code> will extend beyond the bounds of the viewport (i.e., the area into which the <code>viewBox</code> will draw is larger than the viewport).
+          </p>
+          <p class="plain">
+            You can think of this as being similar to <code>background-size: cover</code>. In the case of a background image, the image is scaled while preserving its intrinsic aspect ratio (if any), to the smallest size such that both its width and its height can completely cover the background positioning area.
+          </p>
+        </dd>
+      </dl>
+
+      <h3>Notes</h3>
+      <ul>
+        <li>
+          The <code>preserveAspectRatio</code> attribute has no effect if no <code>viewBox</code> is specified.
+        </li>
+        <li>
+          Some of the <code>preserveAspectRatio</code> values may have no visually different effect on the graphic.
+        </li>
+        <li>
+          If the <code>viewBox</code> has the same size as the viewport, the <code>preserveAspectRatio</code> value has no effect.
+        </li>
+      </ul>
+    </div>
+  </section>
+  <footer>
+    Copyright &copy; <a href="http://sarasoueidan.com/" style="color:deepPink">Sara Soueidan</a>. Thank you <a style="color: deepPink" href="https://twitter.com/DmitryBaranovsk">Dmitry Baranovsky</a> for refactoring the demo's code.
+  </footer>
+
+  <script src="/svg-coord-system.js"></script>
+  <script async type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37248572-1']);
+    _gaq.push(['_setDomainName', 'sarasoueidan.com']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+
+</html>

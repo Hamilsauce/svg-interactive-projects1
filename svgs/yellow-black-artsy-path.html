@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>pong</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./geom.css" />
+</head>
+
+<body>
+  <div class="app">
+    <div class="shape">  </div>
+      
+    <div class="app-body">
+      <svg transform="translate(0,0)" x="0" y="0" id="game" viewpfort="0 0 384 722" x="0" y="0" width="384" height="722" viewBox="0 0 100 50" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/1000/svg">
+    
+        <rect x="0" y="0" id="largeGridRect" width="100" height="200" fill="#DAB542" />
+    
+        <g id="surface" transform="translate(0, 5)" x="0" y="0" width="100" height="10">
+          <rect id="grid" x="0" y="0" width="100" height="10" fill="url(#largeGrid)" />
+        </g>
+          <path fill="#00000080" stroke="#00000090" stroke-width="1" stroke-linecap="round" transform="rotate(90) translate(0,-130)" class="grad" d="M 5 95 C 10 0, 65 0, 95 95 S 95 100, 180 40" />
+        <g id="boardGroup" transform="translate(0, 5)" height="10" x="0" y="0"></g>
+        <g id="info" transform="translate(0, 0)" x="0" y="0" width="100" height="10">
+          <rect id="grid" x="0" y="0" width="100" height="10" fill="black" />
+          <text id="score" fill="#ffffff" x="100" y="0" width="100%" height="10">Suck</text>
+        </g>
+        <g x="0" y="0" class="boardTile"></g>
+      </svg>
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    const SVG_NS = 'http://www.w3.org/1000/svg';
+  </script>
+  <!-- <script src="./uuid-spam.js" type="module"></script> -->
+  <script src="./geom.js" type="module"></script>
+</body>
+
+</html>
