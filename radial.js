@@ -253,6 +253,12 @@ rangeInputs.forEach((el, i) => {
 
 });
 
+const controlContainer =document.querySelector('#control-container')
+controlContainer .addEventListener('pointermove', e => {
+  e.preventDefault();
+  console.log('  // e.preventDefault')
+});
+
 
 rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
   menu.items.forEach((item, i) => {
