@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Circkr</title>
-  <script src="main.js" type="module"></script>
-  <link rel="stylesheet" href="./circle-menu/style.css">
+  <!-- <script src="main.js" type="module"></script> -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -14,8 +14,8 @@
 
     <svg id="svg" width="300" height="300" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs></defs>
-      <g id="menu-container" transform="translate(100,-100) scale(0.6)" _transform="matrix(1,0,0,1,-51,-41.7076)" transform="translate(-0,-200)">
-        <path id="outer-center1" d=" 
+      <g id="menu-container" _transform="matrix(1,0,0,1,-51,-41.7076)" transform="translate(-0,-200)">
+        <path id="outer-center" d=" 
       M 257,50 
       C 143.67,50 51,143 51,257 
         51,370 143.67,463 257,463 
@@ -23,19 +23,19 @@
         463,143 370.3,50 257,50 
       " _transform="matrix(1,0,0,1,0,0)" />
 
-        <circle id="inner-center" cx="255" cy="240" r="170"></circle>
-        <!-- <g id="menu-items" transform="matrix(1,0,0,1,0.985,0.5082)">
-          <g id="" transform="matrix(1,0,0,1,0.985,0.5082)">
-            <path class="inner-circle" id="inner1" d=" 
-              M 90.25,165.5 
-              C 73.75,165.5 60.25,179 60.25,195,5
-                60.25,212 73.75,225.5 90.25,225.5 
-                106.75,225.5 120.25,212 120.25,195,6
-                120.25,179 106.75,165.5 90.25,165.5
-              Z" />
-          </g>
-        
-        
+        <circle id="inner-center" cx="255" cy="240" r="176"></circle>
+        <g id="menu-items" transform="matrix(1,0,0,1,0.985,0.5082)">
+          <path class="inner-circle" id="inner1" d=" 
+          M 90.25,165.5 
+          C 
+            73.75,165.5 60.25,179 60.25,195,5
+            60.25,212 73.75,225.5 90.25,225.5 
+            106.75,225.5 120.25,212 120.25,195,6
+            120.25,179 106.75,165.5 90.25,165.5
+          Z
+        " _style="fill:#FFFF00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+
+
           <g transform="matrix(0.5,0.866,-0.866,0.5,349.7025,-93.7025)">
             <path class="inner-circle" id="inner2" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FF00FF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
           </g>
@@ -51,8 +51,7 @@
           <g transform="matrix(0.5,-0.866,0.866,0.5,-93.7025,349.7025)">
             <path class="inner-circle" id="inner6" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
           </g>
-               
-        </g> -->
+        </g>
       </g>
     </svg>
   </div>
