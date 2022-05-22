@@ -1,6 +1,6 @@
-import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
+import { polarToCartesian, cartesianToPolar } from './cartesian-polar.js'
 // import { anim } from "./anim.js";
-import { getColor } from '/lib/colors.js';
+import { getColor } from './colors.js';
 // const durin = document.querySelector('#time-input')
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
