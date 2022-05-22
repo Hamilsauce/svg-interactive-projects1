@@ -1,11 +1,7 @@
 import { polarToCartesian, cartesianToPolar } from './cartesian-polar.js'
-// import { anim } from "./anim.js";
 import { getColor } from './colors.js';
 // const durin = document.querySelector('#time-input')
 const SVG_NS = 'http://www.w3.org/2000/svg';
-
-console.log('syk');
-
 
 let RADIANS_TO_DEGREE = 180 / Math.PI
 let DEGREE_TO_RADIANS = Math.PI / 180
