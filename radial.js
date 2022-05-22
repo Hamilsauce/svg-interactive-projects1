@@ -1,6 +1,6 @@
-import { polarToCartesian, cartesianToPolar } from './cartesian-polar.js'
+import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
 // import { anim } from "./anim.js";
-import { getColor } from './colors.js';
+import { getColor } from '/lib/colors.js';
 // const durin = document.querySelector('#time-input')
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -209,6 +209,19 @@ const ins = {
 }
 
 const rangeInputs = [...document.querySelectorAll('input[type="range"]')]
+const controlContainer =document.querySelector('#control-container')
+controlContainer .addEventListener('pointermove', e => {
+  // e.preventDefault()
+  console.log('  // e.preventDefault')
+
+});
+
+document .addEventListener('pointerdown', e => {
+  e.preventDefault()
+});
+document .addEventListener('touchstart', e => {
+  e.preventDefault()
+});
 
 rangeInputs.forEach((el, i) => {
   const curryRender = (count) => {
@@ -216,6 +229,7 @@ rangeInputs.forEach((el, i) => {
   }
 
   el.addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
+  // e.preventDefault()
     menu.items.forEach((item, i) => {
       item.remove()
     });
@@ -253,34 +267,28 @@ rangeInputs.forEach((el, i) => {
 
 });
 
-const controlContainer =document.querySelector('#control-container')
-controlContainer .addEventListener('pointermove', e => {
-  e.preventDefault();
-  console.log('  // e.preventDefault')
-});
+
+// rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
+//   menu.items.forEach((item, i) => {
+//     item.remove()
+//   });
+//   render(225, 33, parseInt(target.value))
 
 
-rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
-  menu.items.forEach((item, i) => {
-    item.remove()
-  });
-  render(225, 33, parseInt(target.value))
+//   // const menuCenter = getMenuCenter(menu.outer)
+//   // const c = createCircle(p.x, p.y, 25)
+//   // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
+//   // console.log('points', points)
+//   // points.forEach((pt, i) => {
+//   //   // const pString =  `${x}px ${y}px`
+//   //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
+//   //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
 
+//   //   menu.container.appendChild(c)
 
-  // const menuCenter = getMenuCenter(menu.outer)
-  // const c = createCircle(p.x, p.y, 25)
-  // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
-  // console.log('points', points)
-  // points.forEach((pt, i) => {
-  //   // const pString =  `${x}px ${y}px`
-  //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
-  //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
+//   // });
 
-  //   menu.container.appendChild(c)
-
-  // });
-
-});
+// });
 menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
   // menu.items.forEach((item, i) => {
   //   item.remove()
