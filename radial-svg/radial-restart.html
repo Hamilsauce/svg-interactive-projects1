@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circkr</title>
+  <script src="radial.js" type="module"></script>
+  <link rel="stylesheet" href="radial.css">
+</head>
+
+<body>
+  <div id="app">
+    <svg id="svg" width="300" height="300" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs></defs>
+      <g id="menu-container" _transform="matrix(1,0,0,1,-51,-41.7076)" transform="translate(-0,-200)">
+        <path id="menu-outer" d=" 
+        M 257,50 
+        C 143.67,50 51,143 51,257 
+          51,370 143.67,463 257,463 
+          370.3,463 463,370 463,257 
+          463,143 370.3,50 257,50 
+        " _transform="matrix(1,0,0,1,0,0)" />
+
+        <circle id="menu-inner" cx="255" cy="240" r="176"></circle>
+        <g id="menu-items" transform="matrix(1,0,0,1,0.985,0.5082)">
+          <path class="inner-circle" id="inner1" d=" 
+            M 90.25,165.5 
+            C 
+              73.75,165.5 60.25,179 60.25,195,5
+              60.25,212 73.75,225.5 90.25,225.5 
+              106.75,225.5 120.25,212 120.25,195,6
+              120.25,179 106.75,165.5 90.25,165.5
+            Z
+          " _style="fill:#FFFF00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+
+
+          <g transform="matrix(0.5,0.866,-0.866,0.5,349.7025,-93.7025)">
+            <path class="inner-circle" id="inner2" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FF00FF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(-0.5,0.866,-0.866,-0.5,605.7025,162.2975)">
+            <path class="inner-circle" id="inner3" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(-1,0,0,-1,512,512)">
+            <path class="inner-circle" id="inner4" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(-0.5,-0.866,0.866,-0.5,162.2975,605.7025)">
+            <path class="inner-circle" id="inner5" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(0.5,-0.866,0.866,0.5,-93.7025,349.7025)">
+            <path class="inner-circle" id="inner6" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+        </g>
+      </g>
+      <g x="0" y="0" id="hud" transform="translate(0, 530) scale(1.1)">
+        <foreignObject width="460" height="250" _style="overflow: visible; text-align: center;">
+          <div id="inner-hud" xmlns="http://www.w3.org/1999/xhtml" _style="background:#FFFFFF99; display: flex; align-items: center; justify-content: center; width: 356px; height: 100px; padding-top: 0px; margin: 0;">
+            <div id="control-container" _style="background:#FFFOFF50;display: inline-block; font-size: 16px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+              <div class="control-group">
+                <label for="count-input">Point Count</label>
+                <input type="range" name="count-input" id="count-input" value="50" min="3" max="900">
+              </div>
+              <div class="control-group">
+                <label for="radius-input">Radius</label>
+                <input type="range" name="radius-input" id="radius-input" value="25" min="2" max="200">
+              </div>
+              <div class="control-group">
+                <label for="spiral-step-input">Step size</label>
+                <input type="range" name="spiral-step-input" id="spiral-step-input" value="25" min="8" max="64">
+              </div>
+            </div>
+          </div>
+        </foreignObject>
+      </g>
+    </svg>
+    <!-- <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-325 -325 650 650" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+       <defs></defs>
+       <g id="menu-container" transform="translate(0,-250)">
+         
+         
+         <circle id="menu-outer" transform="translate(-0,-0)" cx="0" cy="0" r="140"></circle>
+         <circle id="menu-inner" transform="translate(-0,-0)" cx="0" cy="0" r="35"></circle>
+         <g id="menu-items" transform="translate(0,0)">
+         
+         </g>
+       </g>
+       <g x="0" y="0" id="hud" transform="translate(-325, 350) scale(1.5)">
+         <foreignObject width="440" height="190" _style="overflow: visible; text-align: center;">
+           <div xmlns="http://www.w3.org/1999/xhtml" _style="background:#FFFFFF99; display: flex; align-items: center; justify-content: center; width: 356px; height: 100px; padding-top: 0px; margin: 0;">
+             <div id="control-container" _style="background:#FFFOFF50;display: inline-block; font-size: 16px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+               <div class="control-group">
+                 <label for="count-input">Point Count</label>
+                 <input type="range" name="count-input" id="count-input" value="50" min="3" max="900">
+               </div>
+               <div class="control-group">
+                 <label for="radius-input">Radius</label>
+                 <input type="range" name="radius-input" id="radius-input" value="25" min="2" max="200">
+               </div>
+               <div class="control-group">
+                 <label for="spiral-step-input">Step size</label>
+                 <input type="range" name="spiral-step-input" id="spiral-step-input" value="25" min="8" max="64">
+               </div>
+             </div>
+           </div>
+         </foreignObject>
+       </g>
+         
+     </svg> -->
+
+    <!-- <svg id="svg" width="300" height="300" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs></defs>
+      <g id="menu-container" _transform="matrix(1,0,0,1,-51,-41.7076)" transform="translate(-0,-200)">
+        <path id="outer-center" d=" 
+      M 257,50 
+      C 143.67,50 51,143 51,257 
+        51,370 143.67,463 257,463 
+        370.3,463 463,370 463,257 
+        463,143 370.3,50 257,50 
+      " _transform="matrix(1,0,0,1,0,0)" />
+    
+        <circle id="inner-center" cx="255" cy="240" r="176"></circle>
+        <g id="menu-items" transform="matrix(1,0,0,1,0.985,0.5082)">
+          <path class="inner-circle" id="inner1" d=" 
+          M 90.25,165.5 
+          C 
+            73.75,165.5 60.25,179 60.25,195,5
+            60.25,212 73.75,225.5 90.25,225.5 
+            106.75,225.5 120.25,212 120.25,195,6
+            120.25,179 106.75,165.5 90.25,165.5
+          Z
+        " _style="fill:#FFFF00;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+    
+    
+          <g transform="matrix(0.5,0.866,-0.866,0.5,349.7025,-93.7025)">
+            <path class="inner-circle" id="inner2" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FF00FF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(-0.5,0.866,-0.866,-0.5,605.7025,162.2975)">
+            <path class="inner-circle" id="inner3" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(-1,0,0,-1,512,512)">
+            <path class="inner-circle" id="inner4" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(-0.5,-0.866,0.866,-0.5,162.2975,605.7025)">
+            <path class="inner-circle" id="inner5" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+          <g transform="matrix(0.5,-0.866,0.866,0.5,-93.7025,349.7025)">
+            <path class="inner-circle" id="inner6" d=" M 90.25,165.5 C 73.75,165.5 60.25,179 60.25,195,5 60.25,212 73.75,225.5 90.25,225.5 106.75,225.5 120.25,212 120.25,195,5 120.25,179 106.75,165.5 90.25,165.5 Z" _style="fill:#FFFFFF;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+          </g>
+        </g>
+      </g>
+    </svg> -->
+  </div>
+
+</body>
+
+</html>

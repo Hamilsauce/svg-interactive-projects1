@@ -65,10 +65,11 @@ window.onload = () => {
 const createCircle = (x, y, fill, r = 10) => {
   const c = document.createElementNS(SVG_NS, 'circle');
   c.setAttribute('stroke', `#00000040`)
+  c.setAttribute('stroke', `#FFFFFF40`)
   c.setAttribute('fill', fill)
   // c.setAttribute('fill-opacity', 0.4)
   c.setAttribute('filter', `invert(100%) saturate(100%)`)
-  // c.setAttribute('filter', `invert(0%) saturate(100%) hue-rotate(0%)`)
+  c.setAttribute('filter', `invert(1000%) saturate(100%) hue-rotate(330%)`)
   c.setAttribute('transform', `translate(-${(r)},0)`)
   // c.setAttribute('transform', `translate(-${(r)},0) rotate(${(r*Math.random())})`)
   c.r.baseVal.value = r

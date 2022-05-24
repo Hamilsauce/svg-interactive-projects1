@@ -1,6 +1,6 @@
-import { polarToCartesian, cartesianToPolar } from '/lib/cartesian-polar.js'
+import { polarToCartesian, cartesianToPolar } from './cartesian-polar.js'
 // import { anim } from "./anim.js";
-import { getColor } from '/lib/colors.js';
+import { getColor } from './colors.js';
 // const durin = document.querySelector('#time-input')
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -36,7 +36,8 @@ const svg = document.querySelector('svg');
 
 const menu = {
   svg: document.querySelector('svg'),
-  get container() { return this.svg.querySelector('#menu-container') },
+get container() { return this.svg.querySelector('#menu-container') },
+  get itemContainer() { return this.container.querySelector('#menu-items') },
   get outer() { return this.container.querySelector('#menu-outer') },
   get inner() { return this.container.querySelector('#menu-inner') },
   get items() { return this.container.querySelectorAll('.menu-item') },
@@ -66,14 +67,14 @@ const createCircle = (x, y, fill, r = 10) => {
   // console.log('fill', fill)
   // fill = ''
   const c = document.createElementNS(SVG_NS, 'circle');
-  // c.setAttribute('stroke', `#FFFFFF50`)
-  c.setAttribute('stroke', `#00000030`)
+  c.setAttribute('stroke', `#FFFFFF50`)
+  // c.setAttribute('stroke', `#00000030`)
   c.setAttribute('fill', fill)
   // c.setAttribute('fill', '#00000030')
   c.setAttribute('fill-opacity', 0.4)
-  // c.setAttribute('filter', `invert(100%) saturate(100%) hue-rotate(0%)`)
-  c.setAttribute('filtear', `contrast(125%) saturate(150%)`)
+  // c.setAttribute('filter', `invert(100%) saturate(150%) hue-rotate(90%)`)
   // c.setAttribute('filtear', `invert(100%) saturate(150%)`)
+  c.setAttribute('filter', `contrast(120%) saturate(110%)`)
   c.setAttribute('transform', `translate(-${(r)},0)`)
   // c.setAttribute('transform', `translate(-${(r)},0) rotate(${(r*Math.random())})`)
   c.r.baseVal.value = r
@@ -196,7 +197,7 @@ const render = (cnt = 225, radius = 33, stepSize = 25) => {
     const c = createCircle(pt.x, pt.y, pt.fill, radius)
     // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
 
-    menu.container.appendChild(c)
+    menu.itemContainer.appendChild(c)
 
   });
 
@@ -276,9 +277,17 @@ rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, valu
 
 });
 menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
-  // menu.items.forEach((item, i) => {
-  //   item.remove()
-  // });
+  menu.items.forEach((item, i) => {
+const stroke = item.getAttribute('stroke')
+if (stroke === '#FFFFFF50') {
+  item.setAttribute('stroke', `#00000050`)
+
+} else {
+item.setAttribute('stroke', `#FFFFFF50`)
+  
+}
+    
+  });
   // const p = domPoint(menu.outer, clientX, clientY)
 
 

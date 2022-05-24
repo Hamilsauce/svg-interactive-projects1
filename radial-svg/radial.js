@@ -1,4 +1,4 @@
-import { polarToCartesian, cartesianToPolar } from '/lib/cartesian-polar.js'
+import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
 // import { anim } from "./anim.js";
 import { getColor } from '/lib/colors.js';
 // const durin = document.querySelector('#time-input')
@@ -62,17 +62,32 @@ window.onload = () => {
   // anim.start(durin.value);
 }
 
+const rotateHue = (c) => {
+  let deg = 1
+
+  setInterval(() => {
+    // console.log(' ', )
+    deg *= (Math.random() / Math.PI)
+    c.setAttribute('filter', `contrast(170%) saturate(150%) hue-rotate(${deg}deg)`)
+  }, 10)
+
+  return () => {
+    // console.warn({deg});
+    return deg
+  }
+}
 const createCircle = (x, y, fill, r = 10) => {
   // console.log('fill', fill)
   // fill = ''
   const c = document.createElementNS(SVG_NS, 'circle');
-  // c.setAttribute('stroke', `#FFFFFF50`)
-  c.setAttribute('stroke', `#00000030`)
+const rotatingHue = rotateHue(c)
+  c.setAttribute('stroke', `#FFFFFF50`)
+  // c.setAttribute('stroke', `#00000030`)
   c.setAttribute('fill', fill)
   // c.setAttribute('fill', '#00000030')
   c.setAttribute('fill-opacity', 0.4)
   // c.setAttribute('filter', `invert(100%) saturate(100%) hue-rotate(0%)`)
-  c.setAttribute('filtear', `contrast(125%) saturate(150%)`)
+  c.setAttribute('filter', `contrast(170%) saturate(150%) hue-rotate(${rotatingHue()}deg)`)
   // c.setAttribute('filtear', `invert(100%) saturate(150%)`)
   c.setAttribute('transform', `translate(-${(r)},0)`)
   // c.setAttribute('transform', `translate(-${(r)},0) rotate(${(r*Math.random())})`)
@@ -209,6 +224,19 @@ const ins = {
 }
 
 const rangeInputs = [...document.querySelectorAll('input[type="range"]')]
+const controlContainer = document.querySelector('#control-container')
+controlContainer.addEventListener('pointermove', e => {
+  // e.preventDefault()
+  console.log('  // e.preventDefault')
+
+});
+
+document.addEventListener('pointerdown', e => {
+  e.preventDefault()
+});
+document.addEventListener('touchstart', e => {
+  e.preventDefault()
+});
 
 rangeInputs.forEach((el, i) => {
   const curryRender = (count) => {
@@ -216,11 +244,12 @@ rangeInputs.forEach((el, i) => {
   }
 
   el.addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
+    // e.preventDefault()
     menu.items.forEach((item, i) => {
       item.remove()
     });
 
-  render(+ins.count.value, +ins.radius.value,+ins.step.value)
+    render(+ins.count.value, +ins.radius.value, +ins.step.value)
 
     // const id = target.id
 
@@ -254,27 +283,27 @@ rangeInputs.forEach((el, i) => {
 });
 
 
-rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
-  menu.items.forEach((item, i) => {
-    item.remove()
-  });
-  render(225, 33, parseInt(target.value))
+// rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
+//   menu.items.forEach((item, i) => {
+//     item.remove()
+//   });
+//   render(225, 33, parseInt(target.value))
 
 
-  // const menuCenter = getMenuCenter(menu.outer)
-  // const c = createCircle(p.x, p.y, 25)
-  // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
-  // console.log('points', points)
-  // points.forEach((pt, i) => {
-  //   // const pString =  `${x}px ${y}px`
-  //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
-  //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
+//   // const menuCenter = getMenuCenter(menu.outer)
+//   // const c = createCircle(p.x, p.y, 25)
+//   // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
+//   // console.log('points', points)
+//   // points.forEach((pt, i) => {
+//   //   // const pString =  `${x}px ${y}px`
+//   //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
+//   //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
 
-  //   menu.container.appendChild(c)
+//   //   menu.container.appendChild(c)
 
-  // });
+//   // });
 
-});
+// });
 menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
   // menu.items.forEach((item, i) => {
   //   item.remove()
