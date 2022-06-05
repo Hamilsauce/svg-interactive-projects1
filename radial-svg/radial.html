@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Circkr</title>
-  <script src="./radial.js" type="module"></script>
+
   <link rel="stylesheet" href="./radial.css">
 </head>
 
@@ -14,10 +14,13 @@
 
   <div id="app">
     <header id="appHeader">viewBox="-150 -150 300 300"</header>
-
-    <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-325 -325 650 650" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-350 -350 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <circle id="menu-inner" transform="translate(-0,-0)" cx="0" cy="0" r="35"></circle>
+      
+    </svg> -->
+    <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-300 -200 600 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs></defs>
-      <g id="menu-container" transform="translate(0,-250)">
+      <g id="menu-container" transform="translate(0,-0)">
 
 
         <circle id="menu-outer" transform="translate(-0,-0)" cx="0" cy="0" r="140"></circle>
@@ -26,9 +29,9 @@
 
         </g>
       </g>
-      <g x="0" y="0" id="hud" transform="translate(-325, 350) scale(1.5)">
-        <foreignObject width="440" height="190" _style="overflow: visible; text-align: center;">
-          <div xmlns="http://www.w3.org/1999/xhtml" _style="background:#FFFFFF99; display: flex; align-items: center; justify-content: center; width: 356px; height: 100px; padding-top: 0px; margin: 0;">
+      <g x="0" y="0" id="hud" transform="translate(-300, 400) scale(1.5)">
+        <foreignObject width="505" height="190" _style="overflow: visible; text-align: center;">
+          <div xmlns="http://www.w3.org/1999/xhtml" _style="position:relative; background:#FFFFFF99; display: flex; align-items: center; justify-content: center; width: 356px; height: 100px; padding-top: 0px; margin: 0;">
             <div id="control-container" _style="background:#FFFOFF50;display: inline-block; font-size: 16px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
               <div class="control-group">
                 <label for="count-input">Point Count</label>
@@ -45,10 +48,14 @@
             </div>
           </div>
         </foreignObject>
+        <circle id="camera" cx="225" cy="-10" r="25" fill="#00000080" stroke="#FFFFFF80" stroke-width="4" />
       </g>
 
     </svg>
   </div>
+
+  <script src="./scriptPng.js" type="module"></script>
+  <script src="./radial.js" type="module"></script>
 
 </body>
 

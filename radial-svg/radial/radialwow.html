@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Circkr</title>
-  <script src="./radial.js" type="module"></script>
+  <script src="./radialwow.js" type="module"></script>
   <link rel="stylesheet" href="./radial.css">
 </head>
 
@@ -18,12 +18,12 @@
     <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-325 -325 650 650" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs></defs>
       <g id="menu-container" transform="translate(0,-250)">
-        
+
 
         <circle id="menu-outer" transform="translate(-0,-0)" cx="0" cy="0" r="140"></circle>
         <circle id="menu-inner" transform="translate(-0,-0)" cx="0" cy="0" r="35"></circle>
         <g id="menu-items" transform="translate(0,0)">
-        
+
         </g>
       </g>
       <g x="0" y="0" id="hud" transform="translate(-325, 350) scale(1.5)">
@@ -32,15 +32,15 @@
             <div id="control-container" _style="background:#FFFOFF50;display: inline-block; font-size: 16px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
               <div class="control-group">
                 <label for="count-input">Point Count</label>
-                <input type="range" name="count-input" id="count-input" value="25" min="2" max="1000">
+                <input type="range" name="count-input" id="count-input" value="25" min="2" max="175">
               </div>
               <div class="control-group">
                 <label for="radius-input">Radius</label>
-                <input type="range" name="radius-input" id="radius-input" value="25" min="5" max="100">
+                <input type="range" name="radius-input" id="radius-input" value="25" min="5" max="150">
               </div>
               <div class="control-group">
                 <label for="spiral-step-input">Step size</label>
-                <input type="range" name="spiral-step-input" id="spiral-step-input" value="25" min="8" max="64">
+                <input type="range" name="spiral-step-input" id="spiral-step-input" value="25" min="8" max="90">
               </div>
             </div>
           </div>

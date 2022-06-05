@@ -1,16 +1,12 @@
 import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
-// import { anim } from "./anim.js";
+import { anim } from "./anim.js";
 import { getColor } from '/lib/colors.js';
 // const durin = document.querySelector('#time-input')
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 
-
-
 let RADIANS_TO_DEGREE = 180 / Math.PI
 let DEGREE_TO_RADIANS = Math.PI / 180
-
-
 
 const domPoint = (element, x, y) => {
   return new DOMPoint(x, y).matrixTransform(
@@ -22,12 +18,10 @@ const getMenuCenter = (m) => {
 
   let x = m.cx.baseVal.value + m.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
   let y = m.cy.baseVal.value + m.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
-  console.log({ x, y });
 
   return { x, y }
 
 };
-
 
 
 const app = document.querySelector('#app');
@@ -46,9 +40,6 @@ const menu = {
   expand() {},
   shrink() {},
 }
-// const menuRoot = document.querySelector('menu-outer');
-
-
 
 const fanPathTransforms = {
   matrix1: [0.5, 0.866, -0.866, 0.5, 349.7025, -93.7025],
@@ -67,7 +58,6 @@ const createCircle = (x, y, fill, r = 10) => {
   c.setAttribute('stroke', `#00000040`)
   c.setAttribute('stroke', `#FFFFFF40`)
   c.setAttribute('fill', fill)
-  // c.setAttribute('fill-opacity', 0.4)
   c.setAttribute('filter', `invert(100%) saturate(100%)`)
   c.setAttribute('filter', `invert(1000%) saturate(100%) hue-rotate(330%)`)
   c.setAttribute('transform', `translate(-${(r)},0)`)
@@ -138,7 +128,6 @@ menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
   // const menuCenter = getMenuCenter(menu.outer)
   // const c = createCircle(p.x, p.y, 25)
   const points = createPolygon(menu.inner, 80, 10)//menu.inner.r.baseVal.value)
-  console.log('points', points)
   points.forEach((pt, i) => {
     // const pString =  `${x}px ${y}px`
     const c = createCircle(pt.x ,pt.y,    pt.fill, 26)

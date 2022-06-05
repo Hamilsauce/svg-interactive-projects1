@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>Ball</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      z-index: 0;
+    }
+
+    html {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      /* min-width:100vw;min-height:100vh; */
+    }
+
+    #app {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      /* min-width:100vw;min-height:100vh; */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div id="app-body">
+      <svg x="0" y="0" width="412" height="300" xmlns="http://www.w3.org/2000/svg" _style="width:402px; height:302px;">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:rgb(150,150,150);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect id="surface" width="412" height="300" fill="url(#grad1)" style="stroke-width:1;stroke:black" />
+        <circle cx="15" cy="15" r="15" stroke="black" stroke-width="1" fill="red" id="ball" />
+      </svg>
+  
+    </div>
+  </div>
+  <script src="./bounce-loop.js" type="module"></script>
+</body>
+
+</html>

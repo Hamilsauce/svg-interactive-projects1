@@ -67,13 +67,13 @@ const createCircle = (x, y, fill, r = 10) => {
   // console.log('fill', fill)
   // fill = ''
   const c = document.createElementNS(SVG_NS, 'circle');
-  c.setAttribute('stroke', `#FFFFFF50`)
   // c.setAttribute('stroke', `#00000030`)
+  c.setAttribute('stroke', `#FFFFFF50`)
+  c.setAttribute('fill-opacity', 0.4)
   c.setAttribute('fill', fill)
   // c.setAttribute('fill', '#00000030')
-  c.setAttribute('fill-opacity', 0.4)
   // c.setAttribute('filter', `invert(100%) saturate(150%) hue-rotate(90%)`)
-  // c.setAttribute('filtear', `invert(100%) saturate(150%)`)
+  // c.setAttribute('filter', `invert(100%) saturate(150%)`)
   c.setAttribute('filter', `contrast(120%) saturate(110%)`)
   c.setAttribute('transform', `translate(-${(r)},0)`)
   // c.setAttribute('transform', `translate(-${(r)},0) rotate(${(r*Math.random())})`)
@@ -91,7 +91,7 @@ let rad = 0
 let dir = 1
 
 const oscillate = (stepSize) => {
-  if (rad >= 200) {
+  if (rad >= 175) {
     dir = -1
   } else if (rad <= 0) {
     dir = 1
