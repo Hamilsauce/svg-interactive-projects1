@@ -101,10 +101,10 @@ const createPolygon = (shape, numberOfPoints, radius, stepSize = 25) => {
 /* RADIAL UPDATE */
 
 let radialValues = {
-  count: 225,
+  count: 200,
   radius: 33,
   stepSize: 25,
-  limit: 3000,
+  limit: 100,
 }
 
 
@@ -116,13 +116,13 @@ function getRandomInt(max) {
 
 
 const renderRadial = (cnt = 225, radius = 33, stepSize = 25) => {
-     while (display.items.length >= radialValues.limit) {
-       display.items[0].remove()
-       display.items[0].remove()
-       display.items[0].remove()
-       display.items[0].remove()
-       display.items[0].remove()
-     }
+  while (display.items.length >= radialValues.limit) {
+    display.items[0].remove()
+    display.items[0].remove()
+    display.items[0].remove()
+    display.items[0].remove()
+    display.items[0].remove()
+  }
   if (display.items.length < radialValues.limit) {
     const points = createPolygon(display.inner, cnt, display.outer.r.baseVal.value, stepSize)
     points.forEach((pt, i) => {
@@ -131,6 +131,7 @@ const renderRadial = (cnt = 225, radius = 33, stepSize = 25) => {
     });
   }
   else {
+
     // while (display.items.length >= radialValues.limit) {
     //   display.items[0].remove()
     //   display.items[0].remove()
@@ -146,7 +147,7 @@ const renderRadial = (cnt = 225, radius = 33, stepSize = 25) => {
 const updateRadial = (changedTime) => {
   // console.log(changedTime);
   // if (changedTime > 0.25) {
-    
+
   radialValues.stepSize = getRandomInt(radialValues.stepSize + 50)
   radialValues.radius = getRandomInt(radialValues.radius + 50)
   radialValues.count = getRandomInt(radialValues.count + 50)
