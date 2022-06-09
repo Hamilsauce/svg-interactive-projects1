@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Circkr</title>
-  <script src="./radialwow.js" type="module"></script>
-  <link rel="stylesheet" href="./radial.css">
+  <link rel="stylesheet" href="./radial1.css">
 </head>
 
 
@@ -15,32 +14,35 @@
   <div id="app">
     <header id="appHeader">viewBox="-150 -150 300 300"</header>
 
-    <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-325 -325 650 650" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg id="svg" x="0" y="0" width="310" height="310" viewBox="-375 -375 750 750" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs></defs>
-      <g id="menu-container" transform="translate(0,-250)">
+      <g id="display-container" transform="translate(0,-250)">
 
 
-        <circle id="menu-outer" transform="translate(-0,-0)" cx="0" cy="0" r="140"></circle>
-        <circle id="menu-inner" transform="translate(-0,-0)" cx="0" cy="0" r="35"></circle>
-        <g id="menu-items" transform="translate(0,0)">
-
-        </g>
+        <circle id="display-outer" transform="translate(-0,-0)" cx="0" cy="0" r="140"></circle>
+        <circle id="display-inner" transform="translate(-0,-0)" cx="0" cy="0" r="35"></circle>
+        <!-- <g id="display-inner" transform="translate(0,0)">
+        
+        </g> -->
       </g>
-      <g x="0" y="0" id="hud" transform="translate(-325, 350) scale(1.5)">
+      <g x="0" y="0" id="hud" transform="translate(-325, 425) scale(1.5)">
         <foreignObject width="440" height="190" _style="overflow: visible; text-align: center;">
           <div xmlns="http://www.w3.org/1999/xhtml" _style="background:#FFFFFF99; display: flex; align-items: center; justify-content: center; width: 356px; height: 100px; padding-top: 0px; margin: 0;">
             <div id="control-container" _style="background:#FFFOFF50;display: inline-block; font-size: 16px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
               <div class="control-group">
                 <label for="count-input">Point Count</label>
-                <input type="range" name="count-input" id="count-input" value="25" min="2" max="175">
+                <input type="range" name="count-input" id="count-input" value="25" min="2" max="1000">
+                <div class="value-display" id="count-value"></div>
               </div>
               <div class="control-group">
                 <label for="radius-input">Radius</label>
-                <input type="range" name="radius-input" id="radius-input" value="25" min="5" max="150">
+                <input type="range" name="radius-input" id="radius-input" value="25" min="5" max="100">
+                <div class="value-display" id="radius-value"></div>
               </div>
               <div class="control-group">
                 <label for="spiral-step-input">Step size</label>
-                <input type="range" name="spiral-step-input" id="spiral-step-input" value="25" min="8" max="90">
+                <input type="range" name="spiral-step-input" id="spiral-step-input" value="25" min="8" max="64">
+                <div class="value-display" id="step-value"></div>
               </div>
             </div>
           </div>
@@ -49,6 +51,7 @@
 
     </svg>
   </div>
+  <script src="./radial1.js" type="module"></script>
 
 </body>
 

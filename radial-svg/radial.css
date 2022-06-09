@@ -3,6 +3,8 @@
   padding: 0;
   margin: 0;
   z-index: 0;
+  touch-action: none;
+
 }
 
 html {
@@ -56,23 +58,29 @@ gap: 0px;
 svg {
   width: 100%;
   height: 100%;
+  /* filter: invert(100%); */
+  filter: invert(100%);
 
-  background: #2D3031;
+  background: #DDD5CE;
+
+  /* background: #2D3031; */
 }
 
 
 #control-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  /* justify-content: space-between; */
+  /* align-items: stretch; */
   gap: 16px;
   width: 100%;
-  background: #F2F2F2B0;
-  padding: 16px;
-  height: 100%;
+  /* height: 100%; */
   height: 175px;
-  /* transform: rotate(-90deg) */
+  padding: 16px;
+  background: #E0E0E0ED;
+  border-top: 2px outset #B7B7B7CC
+    /* background: #D6CACAB0; */
+    /* transform: rotate(-90deg) */
 }
 
 .control-group {
@@ -80,7 +88,7 @@ svg {
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  gap: 17px;
+  gap: 30px;
   width: 100%;
   height: 100%;
   /* min-width:100vw;min-height:100vh; */
@@ -88,10 +96,14 @@ svg {
 
 label {
   white-space: nowrap;
+  
 }
 
 .control-group [type="range"] {
   width: 100%;
+  max-width: 276px;
+
+
   /* height: 100%; */
   /* min-width:100vw;min-height:100vh; */
 }
@@ -102,48 +114,34 @@ label {
 
 #count-input {}
 
+#inner-hud {
+  background: #E4E4E4
+}
 
 
 #menu-inner {
-  /* fill: #EF602CE0; */
-  /* fill: #35314A; */
   fill-opacity: 0.6;
-  /* filter: invert(100%); */
-  /* filter: opacity(0.5); */
 }
 
 #menu-container {
   fill: #332940E0;
   fill: #462AD8;
   fill-opacity: 0.5;
-  /* filter: invert(100%); */
-  /* filter: opacity(0.5); */
+  filter: invert(100%);
 }
 
 #menu-outer {
   fill: #C21212;
-  /* fill-opacity: 0.5; */
-  /* filter: invert(100%); */
-
 }
 
-.menu-item {
-  /* fill: #323841; */
-  /* fill-opacity: 0.5; */
-  /* filter: invert(100%); */
-  /* animation-duration: 1s; */
-  /* animation-name: slidein; */
-
-}
+.menu-item {}
 
 #menu-items>* {
   fill: #0A2BD9;
-  /* fill-opacity: 0.6; */
-  /* transition: 1s; */
 }
 
 #menu-items g:nth-child(1)>path {
-  fill: #7E2A90;
+  fill: #404DD5;
   fill-opacity: 0.7;
 }
 
