@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg style="background:white" id="root-svg" x="0" y="0" width="10" height="10" viewBox="-5 -5 10 10" xmlns="http://www.w3.org/2000/svg">
+    <rect id="surface" x="-5" y="-5" width="10" height="10" fill="#f2f2f2" stop-color="#000000" stroke="#000"
+      stroke-width="0.1" />
+  <g class="tile" transform="translate(0,0)  scale(0.1)" stroke-linejoin="round">
+    <rect id="tile-face" x="-5" y="-5" width="10" height="10" fill="#f8ae00" stop-color="#000000" stroke="#000"
+      stroke-width="0.1" />
+    <g  transform="translate(0,0)" id="ports" fill="rgba(238,238,239,0)" stroke="#000">
+      <g id="north-ports" class="port-pair" transform="translate(0,-4.5)">
+        <circle id="p0" class="port" transform="translate(-2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+        <circle id="p1" class="port" transform="translate(2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+      </g>
+      <g id="east-ports" class="port-pair" transform="rotate(90,2.25,2.25)">
+        <circle id="p2" class="port" transform="translate(-2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+        <circle id="p3" class="port" transform="translate(2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+      </g>
+      <g class="port-pair" transform="rotate(-90,-2.25,2.25)">
+        <circle id="p4" class="port" transform="translate(-2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+        <circle id="p5" class="port" transform="translate(2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+      </g>
+      <g id="south-ports" class="port-pair" transform="translate(0,4.5)">
+        <circle id="p6" class="port" transform="translate(2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+        <circle id="p7" class="port" transform="translate(-2)" r="0.4" stroke-width="0.1"  stop-color="#000000" />
+      </g>
+    </g>
+    <circle id="tile-point" r="3" fill-opacity="0" stop-color="#000000" stroke="rgba(178,128,21,0.483)" stroke-width="0.25"/>
+  </g>
+</svg>
