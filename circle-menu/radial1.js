@@ -1,4 +1,5 @@
-import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
+
+import  { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
 // import { anim } from "./anim.js";
 import { getColor } from '../lib/colors.js';
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -24,6 +25,13 @@ const getDisplayCenter = (m) => {
 const app = document.querySelector('#app');
 const appBody = document.querySelector('#app-body')
 const svg = document.querySelector('svg');
+
+const ins = {
+  count: svg.querySelector('#count-input'),
+  radius: svg.querySelector('#radius-input'),
+  step: svg.querySelector('#spiral-step-input'),
+}
+
 
 const display = {
   svg: document.querySelector('svg'),
@@ -156,11 +164,6 @@ const updateRadial = (changedTime) => {
   // }
 }
 
-const ins = {
-  count: document.querySelector('#count-input'),
-  radius: document.querySelector('#radius-input'),
-  step: document.querySelector('#spiral-step-input'),
-}
 
 ins.count.setAttribute('max', radialValues.count)
 
