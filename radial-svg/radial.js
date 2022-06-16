@@ -1,8 +1,9 @@
 import { draggable } from 'https://hamilsauce.github.io/hamhelper/draggable.js'
-import { svgToPng } from '/svgToPng.js'
+import { svgToPng } from '../svgToPng.js'
 import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
 // import { anim } from "./anim.js";
-import { getColor } from '/lib/colors.js';
+import { getColor } from '../lib/colors.js';
+
 // const durin = document.querySelector('#time-input')
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -306,5 +307,4 @@ menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
   //   menu.container.appendChild(c)
 
   // });
-
 });

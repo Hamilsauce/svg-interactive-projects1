@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  </link>
+  <style>
+    head,
+    body {
+      font-size: 15pt;
+      background: #333;
+      padding: 0px;
+      margin: 0px;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+  </style>
+  <script>
+    //global vars i guess
+    let entities = [],
+      bounce = 0.987,
+      types = {},
+      distance = function(x1, y1, x2, y2) {
+        let dx = x1 - x2
+        dy = y1 - y2
+        return Math.srqt(dx * dx + dy * dy)
+      },
+      createEnt = function(config) {
+        let ent = new Ent(Object.assign({}, config))
+        entities.push(ent)
+        ent.id = entities.length - 1
+        return ent
+      }
+    const clone = obj => {
+      if (obj === null || typeof(obj) !== 'object') return obj;
+      var copy = obj.constructor();
+      for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) {
+          copy[attr] = obj[attr];
+        }
+      };
+      return copy;
+    }
+
+    function logs() {
+      for (let i of arguments) {
+        console.log(i)
+      }
+    };
+  </script>
+  <script type="text/javascript" src="Vec.js"></script>
+  <script type="text/javascript" src="Ent.js"></script>
+  <script type="text/javascript" src="Ball.js"></script>
+  <script type="text/javascript" src="Head.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+
+</html>

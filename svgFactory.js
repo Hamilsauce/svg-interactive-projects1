@@ -38,23 +38,46 @@ const drawLine = (pointA, pointB) => {
 
 
 export class Body {
-  constructor(w, h) {
+  constructor(w, h, units) {
     this.w = w
     this.h = h
+    this.units = units
   }
 
   get prop() { return this._prop };
   set prop(newValue) { this._prop = newValue };
 }
+
+
+
 
 export class Wheel {
-  constructor() {
-
-
+  constructor(cx, cy, r, attrs) {
+    this.self = document.createElementNS(SVG_NS, 'circle');
+    this.cx = cx;
+    this.cy = cy;
+    this.r = r;
+    this.attrs = attrs;
   }
-  get prop() { return this._prop };
-  set prop(newValue) { this._prop = newValue };
+
+  rotate(angle = 0) {
+this.self.setAttribute('transform',`rotate(${angle})`)
+  }
+
+  get cx() { return this.self.cx.baseVal.value }
+  set cx(v) { this.self.cx.baseVal.value = v }
+
+  get cy() { return this.self.cy.baseVal.value }
+  set cy(v) { this.self.cy.baseVal.value = v }
+
+  get r() { return this.self.r.baseVal.value }
+  set r(v) { this.self.r.baseVal.value = v }
+
+  get attrs() { return this.self.attrs }
+  set attrs(v) { this.self.attrs = v }
 }
+
+
 
 export class Car {
   constructor() {
@@ -69,7 +92,7 @@ export class CarBuilder {
   constructor() {}
 
   createBody() {}
-  
+
   createWheel() {}
 
   assemble() {}
