@@ -1,8 +1,8 @@
-import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
-// import { anim } from "./anim.js";
-import { getColor } from '../lib/colors.js';
+import { polarToCartesian, cartesianToPolar } from './lib/cartesian-polar.js'
+import { anim } from "./anim.js";
+import { getColor } from './lib/colors.js';
 const SVG_NS = 'http://www.w3.org/2000/svg';
-import { engine } from '../render-engine/loop.engine.js';
+import { engine } from './render-engine/loop.engine.js';
 
 
 let RADIANS_TO_DEGREE = 180 / Math.PI
