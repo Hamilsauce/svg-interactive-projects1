@@ -1,7 +1,6 @@
 var gravity = 0.25;
 var dX = 1.5;
 var dY = 0;
-
 var width = 412;
 var height = 300;
 var radius = 15;

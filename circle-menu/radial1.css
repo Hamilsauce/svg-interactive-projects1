@@ -6,7 +6,7 @@
 }
 
 html {
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 16px;
 }
 
@@ -58,6 +58,7 @@ svg {
   height: 100%;
 
   background: #FFFFFF;
+  transition: 1s;
 }
 
 
@@ -133,7 +134,7 @@ label {
 }
 
 .invert{
-  filter: invert(100%) contrast(120%);
+  filter: invert(100%) contrast(125%) hue-rotate(290deg);
 }
 
 .display-item {
@@ -185,3 +186,17 @@ label {
   fill: #F01A1A;
   fill-opacity: 0.8;
 }
+
+/* const colors = [
+  #E2A230,
+  #21639B,
+  #BB7525,
+  #13A414,
+  #AF352E,
+  #522D89,
+  #138297,
+  #F2F2F2,
+  #AA2C73,
+  #24309C,
+]
+ */

@@ -1,13 +1,15 @@
 export const dot = {
   sprite: null,
   track: null,
+  hex: null,
   dir: 1,
   vel: 0.01,
   delta: 0,
   // Initialize the dot: connect sprite and track properties with supplied SVG elements
-  init: function(sprite, track) {
+  init: function(sprite, hex, track) {
     this.sprite = document.getElementById(sprite);
     this.track = document.getElementById(track);
+    this.hex = document.getElementById(hex);
   },
 
   chooseDir() {},
@@ -16,6 +18,7 @@ export const dot = {
     const tl = this.track.getTotalLength()
     let p;
     this.delta += this.vel
+    
     if (this.dir > 0) {
       p = this.track.getPointAtLength(((this.delta) * this.track.getTotalLength()));
       // p = this.track.getPointAtLength(((u) * this.track.getTotalLength()));
