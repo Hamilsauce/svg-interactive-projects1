@@ -1,0 +1,80 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: Lato, helvetica, sans-serif;
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+  color: #333;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+#mysvg {
+  display: block;
+  width: auto;
+  height: 100%;
+  margin: 0;
+  background: radial-gradient(ellipse at center, #fefefe 0%, #cbeeff 100%);
+  border: 5px solid #333;
+  touch-action: none;
+}
+
+@media (max-aspect-ratio: 1/1) {
+
+  #mysvg {
+    width: 100%;
+    height: auto;
+  }
+
+}
+
+#mysvg rect {
+  fill: #069;
+}
+
+#mysvg circle {
+  stroke-width: 3;
+  stroke: #f00;
+  fill: #ff0;
+}
+
+#mysvg text {
+  fill: #fff;
+}
+
+#output {
+  position: fixed;
+  display: grid;
+  grid-template-columns: auto 3em 3em;
+  gap: 0.2em;
+  bottom: 10px;
+  right: 10px;
+  padding: 0.2em;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+#output strong, #output span {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+h1 {
+  font-size: 1.1em;
+  grid-column-start: span 3;
+}
+
+#targetID {
+  grid-column-start: span 2;
+}

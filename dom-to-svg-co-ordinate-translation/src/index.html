@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="mysvg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+
+  <g id="transform1" transform="scale(4)">
+    <rect x="50" y="50" width="100" height="100" rx="10" />
+    <text x="100" y="100" text-anchor="middle" dominant-baseline="middle">scale(4)</text>
+  </g>
+  
+  <g id="transform2" transform="scale(2) rotate(10 350 350) skewY(5)">
+    <rect x="300" y="300" width="100" height="100" rx="10" />
+    <text x="350" y="350" text-anchor="middle" dominant-baseline="middle">scale(2)</text>
+  </g>
+
+</svg>
+
+<div id="output">
+  <h1>DOM to SVG Co-ordinates</h1>
+  <strong>DOM client X,Y:</strong> <span id="clientX"></span> <span id="clientY"></span>
+  <strong>SVG X,Y:</strong> <span id="svgX"></span> <span id="svgY"></span>
+  <strong>target X,Y:</strong> <span id="targetX"></span> <span id="targetY"></span>
+  <strong>add target:</strong> <span id="targetID"></span>
+  <strong>add X,Y:</strong> <span id="addX"></span> <span id="addY"></span>
+</div>
