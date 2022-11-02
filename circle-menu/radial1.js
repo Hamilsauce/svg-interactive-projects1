@@ -1,5 +1,4 @@
-
-import  { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
+import { polarToCartesian, cartesianToPolar } from '../lib/cartesian-polar.js'
 // import { anim } from "./anim.js";
 import { getColor } from '../lib/colors.js';
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -49,7 +48,9 @@ const display = {
 const createCircle = (x, y, fill, r = 10) => {
   const c = document.createElementNS(SVG_NS, 'circle');
 
-  c.setAttribute('stroke', `#00000030`)
+  // c.setAttribute('stroke', `#00000050`)
+  c.setAttribute('stroke', `#FFFFFF50`)
+  c.setAttribute('stroke-width', 2)
   c.setAttribute('fill', fill)
   c.setAttribute('fill-opacity', 0.4)
   c.setAttribute('filter', `contrast(125%) saturate(150%)`)
@@ -58,6 +59,12 @@ const createCircle = (x, y, fill, r = 10) => {
   c.classList.add('display-item');
   c.cy.baseVal.value = y + c.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
   c.cx.baseVal.value = x + c.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
+
+  setInterval(() => {
+  c.setAttribute('stroke', `#000000`)
+    
+  }, 1000)
+
 
   return c
 };

@@ -14,6 +14,7 @@ const domPoint = (element, x, y) => {
   );
 }
 
+
 const getMenuCenter = (m) => {
 
   let x = m.cx.baseVal.value + m.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);

@@ -1,9 +1,11 @@
 const ShapeTypeMap = new Map()
 
 export class GraphicsObject {
-  constructor({ canvas, type, attrs }) {
+  #canvas;
+  
+  constructor({ svg, type, attrs }) {
     this.attrs = attrs;
-    this._canvas = canvas;
+    this.#canvas = svg;
     this.self = document.createElementNS(this.namespaceURI, type)
 
     Object.assign(this, attrs)
@@ -33,9 +35,9 @@ export class GraphicsObject {
   
   set id(val) { this.self.id = val }
   
-  get canvas() { return this._canvas }
+  get canvas() { return this.#canvas }
   
-  set canvas(val) { this._canvas = val }
+  set canvas(val) { this.#canvas = val }
   
   get radiusX() { return this.width / 2 }
   

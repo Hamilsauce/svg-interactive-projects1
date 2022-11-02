@@ -13,81 +13,72 @@ const DEFAULT_CONF = {
 };
 
 export class Scene extends EventTarget {
+  enclosures$ = new Subject();
+
   constructor(svg, parent, config) {
     super()
+
     this.canvas = svg || document.createElement('svg');
     this.parent = parent ? parent : document.body;
     this.entities = new Map();
     this.padSurface = document.querySelector('#surface');
 
     this.crosshair = new Crosshair({ x: 0, y: 0 });
-
-    this.crosshairEl = document.querySelector('#crosshair-path')
+    this.crosshairEl = document.querySelector('#crosshair-path');
+    this.addEntity(this.crosshair.name, this.crosshairEl);
 
     this.pawn = new Pawn({ x: 0, y: 0 }) //, this.createEl('circle',{size:5, id:'actor'})
-    this.actorEl = document.querySelector('#actor')
-    this.addEntity(this.crosshair.name, this.crosshairEl);
+    this.actorEl = document.querySelector('#actor');
     this.addEntity(this.pawn.name, this.actorEl);
+
     /*
      * CONNECT INPUT STREAMS TO ENTITIES
      * CONNECT ENTITY UPDATES TO SCENE
      */
+
     const grabPress$ = fromEvent(this, 'grabAction')
       .pipe(
-        map(({detail})=> detail.action),
+        map(({ detail }) => detail.action),
         tap(x => console.log('grabPress$', x))
-      )
-    // .subscribe()
+      );
+
     this.collisions$ = new BehaviorSubject(null)
       .pipe(
-        tap(x => console.warn('BEFORE ENCOLSURE FIKTER', { x })),
+        // tap(x => console.warn('BEFORE ENCOLSURE FIKTER', { x })),
         filter((_) => _),
-        // map(x=>({})),
-        tap(({ crosshair, pawn }) => console.warn({crosshair,pawn})),
+        // tap(({ crosshair, pawn }) => console.warn({ crosshair, pawn })),
         filter(({ crosshair, pawn }) => this.detectEnclosure(crosshair, pawn)),
-        switchMap(({crosshair, pawn} ) => grabPress$
+        // tap(x => console.warn('AFTER ENCOLSURE FILTER 1', { x })),
+        switchMap(({ crosshair, pawn }) => grabPress$
           .pipe(
-        filter((e) => this.detectEnclosure(crosshair, pawn)),
+            filter((e) => this.detectEnclosure(crosshair, pawn)),
+            tap(x => console.warn('AFTER ENCOLSURE FILTER 2', { x })),
             tap(action => {
-if (action=='capture') {
-              this.capture(crosshair, pawn)
-              this.crosshairEl.setAttribute('transform', 'translate(0,0)')
-              this.actorEl.setAttribute('fill', '#A83535')
-  
-} else {
-              this.release( pawn)
-  
-}
-              
-            }),
-            tap((x,crosshair, pawn ) => {
-              // this.getEntityElement.bind(this)(pawn.name).style.fill='red'
-            console.log(x,crosshair, pawn)
-              // this.crosshairEl.setAttribute('', 'rotate(9')
-              // this.actorEl.fill.baseVal.value = 'red'//..setAttribute('', 'red')
-              // this.capture(crosshair, pawn)
-              // console.log('this.getEntityElement(pawn.name)', this.getEntityElement.bind(this)(pawn.name))
-
-            }),
+              if (action == 'capture') {
+                this.capture(crosshair, pawn)
+                this.crosshairEl.setAttribute('transform', 'translate(0,0)')
+                this.actorEl.setAttribute('fill', '#A83535')
+              }
+              else { this.release(pawn) }
+            })
           )
-
         )
       )
 
 
-    this.collisions$.subscribe()
-
-    this.enclosures$ = new Subject()
+    this.collisions$.subscribe();
 
     this.crosshair$ = (this.crosshair.watch()).pipe()
 
     this.crosshair.connectInput(
       fromEvent(this.padSurface, 'pointermove')
-      .pipe(map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)), )
+      .pipe(map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)), 
+      tap(x => console.log('toTrackPoint', x)),
+      )
     )
 
     this.pawn$ = this.pawn.watch().pipe(
-      // tap(x => console.log('x', x)),
+      tap(x => console.log('this.pawn$', x)),
     )
 
 
@@ -139,8 +130,8 @@ if (action=='capture') {
   }
 
   render({ crosshair, pawn }) {
-    this.paintEntity(this.crosshairEl, crosshair)
-    this.paintEntity(this.actorEl, pawn)
+    this.#paintEntity(this.crosshairEl, crosshair)
+    this.#paintEntity(this.actorEl, pawn)
   }
 
   gameOver(crosshair, pawns) {
@@ -161,6 +152,7 @@ if (action=='capture') {
   detectEnclosure(a, b) {
     let bel = this.actorEl
     let ael = this.crosshairEl
+
     return (
       b.top > a.top &&
       b.bottom < a.bottom &&
@@ -196,15 +188,15 @@ if (action=='capture') {
 
   }
   release(targ) {
-   console.log('targ', targ)
+    console.log('targ', targ)
 
-    if (targ.name === 'pawn') {
-   this.pawn.disconnectInput()
-      
+    if (this.pawn && targ.name === 'pawn') {
+      this.pawn.disconnectInput()
+
     }
   }
 
-  paintEntity(el, attrs = {}) {
+  #paintEntity(el, attrs = {}) {
     Object.entries(attrs)
       .forEach(([k, v], i) => {
         el.setAttribute(k, v)

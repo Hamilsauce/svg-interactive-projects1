@@ -10,14 +10,14 @@ export class Crosshair {
   constructor(initialPoint = { x: 0, y: 0 }, el) {
     this.name = 'crosshair';
     this.basePoint = { x: 0, y: 0 }
-    this.size = 11;
-    this.d = ''
+    this.size = 22;
+    this.d = '';
 
     this.state = new BehaviorSubject(initialPoint)
       .pipe(
         map(this.update.bind(this)),
         scan((prevPoint, newPoint) => {
-          const point = { ...prevPoint, ...newPoint }
+          // const point = { ...prevPoint, ...newPoint }
           return {
             ...prevPoint,
             ...newPoint
@@ -28,12 +28,13 @@ export class Crosshair {
 
   connectInput(controlStream$) {
     this.$inputSubscription = controlStream$
-      .pipe().subscribe(this.state)
-    return this.$inputSubscription
+      .pipe().subscribe(this.state);
+
+    return this.$inputSubscription;
   }
 
   watch() {
-    return this.state.asObservable()
+    return this.state.asObservable();
   }
 
   get bounds() {
@@ -46,30 +47,33 @@ export class Crosshair {
   }
 
   update(point = { x: 0, y: 0 }) {
-    this.basePoint = point //addVectors(this.basePoint, point)
+    this.basePoint = point;
+
+    const { top, bottom, left, right } = this.bounds;
+    const { x, y } = point;
 
     let d = `
-     M ${this.bounds.left},${this.basePoint.y} 
-       -50,${this.basePoint.y}
-     M ${this.bounds.right},${this.basePoint.y} 
-       50,${this.basePoint.y} 
-     M ${this.basePoint.x},${this.bounds.top} 
-       ${this.basePoint.x},-50
-     M ${this.basePoint.x},${this.bounds.bottom} 
-       ${this.basePoint.x},50
-     M ${this.bounds.left},${this.bounds.top}
-       ${this.bounds.right},${this.bounds.top}
-       ${this.bounds.right},${this.bounds.bottom}
-       ${this.bounds.left},${this.bounds.bottom}
+     M ${left},${y}
+       -50,${y}
+     M ${right},${y} 
+       50,${y} 
+     M ${x},${top} 
+       ${x},-50
+     M ${x},${bottom} 
+       ${x},50
+     M ${left},${top}
+       ${right},${top}
+       ${right},${bottom}
+       ${left},${bottom}
     z`.trim();
 
     this.d = d;
 
     return {
+      ...this.bounds,
       name: this.name,
       point,
       d,
-      ...this.bounds,
     }
   }
 }

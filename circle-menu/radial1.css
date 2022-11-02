@@ -143,6 +143,7 @@ label {
   /* filter: invert(100%); */
   /* animation-duration: 1s; */
   /* animation-name: slidein; */
+  transition: .5s;
 
 }
 
