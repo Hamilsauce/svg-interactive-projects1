@@ -18,17 +18,17 @@ export const dot = {
     this.delta += this.vel
     if (this.dir > 0) {
       p = this.track.getPointAtLength(((this.delta) * this.track.getTotalLength()));
-      // p = this.track.getPointAtLength(((u) * this.track.getTotalLength()));
+      p = this.track.getPointAtLength(((u) * this.track.getTotalLength()));
       // console.log(p);
     } else if (this.dir < 0) {
       p = this.track.getPointAtLength(this.track.getTotalLength() - ((this.delta) * this.track.getTotalLength()));
-      // p = this.track.getPointAtLength(this.track.getTotalLength() - ((u) * this.track.getTotalLength()));
+      p = this.track.getPointAtLength(this.track.getTotalLength() - ((u) * this.track.getTotalLength()));
 
     } else {
 
 
     }
-    // u = (u * (p.x-p.y)) * 100
+    u = (u * (p.x-p.y)) * 100
     // console.log(tl);
     let currPoint1 = (p.x + p.y) * 2
     let pAtLength = this.track.getPointAtLength(currPoint1)

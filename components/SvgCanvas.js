@@ -32,6 +32,8 @@ const createText = (value, parent) => {
 export class SvgCanvas {
   constructor(el, options = {}) {
     this.self = el;
+    this.self.setAttribute('width', window.innerWidth)
+    this.self.setAttribute('height', window.innerHeight)
     this.boundPost = this.post.bind(this)
 
     this.draggers = [...this.self.querySelectorAll('.draggable')]
