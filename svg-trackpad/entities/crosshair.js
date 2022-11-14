@@ -10,19 +10,25 @@ export class Crosshair {
   constructor(initialPoint = { x: 0, y: 0 }, el) {
     this.name = 'crosshair';
     this.basePoint = { x: 0, y: 0 }
-    this.size = 22;
+    this.size = 11;
     this.d = '';
 
     this.state = new BehaviorSubject(initialPoint)
       .pipe(
-        map(this.update.bind(this)),
+        // filter((p)=> p.x && p.y),
         scan((prevPoint, newPoint) => {
+          console.warn('scan newPoint', newPoint)
           // const point = { ...prevPoint, ...newPoint }
           return {
-            ...prevPoint,
-            ...newPoint
+            // x: newPoint.x + (prevPoint.x - newPoint.x),
+            // y: newPoint.y + (prevPoint.y - newPoint.y),
+            x: prevPoint.x + (newPoint.x - prevPoint.x),
+            y: prevPoint.y + (newPoint.y - prevPoint.y),
+            // ...newPoint
           }
-        }),
+        }, this.basePoint),
+        // tap(x => console.warn('newPoint', x)),
+        map(this.update.bind(this)),
       )
   }
 
