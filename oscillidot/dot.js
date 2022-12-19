@@ -1,3 +1,20 @@
+export const _dot = {
+  sprite: null,
+  track: null,
+
+  // Initialize the dot: connect sprite and track properties with supplied SVG elements
+  init: function(sprite, track) {
+    this.sprite = document.getElementById(sprite);
+    this.track = document.getElementById(track);
+  },
+
+  // Put the dot on its spot
+  walk: function(u) {
+    const p = this.track.getPointAtLength(u * this.track.getTotalLength());
+    this.sprite.setAttribute("transform", `translate(${p.x}, ${p.y})`);
+  }
+};
+
 export const dot = {
   sprite: null,
   track: null,
@@ -14,35 +31,52 @@ export const dot = {
 
   walk: function(u) {
     const tl = this.track.getTotalLength()
-    let p;
+    // let p = {}
     this.delta += this.vel
-    if (this.dir > 0) {
-      p = this.track.getPointAtLength(((this.delta) * this.track.getTotalLength()));
-      p = this.track.getPointAtLength(((u) * this.track.getTotalLength()));
-      // console.log(p);
-    } else if (this.dir < 0) {
-      p = this.track.getPointAtLength(this.track.getTotalLength() - ((this.delta) * this.track.getTotalLength()));
-      p = this.track.getPointAtLength(this.track.getTotalLength() - ((u) * this.track.getTotalLength()));
+    // if (this.dir > 1) {
+    //   p.x = this.track.getPointAtLength(((this.delta) * this.track.getTotalLength()));
+    //   p.y = this.track.getPointAtLength(((u) * this.track.getTotalLength()));
+    //   // console.log(p);
+    // } else if (this.dir < 1) {
+    //   p.x = this.track.getPointAtLength(this.track.getTotalLength() - ((this.delta) * this.track.getTotalLength()));
+    //   p.y = this.track.getPointAtLength(this.track.getTotalLength() - ((u) * this.track.getTotalLength()));
 
-    } else {
+    // } 
+    const p = this.track.getPointAtLength(u * this.track.getTotalLength());
+    const currPoint1 = (p.x + p.y) * this.dir/// 2
+    this.sprite.setAttribute("transform", `translate(${p.x*this.dir}, ${p.y*this.dir})`);
 
+    if (this.audio) {
+      this.audio.oscillator.frequency.value = 100 + p.y * 2
+    }
+
+    if (currPoint1 >= tl || currPoint1 === 0) {
+      this.dir = -this.dir
+      this.delta = 0.01 * this.dir
+console.log('this.delta', this.delta)
 
     }
-    u = (u * (p.x-p.y)) * 100
-    // console.log(tl);
-    let currPoint1 = (p.x + p.y) * 2
-    let pAtLength = this.track.getPointAtLength(currPoint1)
 
-    console.log('pAtLength', pAtLength)
-    console.log((p.x + p.y) * 2);
+
+    return
+
+
+    u = (u * (p.x - p.y)) * 100
+    // console.log(tl);
+    // let currPoint1 = (p.x + p.y) * 2
+    let pathPoint = this.track.getPointAtLength(currPoint1)
+
+    console.log('pathPoint', pathPoint)
+    console.log((pathPoint.x + pathPoint.y) * 2);
 
     if (currPoint1 >= tl || currPoint1 === 0) {
       this.dir = -this.dir
       this.delta = 0.01
-    } else{
-      
     }
-    this.sprite.setAttribute("transform", `translate(${ p.x }, ${ p.y})`);
+    else {
+
+    }
+    this.sprite.setAttribute("transform", `translate(${ pathPoint.x }, ${ pathPoint.y})`);
     // this.sprite.setAttribute("transform", `translate(${ p.x }, ${ p.y})`);
 
     if (this.audio) {

@@ -30,7 +30,7 @@ export class Hexagon {
 
   move(u) {
     this.rotation += 1;
-    this.shape.setAttribute("transform", `translate(0,0) rotate(${this.rotation})`);
+    this.shape.setAttribute("transform", `translate(0,0) rotate(${0})`);
 
     const bb = this.shape.getBoundingClientRect()
     const bboxPoint1 = domPoint(scene, bb.x, bb.y, );
