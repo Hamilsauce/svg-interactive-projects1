@@ -1,8 +1,8 @@
-export class Point {
+export class Point extends DOMPoint {
   constructor(x = 0, y = 0) {
-    this.x = x;
-    this.y = y;
+    super(x, y);
   }
+
 
   static create(x, y) { return new Point(x, y) }
 }

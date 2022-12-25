@@ -10,9 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
   <title>paths</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="./script.js" type="module"></script>
-  <script src="./oscillidot/main.js" type="module"></script>
- 
+  <!-- <script src="./script.js" type="module"></script> -->
+  <!-- <script src="./oscillidot/main.js" type="module"></script> -->
+
   <link rel="stylesheet" href="./style.css" />
 </head>
 
@@ -20,6 +20,7 @@
   <div id="app">
     <div id="app-body">
       <input type="text" name="time-input" id="time-input">
+
       <svg id="canvas" width="384" height="722" viewBox="-50 -50 100 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
           <pattern id="smallGrid" width="2.5" height="2.5" patternUnits="userSpaceOnUse">
@@ -46,16 +47,17 @@
           </g>
 
           <g class="layer" id="objects-layer" data-layer="objects" transform="translate(0,-0)">
-       
+
             <g class="shape-container" id="squiggly-container" data-selected="false" data-layer="objects" transform="translate(0,0) scale(1)">
               <rect class="shape-container-background" x="-6" y="-8" width="90" height="50" />
-              <path class="curve" id="curve" d="
+              <path class="curve" id="curve" d=" M -25,25 C -25,-25 25,-25 25,25" />
+              <!-- <path class="curve" id="curve" d="
                 m 15,31
                 c 
                   2,-6.5 3.5,-0.5 3,7 
                   1,9.5 2,-3 3,5
                   2,19 1,-14 1,-13.5
-                " />
+                " /> -->
 
               <g id="controlSetA" class="control-set">
                 <line x1="-25" x2="-25" y1="-25" y2="25" class="control-line" stroke="#C2C2C280" stroke-width="0.5" />
@@ -94,7 +96,7 @@
     // const SVG_NS = 'http://www.w3.org/2000/svg';
   </script>
   <script src="./script.js" type="module"></script>
-  <script src="./oscillidot/main.js" type="module"></script>
+  <script src="./pendulum-oscillator/main.js" type="module"></script>
 </body>
 
 </html>

@@ -4,32 +4,25 @@ export const anim = {
   start: function(duration) {
     this.duration = duration;
     this.startTime = Date.now();
- let u = Math.min((Date.now() - this.startTime) / this.duration, 1);
+    let u = Math.min((Date.now() - this.startTime) / this.duration, 1);
 
     requestAnimationFrame(() => this.run(u));
   },
 
   run: function() {
-    // let u = 10000
-    // / this.duration //), 1000);
-    // Math.min(
-    // let u = Math.min((Date.now() - this.startTime) / this.duration, 1);
-    // let u = Math.min((Date.now() - this.startTime) / this.duration, 1000);
-      // requestAnimationFrame(() => this.run());
- let u = Math.min((Date.now() - this.startTime) / this.duration, 1);
-       
+    let u = Math.min((Date.now() - this.tZero) / this.duration, 1);
+console.log('u', u)
     if (u < 1) {
       // Keep requesting frames, till animation is ready
-      requestAnimationFrame(() => this.run(u));
+      requestAnimationFrame(() => this.run());
     } else {
       this.onFinish();
     }
 
-    dot.walk(u);
+    dot.move(u);
   },
 
   onFinish: function() {
-    // Schedule the animation to restart
-    setTimeout(() => this.start(this.duration), 0);
+    this.start(this.duration)
   }
 };

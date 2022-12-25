@@ -36,9 +36,11 @@ export class SvgCanvas {
     this.self.setAttribute('height', window.innerHeight)
     this.boundPost = this.post.bind(this)
 
-    this.draggers = [...this.self.querySelectorAll('.draggable')]
+    // this.draggers = [...this.self.querySelectorAll('.draggable')]
 
-    this.draggers.forEach(_ => { draggable(this.self, _) })
+    // this.draggers.forEach(_ => {
+    //   draggable(this.self, _)
+    // })
 
     this.state = {
       objectRegistry: new Map(),
@@ -55,7 +57,7 @@ export class SvgCanvas {
 
     this.pathPoints$ = this.pointerEvents$
       .pipe(
-        mergeMap(group$ => group$ //['controlA']
+        mergeMap(group$ => group$
           .pipe(
             filter(_ => _.target.closest('.control-set')),
             tap(({ target, x, y }) => {
@@ -84,9 +86,7 @@ export class SvgCanvas {
             })),
           )
         ),
-        scan((inputDict, input) => {
-          return { ...inputDict, ...input }
-        }),
+        scan((inputDict, input) => ({ ...inputDict, ...input })),
       )
 
     this.eventChannel = {
@@ -101,14 +101,18 @@ export class SvgCanvas {
     this.surface = this.self.querySelector('#surface-layer');
 
     this.pathElement = this.self.querySelector('#curve');
-    this.pathModel = SvgPath.createPath(this.pathPoints$)
+    this.pathModel = SvgPath.createPath(this.pathElement, this.pathPoints$)
 
     this.pathData$ = this.pathModel.connect()
       .pipe(
         tap(x => this.pathElement.setAttribute('d', x)),
-      )
-      .subscribe()
+      );
+
+    this.pathData$.subscribe();
+
+    console.warn('this.draggers', this.draggers)
   }
+
 
   update(x, y) {
     this.audio.oscillator.frequency.value = y
@@ -132,14 +136,10 @@ export class SvgCanvas {
     );
   }
 
-  // makeDraggable(element) {
-  //   draggable(this.self, element.container)
-  // }
-
   get elements() {
     return [...this.objectRegistry.keys()]
   }
-  
+
   get objectRegistry() {
     return this.state.objectRegistry
   }

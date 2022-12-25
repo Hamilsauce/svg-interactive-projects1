@@ -26,6 +26,15 @@ body {
   /* min-width:100vw;min-height:100vh; */
 }
 
+#appHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0px;
+  padding: 8px;
+}
+
 svg {
   background: #4C515B;
   touch-action: none;
@@ -84,10 +93,12 @@ svg {
 }
 
 
-.circ1{
+.circ1 {
   fill: #3DB2D1;
 }
-#dot{
+
+#dot {
   fill: #FFFFFF;
-  /* filter: invert(100%)  */;
+  /* filter: invert(100%)  */
+  ;
 }
