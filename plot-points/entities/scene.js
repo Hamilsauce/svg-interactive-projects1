@@ -2,7 +2,7 @@ import { toTrackPoint, toScenePoint, addVectors } from '../lib.js';
 import { Pawn } from './pawn.js';
 import { Crosshair } from './crosshair.js';
 
-const { combineLatest, iif, ReplaySubject, AsyncSubject, BehaviorSubject, Subject, interval, of , fromEvent, merge, empty, delay, from } = rxjs;
+const { combineLatest, iif, ReplaySubject, AsyncSubject, BehaviorSubject, Subject, interval, of, fromEvent, merge, empty, delay, from } = rxjs;
 const { sampleTime, throttleTime, mergeMap, switchMap, scan, take, takeWhile, map, tap, startWith, filter, mapTo } = rxjs.operators;
 
 
@@ -17,7 +17,7 @@ export class Scene extends EventTarget {
 
   constructor(svg, parent, config) {
     super()
-
+console.warn('_____________________');
     this.canvas = svg || document.createElement('svg');
     this.parent = parent ? parent : document.body;
     this.entities = new Map();
@@ -67,13 +67,19 @@ export class Scene extends EventTarget {
 
 
     this.collisions$.subscribe();
-
-    this.crosshair$ = (this.crosshair.watch()).pipe()
+console.warn('this.crosshair$', this.crosshair$)
+    this.crosshair$ = this.crosshair.watch()
+    
+    .pipe(
+      // tap(x => console.warn('CROSSHAIR$ WATCH', x)),
+    )
+    // .subscribe()
+    // this.crosshair$
 
     this.crosshair.connectInput(
       fromEvent(this.padSurface, 'pointermove')
-      .pipe(map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)), 
-      tap(x => console.log('toTrackPoint', x)),
+      .pipe(map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)),
+        tap(x => console.log('toTrackPoint', x)),
       )
     )
 
@@ -91,7 +97,8 @@ export class Scene extends EventTarget {
       tap(({ crosshair, pawn }) => {
         // console.log('~~~~~',crosshair, pawn)
         this.collisions$.next({ crosshair, pawn })
-      })
+      }),
+      tap(x => console.warn('this.scene$ = combineLatest', x)),
     )
 
     // this.addEventListener('grab', this.handleGrab.bind(this));
@@ -130,6 +137,7 @@ export class Scene extends EventTarget {
   }
 
   render({ crosshair, pawn }) {
+    console.warn('IN render - crosshair, pawn', crosshair, pawn)
     this.#paintEntity(this.crosshairEl, crosshair)
     this.#paintEntity(this.actorEl, pawn)
   }

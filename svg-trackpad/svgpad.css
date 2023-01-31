@@ -21,7 +21,7 @@ body {
 
 #app {
   display: grid;
-  grid-template-rows: 48px 1fr 280px;
+  grid-template-rows: 48px 1fr 1fr;
   grid-template-columns: 1fr;
   gap: 0px;
 
@@ -100,6 +100,7 @@ body {
 #trackpad {
   background: #697176;
 }
+
 #trackpad-controls {
   background: #444E54;
 }
@@ -113,16 +114,23 @@ body {
 }
 
 #actor {
-  /* fill: #294BB7; */
-  transition: 0.1s;
+  fill: #296AB7B3;
+  stroke: #201E1D;
+  transition: all 0.07s, fill 0.4s;
+}
+
+#actor.captured {
+  fill: #DB2323D4;
+  /* transition: 0.1s; */
 }
 
 #pointer-marker.active {
   fill: #FAFAFA;
-  transition: 0.1s;
+  /* transition: 0.26s; */
 }
 
 #crosshair-path {
-  /* fill: #FAFAFA; */
-  /* transition: 0.1s; */
+  transition: 0.04s;
+  /* transition: 0.05; */
+  backdrop-filter: invert(1);
 }

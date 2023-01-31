@@ -1,6 +1,6 @@
 import { toTrackPoint } from '/svg-trackpad/lib.js';
 
-const { forkJoin, Observable, iif, BehaviorSubject, AsyncSubject, Subject, interval, of , fromEvent, merge, empty, delay, from } = rxjs;
+const { forkJoin, Observable, iif, BehaviorSubject, AsyncSubject, Subject, interval, of, fromEvent, merge, empty, delay, from } = rxjs;
 const { flatMap, reduce, groupBy, toArray, mergeMap, switchMap, scan, map, tap, filter } = rxjs.operators;
 const { fromFetch } = rxjs.fetch;
 
@@ -17,8 +17,6 @@ export class Crosshair {
       .pipe(
         // filter((p)=> p.x && p.y),
         scan((prevPoint, newPoint) => {
-          console.warn('scan newPoint', newPoint)
-          // const point = { ...prevPoint, ...newPoint }
           return {
             // x: newPoint.x + (prevPoint.x - newPoint.x),
             // y: newPoint.y + (prevPoint.y - newPoint.y),
@@ -27,9 +25,10 @@ export class Crosshair {
             // ...newPoint
           }
         }, this.basePoint),
-        // tap(x => console.warn('newPoint', x)),
         map(this.update.bind(this)),
-      )
+        // tap(x => console.warn('CROSSHAIR SYATE newPoint', x)),
+      );
+    // this.state.subscribe()
   }
 
   connectInput(controlStream$) {
