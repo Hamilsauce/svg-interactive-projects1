@@ -6,6 +6,8 @@ const { fromFetch } = rxjs.fetch;
 
 export class Crosshair {
   #inputSubscription
+  lastDragPoint = { x: 0, y: 0 }
+  dragStartPoint = { x: 0, y: 0 }
 
   constructor(initialPoint = { x: 0, y: 0 }, el) {
     this.name = 'crosshair';
@@ -14,26 +16,52 @@ export class Crosshair {
     this.d = '';
 
     this.state = new BehaviorSubject(initialPoint)
-      .pipe(
+    .pipe(
         scan((prevPoint, newPoint) => {
           return {
-            x: prevPoint.x + (newPoint.x - prevPoint.x),
-            y: prevPoint.y + (newPoint.y - prevPoint.y),
+            // this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
+            // this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
+
+            x: this.prevPoint.x - this.dragStartPoint.x - (newPoint.x - this.lastDragPoint.x),
+            y: this.prevPoint.y - this.dragStartPoint.y - (newPoint.y - this.lastDragPoint.y),
+            // x: this.lastDragPoint.x - (newPoint.x - prevPoint.x),
+            // y: this.lastDragPoint.y - (newPoint.y - prevPoint.y),
           }
         }, this.basePoint),
         map(this.update.bind(this)),
+        tap(x => console.warn('END OF CROSSHAIR STATE PIPE', this)),
       )
   }
 
   connectInput(controlStream$) {
+    console.log('controlStream$', controlStream$)
     this.$inputSubscription = controlStream$
-      .pipe().subscribe(this.state);
+      .pipe(
+        
+        tap(x => console.warn(' CROSSHAIR connectInput PIPE', this)),
+        ).subscribe(this.state);
 
     return this.$inputSubscription;
   }
 
   watch() {
-    return this.state.asObservable();
+    return this.state.asObservable()
+      .pipe(
+        scan((prevPoint, newPoint) => {
+          return {
+            // this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
+            // this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
+
+            x: this.prevPoint.x - this.dragStartPoint.x - (newPoint.x - this.lastDragPoint.x),
+            y: this.prevPoint.y - this.dragStartPoint.y - (newPoint.y - this.lastDragPoint.y),
+            // x: this.lastDragPoint.x - (newPoint.x - prevPoint.x),
+            // y: this.lastDragPoint.y - (newPoint.y - prevPoint.y),
+          }
+        }, this.basePoint),
+        map(this.update.bind(this)),
+        tap(x => console.warn('END OF CROSSHAIR STATE PIPE', this)),
+      )
+
   }
 
   get bounds() {
@@ -67,6 +95,7 @@ export class Crosshair {
     z`.trim();
 
     this.d = d;
+    console.warn('END OF CROSSHAIR STATE PIPE', this)
 
     return {
       ...this.bounds,

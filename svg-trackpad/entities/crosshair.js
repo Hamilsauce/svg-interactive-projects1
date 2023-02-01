@@ -6,6 +6,8 @@ const { fromFetch } = rxjs.fetch;
 
 export class Crosshair {
   #inputSubscription
+  lastDragPoint = { x: 0, y: 0 }
+  dragStartPoint = { x: 0, y: 0 }
 
   constructor(initialPoint = { x: 0, y: 0 }, el) {
     this.name = 'crosshair';
@@ -15,20 +17,28 @@ export class Crosshair {
 
     this.state = new BehaviorSubject(initialPoint)
       .pipe(
-        // filter((p)=> p.x && p.y),
-        scan((prevPoint, newPoint) => {
+        scan((prevPoint, currPoint) => {
+          if (currPoint === null) {
+            this.lastDragPoint = prevPoint;
+
+            return prevPoint;
+          }
+
           return {
-            // x: newPoint.x + (prevPoint.x - newPoint.x),
-            // y: newPoint.y + (prevPoint.y - newPoint.y),
-            x: prevPoint.x + (newPoint.x - prevPoint.x),
-            y: prevPoint.y + (newPoint.y - prevPoint.y),
-            // ...newPoint
+            x: this.lastDragPoint.x + (currPoint.x - this.dragStartPoint.x),
+            y: this.lastDragPoint.y + (currPoint.y - this.dragStartPoint.y),
           }
         }, this.basePoint),
         map(this.update.bind(this)),
-        // tap(x => console.warn('CROSSHAIR SYATE newPoint', x)),
+        // tap(x => {
+        //   console.warn('x', x)
+        //   console.groupCollapsed('CROSSHAIR STATE RUN: ' + cnt++);
+        //   console.log('this.basePoint', this.basePoint)
+        //   console.log('this.dragStartPoint', this.dragStartPoint)
+        //   console.log('this.lastDragPoint', this.lastDragPoint)
+        //   console.groupEnd('CROSSHAIR STATE RUN: ' + cnt);
+        // }),
       );
-    // this.state.subscribe()
   }
 
   connectInput(controlStream$) {

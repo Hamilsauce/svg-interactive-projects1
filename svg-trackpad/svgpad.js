@@ -72,7 +72,6 @@ document.addEventListener('pointerdown', onGrabPressed);
 
 const onTrackpadStart = (e) => {
   pointerMarker.classList.add('active')
-  // pointerMarker.r.baseVal.value = pointerMarker.r.baseVal.value * 1.5
 
   padSurface.addEventListener('pointermove', onTrackpadDrag);
   app.addEventListener('pointerup', onTrackpadStop);

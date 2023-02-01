@@ -110,20 +110,26 @@ export class Scene extends EventTarget {
       fromEvent(this.padSurface, 'pointermove')
       .pipe(
         map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)),
-        // tap(x => console.log('x', x)),
-        // map(({ x, y }) => ({x:x+this.lastDragPoint, y: y+this.lastDragPoint})),
       ),
     );
 
-    this.dragStop$ = fromEvent(this.padSurface, 'pointerup')
-      .pipe(
-        tap(({ clientX, clientY }) => {
-          this.lastDragPoint = toTrackPoint(clientX, clientY)
-        }),
-        tap(x => console.log('dragStop$', this.lastDragPoint))
-      );
+    this.crosshair.connectInput(this.dragStop$);
 
-    this.dragStop$.subscribe();
+    this.dragStartStop$ = merge(
+      fromEvent(this.padSurface, 'pointerdown').pipe(
+        tap(({ clientX, clientY }) => {
+          this.dragStartPoint = toTrackPoint(clientX, clientY)
+          this.crosshair.dragStartPoint = this.dragStartPoint
+        }),
+      ),
+      fromEvent(this.padSurface, 'pointerup').pipe(
+        map(({ clientX, clientY }) => {
+          this.lastDragPoint = toTrackPoint(clientX, clientY)
+
+          return null;
+        }),
+      )
+    );
 
     this.pawn$ = this.pawn.watch().pipe(
       tap(x => console.log('this.pawn$', x)),
@@ -135,7 +141,7 @@ export class Scene extends EventTarget {
       this.pawn$.pipe(startWith({})),
       (crosshair, pawn) => ({ crosshair, pawn })
     ).pipe(
-      sampleTime(24),
+      sampleTime(40),
       tap(({ crosshair, pawn }) => {
         this.collisions$.next({ crosshair, pawn });
       })
