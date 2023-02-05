@@ -73,7 +73,7 @@ body {
   font-size: 16px;
   font-weight: 300;
   padding: 8px;
-  
+
 }
 
 .coordsDisplay {
@@ -154,7 +154,15 @@ body {
 }
 
 #crosshair-path {
+  fill: #0D0D0D7A;
+  stroke: #FFFFFFBF;
+  stroke-width: 0.5;
+  stroke-opacity: 0.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   transition: 0.06s;
   /* transition: 0.05; */
-  backdrop-filter: invert(1);
+  /* filter: drop-shadow(#000000); */
+  filter: drop-shadow(0 0 1.25px #EDD1C2DE) invert(1) contrast(1.35);
+/* backdrop-filter: brightness(0.5) invert(0.5); */
 }

@@ -58,8 +58,15 @@ const onTrackpadDrag = (e) => {
   const scenepoint = toScenePoint(trackpoint);
   pointerMarker.setAttribute('transform', `translate(${trackpoint.x},${trackpoint.y})`);
 
-  coordsDisplay.textContent = `tpad.:  [ ${trackpoint.x} , ${trackpoint.y} ]`;
-  coordsDisplay2.textContent = `point: [ ${trackpoint.x} , ${trackpoint.y} ]`;
+  coordsDisplay.textContent = `trackpad:  [ ${trackpoint.x} , ${trackpoint.y} ]`;
+  // coordsDisplay2.textContent = `point: [ ${trackpoint.x} , ${trackpoint.y} ]`;
+};
+
+const onSceneChange = ({ detail }) => {
+  const { crosshair } = detail;
+
+  coordsDisplay2.textContent = `crosshair: [ ${crosshair.x} , ${crosshair.y} ]`;
 };
 
 padSurface.addEventListener('pointerdown', onTrackpadStart);
+app.addEventListener('scenechange', onSceneChange);

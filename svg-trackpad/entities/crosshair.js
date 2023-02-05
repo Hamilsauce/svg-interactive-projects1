@@ -13,7 +13,8 @@ export class Crosshair {
     this.name = 'crosshair';
     this.basePoint = { x: 0, y: 0 }
     this.size = 11;
-    this.d = '';
+    this.pointSize = 2.5;
+    // this.d = '';
 
     this.state = new BehaviorSubject(initialPoint)
       .pipe(
@@ -32,6 +33,7 @@ export class Crosshair {
           }
         }, this.basePoint),
         map(this.update.bind(this)),
+        tap(x => console.warn('[CROSSHAIR > UPDATED]: ', { ...x, ...x.point })),
         // tap(x => {
         //   console.warn('x', x)
         //   console.groupCollapsed('CROSSHAIR STATE RUN: ');
@@ -41,6 +43,61 @@ export class Crosshair {
         //   console.groupEnd('CROSSHAIR STATE RUN: ');
         // }),
       );
+  }
+
+  get bounds() {
+    return {
+      top: (this.basePoint.y - (this.size / 2)),
+      bottom: (this.basePoint.y + (this.size / 2)),
+      left: (this.basePoint.x - (this.size / 2)),
+      right: (this.basePoint.x + (this.size / 2)),
+    }
+  }
+
+  get centerPoint() {
+    return {
+      top: (this.basePoint.y - (this.pointSize / 2)),
+      bottom: (this.basePoint.y + (this.pointSize / 2)),
+      left: (this.basePoint.x - (this.pointSize / 2)),
+      right: (this.basePoint.x + (this.pointSize / 2)),
+    }
+  }
+
+  get axisLines() {
+    return `
+      M ${this.bounds.left},${this.basePoint.y} -50,${this.basePoint.y}
+      M ${this.bounds.right},${this.basePoint.y} 50,${this.basePoint.y}
+      M ${this.basePoint.x},${this.bounds.top} ${this.basePoint.x},-50
+      M ${this.basePoint.x},${this.bounds.bottom} ${this.basePoint.x},50
+    `.trim();
+  }
+
+  get sightBox() {
+    return `
+      M ${this.bounds.left},${this.bounds.top}
+        ${this.bounds.right},${this.bounds.top}
+        ${this.bounds.right},${this.bounds.bottom}
+        ${this.bounds.left},${this.bounds.bottom}
+      z
+    `.trim();
+  }
+
+  get sightPoint() {
+    return `
+      M ${this.centerPoint.left},${this.centerPoint.top}
+        ${this.centerPoint.right},${this.centerPoint.top}
+        ${this.centerPoint.right},${this.centerPoint.bottom}
+        ${this.centerPoint.left},${this.centerPoint.bottom}
+      z
+    `.trim();
+  }
+
+  get d() {
+    return `
+      ${this.axisLines}
+      ${this.sightBox}
+      ${this.sightPoint}
+    `.trim();
   }
 
   connectInput(controlStream$) {
@@ -54,44 +111,62 @@ export class Crosshair {
     return this.state.asObservable();
   }
 
-  get bounds() {
-    return {
-      top: (this.basePoint.y - (this.size / 2)),
-      bottom: (this.basePoint.y + (this.size / 2)),
-      left: (this.basePoint.x - (this.size / 2)),
-      right: (this.basePoint.x + (this.size / 2)),
-    }
-  }
-
   update(point = { x: 0, y: 0 }) {
     this.basePoint = point;
 
-    const { top, bottom, left, right } = this.bounds;
+    // const { top, bottom, left, right } = this.bounds;
+    // const { x, y } = point;
 
-    const { x, y } = point;
-
-    let d = `
-     M ${left},${y}
-       -50,${y}
-     M ${right},${y} 
-       50,${y} 
-     M ${x},${top} 
-       ${x},-50
-     M ${x},${bottom} 
-       ${x},50
-     M ${left},${top}
-       ${right},${top}
-       ${right},${bottom}
-       ${left},${bottom}
-    z`.trim();
-
-    this.d = d;
+    // let d = `
+    //   ${this.axisLines}
+    //   ${this.sightBox}
+    //   ${this.sightPoint}
+    // `.trim();
 
     return {
       ...this.bounds,
       name: this.name,
-      point,
-      d,
+      point: this.basePoint,
+      d: this.d,
     }
   }
+
+  // update(point = { x: 0, y: 0 }) {
+  //   this.basePoint = point;
+
+  //   const { top, bottom, left, right } = this.bounds;
+  //   const { x, y } = point;
+
+  //   let d = `
+  //   M ${left},${y}
+  //     -50,${y}
+  //   M ${right},${y} 
+  //     50,${y} 
+  //   M ${x},${top} 
+  //     ${x},-50
+  //   M ${x},${bottom} 
+  //     ${x},50
+
+  //   M ${left},${top}
+  //     ${right},${top}
+  //     ${right},${bottom}
+  //     ${left},${bottom}
+  //   z
+  //     M ${this.centerPoint.left},${this.centerPoint.top}
+  //     ${this.centerPoint.right},${this.centerPoint.top}
+  //     ${this.centerPoint.right},${this.centerPoint.bottom}
+  //     ${this.centerPoint.left},${this.centerPoint.bottom}
+  //   Z
+  //   `.trim();
+  //   // M ${left - (this.size / 2 - 4)},${top}
+
+  //   this.d = d;
+
+  //   return {
+  //     ...this.bounds,
+  //     name: this.name,
+  //     point,
+  //     d,
+  //   }
+  // }
 }

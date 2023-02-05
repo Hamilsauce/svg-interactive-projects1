@@ -123,6 +123,7 @@ export class Scene extends EventTarget {
             crosshair.right <= width + x &&
             crosshair.bottom <= height + y;
         }),
+        tap(),
         scan((prev, curr) => {
           return {
             ...curr,
@@ -163,6 +164,10 @@ export class Scene extends EventTarget {
       tap(({ crosshair, pawn }) => {
         this.collisions$.next({ crosshair, pawn });
       }),
+      // tap(({ crosshair }) => console.warn('scene$ - crosshair', crosshair)),
+      tap(({ crosshair }) => {
+        this.scene.dispatchEvent(new CustomEvent('scenechange', { bubbles: true, detail: { crosshair: crosshair.point } }))
+      }),
     );
 
     this.scene$.subscribe(this.render.bind(this));
@@ -180,7 +185,7 @@ export class Scene extends EventTarget {
 
   render({ crosshair, pawn }) {
     this.#paintEntity(this.crosshairEl, crosshair);
-    
+
     this.#paintEntity(this.actorEl, pawn);
   }
 
@@ -201,7 +206,7 @@ export class Scene extends EventTarget {
 
   isInBounds(entity) {
     const { point } = entity;
-    
+
     const { x, y, width, height } = this.viewBox;
 
     return entity.left >= x &&
