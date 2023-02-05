@@ -18,10 +18,12 @@ export class Crosshair {
     this.state = new BehaviorSubject(initialPoint)
       .pipe(
         scan((prevPoint, currPoint) => {
-          if (currPoint === null) {
-            this.lastDragPoint = prevPoint;
+          this.dragStartPoint = prevPoint ? this.dragStartPoint : currPoint;
 
-            return prevPoint;
+          if (currPoint === null) {
+            this.lastDragPoint = this.basePoint;
+
+            return this.basePoint;
           }
 
           return {
@@ -32,18 +34,18 @@ export class Crosshair {
         map(this.update.bind(this)),
         // tap(x => {
         //   console.warn('x', x)
-        //   console.groupCollapsed('CROSSHAIR STATE RUN: ' + cnt++);
+        //   console.groupCollapsed('CROSSHAIR STATE RUN: ');
         //   console.log('this.basePoint', this.basePoint)
         //   console.log('this.dragStartPoint', this.dragStartPoint)
         //   console.log('this.lastDragPoint', this.lastDragPoint)
-        //   console.groupEnd('CROSSHAIR STATE RUN: ' + cnt);
+        //   console.groupEnd('CROSSHAIR STATE RUN: ');
         // }),
       );
   }
 
   connectInput(controlStream$) {
     this.$inputSubscription = controlStream$
-      .pipe().subscribe(this.state);
+      .subscribe(this.state);
 
     return this.$inputSubscription;
   }
@@ -65,6 +67,7 @@ export class Crosshair {
     this.basePoint = point;
 
     const { top, bottom, left, right } = this.bounds;
+
     const { x, y } = point;
 
     let d = `
