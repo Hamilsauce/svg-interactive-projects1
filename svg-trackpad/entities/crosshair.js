@@ -33,7 +33,7 @@ export class Crosshair {
           }
         }, this.basePoint),
         map(this.update.bind(this)),
-        tap(x => console.warn('[CROSSHAIR > UPDATED]: ', { ...x, ...x.point })),
+        // tap(x => console.warn('[CROSSHAIR > UPDATED]: ', { ...x, ...x.point })),
         // tap(x => {
         //   console.warn('x', x)
         //   console.groupCollapsed('CROSSHAIR STATE RUN: ');
@@ -78,8 +78,7 @@ export class Crosshair {
         ${this.bounds.right},${this.bounds.top}
         ${this.bounds.right},${this.bounds.bottom}
         ${this.bounds.left},${this.bounds.bottom}
-      z
-    `.trim();
+      z`.trim();
   }
 
   get sightPoint() {
@@ -94,8 +93,8 @@ export class Crosshair {
 
   get d() {
     return `
-      ${this.axisLines}
-      ${this.sightBox}
+      ${this.axisLines} 
+      ${this.sightBox} 
       ${this.sightPoint}
     `.trim();
   }
@@ -114,15 +113,6 @@ export class Crosshair {
   update(point = { x: 0, y: 0 }) {
     this.basePoint = point;
 
-    // const { top, bottom, left, right } = this.bounds;
-    // const { x, y } = point;
-
-    // let d = `
-    //   ${this.axisLines}
-    //   ${this.sightBox}
-    //   ${this.sightPoint}
-    // `.trim();
-
     return {
       ...this.bounds,
       name: this.name,
@@ -130,43 +120,4 @@ export class Crosshair {
       d: this.d,
     }
   }
-
-  // update(point = { x: 0, y: 0 }) {
-  //   this.basePoint = point;
-
-  //   const { top, bottom, left, right } = this.bounds;
-  //   const { x, y } = point;
-
-  //   let d = `
-  //   M ${left},${y}
-  //     -50,${y}
-  //   M ${right},${y} 
-  //     50,${y} 
-  //   M ${x},${top} 
-  //     ${x},-50
-  //   M ${x},${bottom} 
-  //     ${x},50
-
-  //   M ${left},${top}
-  //     ${right},${top}
-  //     ${right},${bottom}
-  //     ${left},${bottom}
-  //   z
-  //     M ${this.centerPoint.left},${this.centerPoint.top}
-  //     ${this.centerPoint.right},${this.centerPoint.top}
-  //     ${this.centerPoint.right},${this.centerPoint.bottom}
-  //     ${this.centerPoint.left},${this.centerPoint.bottom}
-  //   Z
-  //   `.trim();
-  //   // M ${left - (this.size / 2 - 4)},${top}
-
-  //   this.d = d;
-
-  //   return {
-  //     ...this.bounds,
-  //     name: this.name,
-  //     point,
-  //     d,
-  //   }
-  // }
 }

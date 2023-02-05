@@ -88,19 +88,34 @@ export class Scene extends EventTarget {
     this.collisions$ = new BehaviorSubject(null)
       .pipe(
         filter((_) => _),
+        // filater(({ crosshair, pawn }) => this.detectEnclosure(crosshair, pawn)),
+        tap(({ crosshair, pawn }) => {
+          
+          if (this.detectEnclosure(crosshair, pawn) && this.crosshairEl.dataset.hasTarget != 'true' ) {
+            this.crosshairEl.classList.add('armed');
+          } else if(this.crosshairEl.classList.contains('armed')) {
+            this.crosshairEl.classList.remove('armed');
+          }
+        }),
         switchMap(({ crosshair, pawn }) => click$
           .pipe(
-            filter((e) => this.detectEnclosure(crosshair, pawn)),
+            tap(x => console.log('x', x)),
+            filter(() => this.detectEnclosure(crosshair, pawn)),
             tap(action => {
               if (!this.actorEl.classList.contains('captured')) {
+      this.crosshairEl.dataset.hasTarget = true;
+      // this.crosshairEl.classList.remove('armed')
                 this.capture(crosshair, pawn);
-
-                this.crosshairEl.setAttribute('transform', 'translate(0,0)')
+console.log('CAOTURE');
+                // this.crosshairEl.setAttribute('transform', 'translate(0,0)')
 
                 this.actorEl.classList.add('captured');
               }
               else {
+console.log('RELEASE');
                 this.release(pawn);
+      this.crosshairEl.classList.remove('armed')
+      this.crosshairEl.dataset.hasTarget = false;
 
                 this.actorEl.classList.remove('captured');
               }
@@ -160,11 +175,11 @@ export class Scene extends EventTarget {
       this.pawn$.pipe(startWith({})),
       (crosshair, pawn) => ({ crosshair, pawn })
     ).pipe(
-      sampleTime(40),
+      sampleTime(16),
       tap(({ crosshair, pawn }) => {
         this.collisions$.next({ crosshair, pawn });
       }),
-      // tap(({ crosshair }) => console.warn('scene$ - crosshair', crosshair)),
+      // tap(({ crosshair }) => console.warn('scene$ - crosshair', this.crosshairEl)),
       tap(({ crosshair }) => {
         this.scene.dispatchEvent(new CustomEvent('scenechange', { bubbles: true, detail: { crosshair: crosshair.point } }))
       }),
