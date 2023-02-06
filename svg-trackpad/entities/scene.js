@@ -19,6 +19,7 @@ const DEFAULT_CONF = {
 
 export class Scene extends EventTarget {
   enclosures$ = new Subject();
+  pawns = [];
   lastDragPoint = 0;
   config = {
     viewport: {
@@ -60,7 +61,13 @@ export class Scene extends EventTarget {
     this.crosshairEl = document.querySelector('#crosshair-path');
     this.addEntity(this.crosshair.name, this.crosshairEl);
 
-    this.pawn = new Pawn({ x: 0, y: 0 });
+
+    this.pawns.push(
+      new Pawn({ x: -25, y: -25 }),
+      new Pawn({ x: 20, y: 15 }),
+    );
+    this.pawn = this.pawns[0];
+    this.pawn2 = this.pawns[1];
     this.actorEl = document.querySelector('#actor');
     this.addEntity(this.pawn.name, this.actorEl);
 
@@ -78,7 +85,6 @@ export class Scene extends EventTarget {
     this.trackpad$ = dragEvents$
       .pipe(
         groupBy(x => x.type),
-        tap(x => console.log('TAP', x)),
       )
       .subscribe();
 
@@ -88,34 +94,29 @@ export class Scene extends EventTarget {
     this.collisions$ = new BehaviorSubject(null)
       .pipe(
         filter((_) => _),
-        // filater(({ crosshair, pawn }) => this.detectEnclosure(crosshair, pawn)),
         tap(({ crosshair, pawn }) => {
-          
-          if (this.detectEnclosure(crosshair, pawn) && this.crosshairEl.dataset.hasTarget != 'true' ) {
+          if (this.detectEnclosure(crosshair, pawn) && this.crosshairEl.dataset.hasTarget != 'true') {
             this.crosshairEl.classList.add('armed');
-          } else if(this.crosshairEl.classList.contains('armed')) {
+          } else if (this.crosshairEl.classList.contains('armed')) {
             this.crosshairEl.classList.remove('armed');
           }
         }),
         switchMap(({ crosshair, pawn }) => click$
           .pipe(
-            tap(x => console.log('x', x)),
             filter(() => this.detectEnclosure(crosshair, pawn)),
             tap(action => {
               if (!this.actorEl.classList.contains('captured')) {
-      this.crosshairEl.dataset.hasTarget = true;
-      // this.crosshairEl.classList.remove('armed')
+                this.crosshairEl.dataset.hasTarget = true;
+
                 this.capture(crosshair, pawn);
-console.log('CAOTURE');
-                // this.crosshairEl.setAttribute('transform', 'translate(0,0)')
 
                 this.actorEl.classList.add('captured');
               }
               else {
-console.log('RELEASE');
                 this.release(pawn);
-      this.crosshairEl.classList.remove('armed')
-      this.crosshairEl.dataset.hasTarget = false;
+
+                this.crosshairEl.classList.remove('armed')
+                this.crosshairEl.dataset.hasTarget = false;
 
                 this.actorEl.classList.remove('captured');
               }
@@ -160,6 +161,9 @@ console.log('RELEASE');
       ),
       fromEvent(this.padSurface, 'pointermove').pipe(
         map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)),
+        // tap(x => console.log('x', x)),
+        // tap(x => console.log('this.viewBox', this.viewBox)),
+        filter(({ x, y }) => x > this.viewBox.x && y > this.viewBox.y && x < this.viewBox.width && y < this.viewBox.height),
       ),
       fromEvent(this.padSurface, 'pointerup').pipe(
         map(({ clientX, clientY }) => null),
@@ -168,7 +172,9 @@ console.log('RELEASE');
 
     this.crosshair.connectInput(this.dragStartStop$);
 
-    this.pawn$ = this.pawn.watch().pipe();
+    this.pawn$ = this.pawns[0].watch().pipe();
+    this.pawns$ = this.pawn.watch().pipe();
+
 
     this.scene$ = combineLatest(
       this.crosshair$,
@@ -179,9 +185,15 @@ console.log('RELEASE');
       tap(({ crosshair, pawn }) => {
         this.collisions$.next({ crosshair, pawn });
       }),
-      // tap(({ crosshair }) => console.warn('scene$ - crosshair', this.crosshairEl)),
-      tap(({ crosshair }) => {
-        this.scene.dispatchEvent(new CustomEvent('scenechange', { bubbles: true, detail: { crosshair: crosshair.point } }))
+      tap(({ crosshair, pawn }) => {
+        // console.log('crosshair, pawn', crosshair, pawn)
+        this.scene.dispatchEvent(new CustomEvent('scenechange', {
+          bubbles: true,
+          detail: {
+            crosshair: crosshair.point,
+            pawn: { x: pawn.cx, y: pawn.cy },
+          }
+        }))
       }),
     );
 
@@ -260,7 +272,7 @@ console.log('RELEASE');
     }
 
     if (targ.name === 'pawn') {
-      this.pawn.connectInput(
+      this.pawns[0].connectInput(
         capturer$.pipe(
           map(({ point }) => ({ ...point }))
         )
@@ -269,8 +281,8 @@ console.log('RELEASE');
   }
 
   release(targ) {
-    if (this.pawn && targ.name === 'pawn') {
-      this.pawn.disconnectInput();
+    if (this.pawns[0] && targ.name === 'pawn') {
+      this.pawns[0].disconnectInput();
     }
   }
 

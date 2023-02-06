@@ -14,7 +14,6 @@ export class Crosshair {
     this.basePoint = { x: 0, y: 0 }
     this.size = 11;
     this.pointSize = 2.5;
-    // this.d = '';
 
     this.state = new BehaviorSubject(initialPoint)
       .pipe(
@@ -33,7 +32,6 @@ export class Crosshair {
           }
         }, this.basePoint),
         map(this.update.bind(this)),
-        // tap(x => console.warn('[CROSSHAIR > UPDATED]: ', { ...x, ...x.point })),
         // tap(x => {
         //   console.warn('x', x)
         //   console.groupCollapsed('CROSSHAIR STATE RUN: ');

@@ -12,6 +12,7 @@ const { fromFetch } = rxjs.fetch;
 const app = document.querySelector('#app');
 const coordsDisplay = document.querySelector('#coordsDisplay');
 const coordsDisplay2 = document.querySelector('#coordsDisplay2');
+const pawnPointDisplay = document.querySelector('#pawn-point-display');
 
 const sceneEl = document.querySelector('#scene');
 const padSurface = document.querySelector('#surface');
@@ -44,28 +45,47 @@ const onTrackpadStart = (e) => {
 }
 
 const onTrackpadStop = (e) => {
+  const tp = toTrackPoint(e.clientX, e.clientY)
+  const trackpoint = { x: Math.round(tp.x), y: Math.round(tp.y) };
+
   pointerMarker.r.baseVal.value = 5;
+
   pointerMarker.classList.remove('active');
   pointerMarker.setAttribute('transform', `translate(${0},${0})`);
 
+
+  coordsDisplay.textContent = `trackpad:  [ ${0} , ${0} ]`;
+
   app.removeEventListener('pointerup', onTrackpadStop);
 }
+
+const previousPoint = { x: 0, y: 0 }
+// this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
+// this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
 
 const onTrackpadDrag = (e) => {
   const tp = toTrackPoint(e.clientX, e.clientY)
   const trackpoint = { x: Math.round(tp.x), y: Math.round(tp.y) };
 
-  const scenepoint = toScenePoint(trackpoint);
+  const delta = {
+    x: (trackpoint.x - previousPoint.x),
+    y: (trackpoint.y - previousPoint.y),
+  }
+
+  if (!(delta.x > 10 || delta.y > 10)) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   pointerMarker.setAttribute('transform', `translate(${trackpoint.x},${trackpoint.y})`);
 
   coordsDisplay.textContent = `trackpad:  [ ${trackpoint.x} , ${trackpoint.y} ]`;
-  // coordsDisplay2.textContent = `point: [ ${trackpoint.x} , ${trackpoint.y} ]`;
 };
 
 const onSceneChange = ({ detail }) => {
-  const { crosshair } = detail;
-
+  const { crosshair, pawn } = detail;
+// console.log('pawn', pawn)
   coordsDisplay2.textContent = `crosshair: [ ${crosshair.x} , ${crosshair.y} ]`;
+  pawnPointDisplay.textContent = `pawn: [ ${pawn.x} , ${pawn.y} ]`;
 };
 
 padSurface.addEventListener('pointerdown', onTrackpadStart);

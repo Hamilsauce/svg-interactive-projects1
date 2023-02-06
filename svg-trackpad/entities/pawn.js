@@ -12,7 +12,7 @@ export class Pawn {
   constructor(point = { x: 0, y: 0 }, el) {
     this.name = 'pawn';
 
-    this.basePoint = { x: -25, y: -25 };
+    this.basePoint = point//{ x: -25, y: -25 };
 
     this.size = 5;
 
