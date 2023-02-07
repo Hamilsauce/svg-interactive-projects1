@@ -14,7 +14,7 @@ export class Pawn {
 
     this.basePoint = point//{ x: -25, y: -25 };
 
-    this.size = 5;
+    this.size = 4;
 
     this.position$ = new BehaviorSubject(this.basePoint)
       .pipe(

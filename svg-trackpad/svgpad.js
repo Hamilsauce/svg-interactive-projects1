@@ -83,9 +83,8 @@ const onTrackpadDrag = (e) => {
 
 const onSceneChange = ({ detail }) => {
   const { crosshair, pawn } = detail;
-// console.log('pawn', pawn)
-  coordsDisplay2.textContent = `crosshair: [ ${crosshair.x} , ${crosshair.y} ]`;
-  pawnPointDisplay.textContent = `pawn: [ ${pawn.x} , ${pawn.y} ]`;
+  coordsDisplay2.textContent = `crosshair: [ ${Math.round(crosshair.x)} , ${Math.round(crosshair.y)} ]`;
+  pawnPointDisplay.textContent = `pawn: [ ${Math.round(pawn.x)} , ${Math.round(pawn.y)} ]`;
 };
 
 padSurface.addEventListener('pointerdown', onTrackpadStart);

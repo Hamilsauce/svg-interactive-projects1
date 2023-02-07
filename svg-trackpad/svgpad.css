@@ -141,11 +141,11 @@ justify-content:  flex-start;
   gap: 0px;
 }
 
-#actor {
-  fill: #296AB7B3;
+.actor {
+  /* fill: #296AB7B3; */
   stroke: #201E1D;
-  transition: all 0.025s ease-out, fill 0.4s;
-  /* transition: fill 0.4s; */
+  transition: all 0.015s ease-out, fill 0.4s;
+  transition:  0.1s ease-out;
 }
 
 #actor.captured {
@@ -156,7 +156,7 @@ justify-content:  flex-start;
   fill: #FAFAFA75;
   stroke: #211F1F;
   stroke-width: 0.5;
-  transition:  fill 0.06s ease-out, stroke 0.06s ease-out;
+  transition:  fill 0.04s ease-in-out, stroke 0.06s ease-out;
 }
 
 #pointer-marker.active {
@@ -165,25 +165,27 @@ justify-content:  flex-start;
 }
 
 #crosshair-path {
-  fill: #0D0D0D7A;
+  fill: #18161642;
   stroke: #FFFFFFBF;
   stroke-width: 0.55;
   stroke-opacity: 0.85;
   stroke-linecap: round;
   stroke-linejoin: round;
   trbansition:  stroke 0.15s, filter 0.15s;
-  /* trbansition: 0.04s ease-out, stroke 0.15s, filter 0.15s; */
+  transition: 0.05s ease-out, stroke 0.25s, filter 0.15s;
   filter: drop-shadow(0 0 1.25px #EDD1C2DE) invert(1) contrast(1.35);
 }
 
 #crosshair-path.armed {
-  fill: #EEE1E10D;
+  fill: #FFFFFF05;
   stroke: #BB2828CC;
-  filter: drop-shadow(0 0 0.25px #FFF4F4) invert(0) contrast(1.5);
+  filter: drop-shadow(0 0 0.35px #FFF4F4) invert(1) contrast(1.85);
 }
 
 #crosshair-path[data-has-target=true] {
-  fill: #FFFFFF00;
-  stroke: #383535;
-  filter: drop-shadow(0 0 0.24px #FFB7B7) invert(1) contrast(1.5);
+  fill: #FFFFFF20;
+  /* fill: #329B57; */
+  stroke: #4B4B4B;
+  stroke-width: 0.65;
+  filter: drop-shadow(0 0 0.35px #FBD7D7) invert(1) contrast(1.99);
 }

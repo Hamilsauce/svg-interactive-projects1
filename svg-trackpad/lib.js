@@ -2,8 +2,10 @@ export const toTrackPoint = (x,y) => {
   let domPoint = new DOMPoint(Math.round(x), Math.round(y));
   domPoint = domPoint.matrixTransform(trackpad.getScreenCTM().inverse());
   return {
-    x: Math.round(domPoint.x),
-    y: Math.round(domPoint.y),
+    x:domPoint.x,
+    y:domPoint.y,
+    // x: Math.round(domPoint.x),
+    // y: Math.round(domPoint.y),
   }
 }
 export const toScenePoint = ({ x, y }) => {

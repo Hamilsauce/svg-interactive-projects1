@@ -59,6 +59,7 @@ export class Scene extends EventTarget {
 
     this.crosshair = new Crosshair({ x: 0, y: 0 });
     this.crosshairEl = document.querySelector('#crosshair-path');
+
     this.addEntity(this.crosshair.name, this.crosshairEl);
 
 
@@ -66,9 +67,10 @@ export class Scene extends EventTarget {
       new Pawn({ x: -25, y: -25 }),
       new Pawn({ x: 20, y: 15 }),
     );
+
     this.pawn = this.pawns[0];
     this.pawn2 = this.pawns[1];
-    this.actorEl = document.querySelector('#actor');
+    this.actorEl = document.querySelector('#actor2');
     this.addEntity(this.pawn.name, this.actorEl);
 
     /*
@@ -95,9 +97,14 @@ export class Scene extends EventTarget {
       .pipe(
         filter((_) => _),
         tap(({ crosshair, pawn }) => {
-          if (this.detectEnclosure(crosshair, pawn) && this.crosshairEl.dataset.hasTarget != 'true') {
+          if (
+            this.detectEnclosure(crosshair, pawn) &&
+            this.crosshairEl.dataset.hasTarget != 'true'
+          ) {
             this.crosshairEl.classList.add('armed');
-          } else if (this.crosshairEl.classList.contains('armed')) {
+          }
+
+          else if (this.crosshairEl.classList.contains('armed')) {
             this.crosshairEl.classList.remove('armed');
           }
         }),
@@ -143,10 +150,11 @@ export class Scene extends EventTarget {
         scan((prev, curr) => {
           return {
             ...curr,
-            x: this.isInBoundsX(curr) ? curr.x : prev.x,
-            y: this.isInBoundsY(curr) ? curr.y : prev.y,
+            x: !this.isInBoundsX(curr) ? curr.x : this.viewBox.x,
+            y: !this.isInBoundsY(curr) ? curr.y : prev.y,
           }
         }, { x: 0, y: 0 }),
+        // tap(({ x }) => console.log('x', x)),
       );
 
     this.dragStartStop$ = merge(
@@ -160,9 +168,8 @@ export class Scene extends EventTarget {
         distinctUntilChanged((a, b) => Math.abs(a.x - b.x) > 5 || Math.abs(a.y - b.y) > 5),
       ),
       fromEvent(this.padSurface, 'pointermove').pipe(
-        map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)),
-        // tap(x => console.log('x', x)),
         // tap(x => console.log('this.viewBox', this.viewBox)),
+        map(({ clientX, clientY }) => toTrackPoint(clientX, clientY)),
         filter(({ x, y }) => x > this.viewBox.x && y > this.viewBox.y && x < this.viewBox.width && y < this.viewBox.height),
       ),
       fromEvent(this.padSurface, 'pointerup').pipe(
@@ -170,7 +177,29 @@ export class Scene extends EventTarget {
       )
     );
 
-    this.crosshair.connectInput(this.dragStartStop$);
+    this.crosshair.connectInput(this.dragStartStop$
+      .pipe(
+        // scan((prev, curr) => {
+        //   curr = curr ? curr : prev
+
+        //   const dirX = prev.x - curr.x > 0 ? 'left' : 'right'
+        //   const dirY = prev.y - curr.y > 0 ? 'up' : 'down'
+        //   // console.warn('dirX, dirY', dirX, dirY)
+        //   let x = this.viewBox.x > curr.x && dirX === 'left' ?
+        //     prev.x :
+        //     curr.x > (this.viewBox.width / 2) && dirX === 'right' ? prev.x : curr.x
+
+        //   console.warn('dirX', dirX)
+        //   console.warn('x', x)
+        //   // console.warn('Math.abs(this.viewBox.x) - Math.abs(curr.x) ', this.viewBox.x - curr.x)
+        //   return {
+        //     ...curr,
+        //     x: x, // !this.isInBoundsX(curr) ? curr.x : prev.x,
+        //     y: !this.isInBoundsY(curr) ? curr.y : prev.y,
+        //   }
+        // }, { x: 0, y: 0 }),
+      )
+    );
 
     this.pawn$ = this.pawns[0].watch().pipe();
     this.pawns$ = this.pawn.watch().pipe();
@@ -242,10 +271,12 @@ export class Scene extends EventTarget {
       entity.bottom < height + y;
   }
 
-  isInBoundsX(entity) {
+  isInBoundsX({ left, right }) {
     const { x, width } = this.viewBox;
-
-    return entity.left >= x && entity.right < width + x;
+    // console.log('ENTITY left, right', left, right)
+    // console.log('VIEWBOX x, width ', x, width)
+    // console.log('entity.left >= x && entity.right < width + x', left >= x && right < width + x)
+    return left >= x && right < width + x;
   }
 
   isInBoundsY(entity) {

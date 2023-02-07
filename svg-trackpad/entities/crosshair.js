@@ -20,7 +20,7 @@ export class Crosshair {
         scan((prevPoint, currPoint) => {
           this.dragStartPoint = prevPoint ? this.dragStartPoint : currPoint;
 
-          if (currPoint === null) {
+          if (!currPoint) {
             this.lastDragPoint = this.basePoint;
 
             return this.basePoint;
@@ -32,6 +32,7 @@ export class Crosshair {
           }
         }, this.basePoint),
         map(this.update.bind(this)),
+        // tap(x => console.warn('[[ Crosshair:Point ]]', x)),
         // tap(x => {
         //   console.warn('x', x)
         //   console.groupCollapsed('CROSSHAIR STATE RUN: ');
