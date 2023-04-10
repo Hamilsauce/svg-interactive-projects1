@@ -50,6 +50,14 @@ body {
   /* min-width:100vw;min-height:100vh; */
 }
 
+#canvas {
+  background: #3640B4;
+}
+
+#surface{
+  fill: #B44A36;
+}
+
 .plot-point {
   fill: #11DF4820;
   stroke: #E2E2E280;
@@ -139,4 +147,8 @@ body {
 #crosshair-path {
   /* fill: #FAFAFA; */
   /* transition: 0.1s; */
+}
+
+.point {
+  fill: #ffffff;
 }

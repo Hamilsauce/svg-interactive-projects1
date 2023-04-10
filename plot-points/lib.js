@@ -6,6 +6,7 @@ export const toTrackPoint = (x,y) => {
     y: Math.round(domPoint.y),
   }
 }
+
 export const toScenePoint = ({ x, y }) => {
   let domPoint = new DOMPoint(x, y)
   domPoint = domPoint.matrixTransform(scene.getScreenCTM().inverse());

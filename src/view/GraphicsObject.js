@@ -9,6 +9,7 @@ export class GraphicsObject {
     // this.canvas = svg || Canvas;
     this.canvas = canvas // || Canvas;
 
+
     this.self = document.createElementNS(this.namespaceURI, type)
     canvas.appendChild(this.self)
     console.log('this.self', this.self)

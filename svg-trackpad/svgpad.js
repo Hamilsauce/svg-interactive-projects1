@@ -76,12 +76,13 @@ const onTrackpadDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
   }
+
   pointerMarker.setAttribute('transform', `translate(${trackpoint.x},${trackpoint.y})`);
 
   coordsDisplay.textContent = `trackpad:  [ ${trackpoint.x} , ${trackpoint.y} ]`;
 };
 
-const onSceneChange = ({ detail }) => {
+const onscenechange = ({ detail }) => {
   const { crosshair, pawn } = detail;
   coordsDisplay2.textContent = `crosshair: [ ${Math.round(crosshair.x)} , ${Math.round(crosshair.y)} ]`;
   pawnPointDisplay.textContent = `pawn: [ ${Math.round(pawn.x)} , ${Math.round(pawn.y)} ]`;

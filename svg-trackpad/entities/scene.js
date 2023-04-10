@@ -210,7 +210,7 @@ export class Scene extends EventTarget {
       this.pawn$.pipe(startWith({})),
       (crosshair, pawn) => ({ crosshair, pawn })
     ).pipe(
-      sampleTime(16),
+      sampleTime(0),
       tap(({ crosshair, pawn }) => {
         this.collisions$.next({ crosshair, pawn });
       }),

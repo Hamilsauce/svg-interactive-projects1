@@ -4,8 +4,6 @@ export const toTrackPoint = (x,y) => {
   return {
     x:domPoint.x,
     y:domPoint.y,
-    // x: Math.round(domPoint.x),
-    // y: Math.round(domPoint.y),
   }
 }
 export const toScenePoint = ({ x, y }) => {

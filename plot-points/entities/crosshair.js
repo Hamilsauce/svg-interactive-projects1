@@ -17,19 +17,19 @@ export class Crosshair {
 
     this.state = new BehaviorSubject(initialPoint)
     .pipe(
-        scan((prevPoint, newPoint) => {
-          return {
-            // this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
-            // this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
+        // scan((prevPoint, newPoint) => {
+        //   return {
+        //     // this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
+        //     // this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
 
-            x: this.prevPoint.x - this.dragStartPoint.x - (newPoint.x - this.lastDragPoint.x),
-            y: this.prevPoint.y - this.dragStartPoint.y - (newPoint.y - this.lastDragPoint.y),
-            // x: this.lastDragPoint.x - (newPoint.x - prevPoint.x),
-            // y: this.lastDragPoint.y - (newPoint.y - prevPoint.y),
-          }
-        }, this.basePoint),
+        //     x: this.prevPoint.x - this.dragStartPoint.x - (newPoint.x - this.lastDragPoint.x),
+        //     y: this.prevPoint.y - this.dragStartPoint.y - (newPoint.y - this.lastDragPoint.y),
+        //     // x: this.lastDragPoint.x - (newPoint.x - prevPoint.x),
+        //     // y: this.lastDragPoint.y - (newPoint.y - prevPoint.y),
+        //   }
+        // }, this.basePoint),
         map(this.update.bind(this)),
-        tap(x => console.warn('END OF CROSSHAIR STATE PIPE', this)),
+        tap(x => console.warn('END OF CROSSHAIR [[STATE]] PIPE', this)),
       )
   }
 
@@ -47,19 +47,19 @@ export class Crosshair {
   watch() {
     return this.state.asObservable()
       .pipe(
-        scan((prevPoint, newPoint) => {
-          return {
-            // this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
-            // this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
+        // scan((prevPoint, newPoint) => {
+        //   return {
+        //     // this.#viewBox.x = this.#panOrigin.x - ((point.x - this.#pointerOrigin.x) * this.ratio);
+        //     // this.#viewBox.y = this.#panOrigin.y - ((point.y - this.#pointerOrigin.y) * this.ratio);
 
-            x: this.prevPoint.x - this.dragStartPoint.x - (newPoint.x - this.lastDragPoint.x),
-            y: this.prevPoint.y - this.dragStartPoint.y - (newPoint.y - this.lastDragPoint.y),
-            // x: this.lastDragPoint.x - (newPoint.x - prevPoint.x),
-            // y: this.lastDragPoint.y - (newPoint.y - prevPoint.y),
-          }
-        }, this.basePoint),
+        //     x: this.prevPoint.x - this.dragStartPoint.x - (newPoint.x - this.lastDragPoint.x),
+        //     y: this.prevPoint.y - this.dragStartPoint.y - (newPoint.y - this.lastDragPoint.y),
+        //     // x: this.lastDragPoint.x - (newPoint.x - prevPoint.x),
+        //     // y: this.lastDragPoint.y - (newPoint.y - prevPoint.y),
+        //   }
+        // }, this.basePoint),
         map(this.update.bind(this)),
-        tap(x => console.warn('END OF CROSSHAIR STATE PIPE', this)),
+        tap(x => console.warn('END OF CROSSHAIR [[ WATCH ]] PIPE', this)),
       )
 
   }

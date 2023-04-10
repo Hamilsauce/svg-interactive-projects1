@@ -23,43 +23,45 @@
     </header>
     <section id="appBody">
       <div id="scene-container">
-        <svg id="canvas" width="412" height="770" viewBox="-25 -50 50 100" _preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg id="canvas" width="412" height="770" viewBox="-250 0 1200  150" _preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <defs>
-            <pattern id="smallGrid" width="5" height="5" patternUnits="userSpaceOnUse">
-              <path id="smallGridPath" d="M 5 0 H 0 V 5" fill="none" stroke="#FFFFFF90" stroke-width="0.075" />
+            <pattern id="smallGrid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path id="smallGridPath" d="M 50 0 H 0 V 50" fill="#FFFFFF" stroke="#FFFFFF90" stroke-width="5" />
             </pattern>
-            <pattern id="largeGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-              <rect id="largeGridRect" width="10" height="10" fill="url(#smallGrid)" />
-              <path id="largeGridPath" d="M 10 0 H 0 V 10" fill="none" stroke="#FFFFFF" stroke-width="0.15" />
+            <pattern id="largeGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+              <rect id="largeGridRect" width="100" height="100" fill="url(#smallGrid)" />
+              <path id="largeGridPath" d="M 100 0 H 0 V 100" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" />
             </pattern>
           </defs>
+
           <g class="scene" id="scene" transform="translate(-0,-0)" x="0" y="0">
-            <g class="layer" id="surface-layer" data-layer="surface" transform="translate(-0,-0)" x="0" y="0" width="384" height="722">
-              <rect transform="translate(-100,-100)" id="grid" x="0" y="0" width="384" height="722" fill="url(#largeGrid)" />
+            <rect transform="translate(0,-0)" id="surface" x="0" y="0" width="3100" height="1000" fill="url(#largeGrid)" />
+            <g class="layer" id="surface-layer" data-layer="surface" transform="translate(0,-0)" x="0" y="0" width="3100" height="500">
               <g id="axes" transform="translate(-0,-0)">
-                <line id="xaxis" class="axis" x1="-1000" x2="1000" y1="0" y2="0" stroke="#FFFFFF50" stroke-width="0.35"></line>
-                <line id="yaxis" class="axis" x1="0" x2="0" y1="-1000" y2="1000" stroke="#FFFFFF50" stroke-width="0.35"></line>
+                <line id="xaxis" class="axis" x1="-5000" x2="5000" y1="0" y2="0" stroke="#FFFFFF50" stroke-width="35"></line>
+                <line id="yaxis" class="axis" x1="0" x2="0" y1="-5000" y2="5000" stroke="#FFFFFF50" stroke-width="35"></line>
               </g>
             </g>
 
             <g class="layer" id="objects-layer" data-layer="objects" transform="translate(0,-0)">
 
-              <g class="shape-container" id="squiggly-container" data-selected="false" data-layer="objects" transform="translate(0,0) scale(1)">
-                <!-- <path class="curve" id="curve" d=" M -25,25 C -25,-25 25,-25 25,25" /> -->
-
+              <circle id="fuk" class="point" cx="1550" cy="0" r="25" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" />
+              <!-- <g class="shape-container" id="squiggly-container" data-selected="false" data-layer="objects" transform="translate(0,0) scale(1)">
+                <path class="curve" id="curve" d=" M -25,25 C -25,-25 25,-25 25,25" />
+              
                 <g id="controlSetA" class="control-set">
                   <line x1="-25" x2="-25" y1="-25" y2="25" class="control-line" stroke="#C2C2C280" stroke-width="0.5" />
                   <circle id="start" class="path-vertex _draggable" cx="-25" cy="25" r="2.5" fill="red" stroke="#FFFFFF" stroke-width="0.5" />
                   <circle id="controlA" class="control-point _draggable" cx="-25" cy="-25" r="5" fill="purple" stroke="#FFFFFF90" />
                 </g>
-
+              
                 <g id="controlSetB" class="control-set">
                   <line x1="25" x2="25" y1="-25" y2="25" class="control-line" stroke="#C2C2C280" stroke-width="0.5" />
                   <circle id="end" class="path-vertex _draggable" cx="25" cy="25" r="2.5" fill="red" stroke="#FFFFFF" stroke-width="0.5" />
                   <circle id="controlB" class="control-point _draggable" cx="25" cy="-25" r="5" fill="purple" stroke="#FFFFFF90" />
                 </g>
-              </g>
-              <circle id="dot" class="container-background" cx="0" cy="0" r="2.5" fill="#FFFFFF50" />
+              </g> -->
+              <!-- <circle id="dot" class="container-background" cx="0" cy="0" r="2.5" fill="#FFFFFF50" /> -->
             </g>
           </g>
         </svg>
@@ -73,7 +75,8 @@
   <script type="text/javascript" charset="utf-8">
     const SVG_NS = 'http://www.w3.org/2000/svg';
   </script>
-  <script src="./script.js" type="module"></script>
+  <script src="./sample-plotter.js" type="module"></script>
+  <!-- <script src="./script.js" type="module"></script> -->
 </body>
 
 </html>

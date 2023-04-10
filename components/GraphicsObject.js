@@ -8,6 +8,7 @@ export class GraphicsObject {
     this.#canvas = svg;
     this.self = document.createElementNS(this.namespaceURI, type)
 
+
     Object.assign(this, attrs)
 
     this.selfTransforms = this.self.transform.baseVal;
@@ -18,8 +19,6 @@ export class GraphicsObject {
       this.selfTransforms.insertItemBefore(this.selfTranslate, 0);
     }
   }
-
-  createSVGTransform() { return this.canvas.createSVGTransform() }
 
   get namespaceURI() { return 'http://www.w3.org/2000/svg' }
   
@@ -90,8 +89,6 @@ export class GraphicsObject {
   get fill() { return this.self.getAttribute('fill') }
   
   set fill(val) { this.self.setAttribute('fill', val) }
-}
-
-{
-  Spatial
+  
+  createSVGTransform() { return this.canvas.createSVGTransform() }
 }
