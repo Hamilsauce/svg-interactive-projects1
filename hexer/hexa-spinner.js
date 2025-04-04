@@ -72,45 +72,45 @@ export class Hexagon {
   }
 }
 
-// const shapeHex = {
-//   shape: null,
-//   rotation: 0,
-//   lastBbox: { x: 0, y: 0 },
-//   rect2: null,
+const shapeHex = {
+  shape: null,
+  rotation: 0,
+  lastBbox: { x: 0, y: 0 },
+  rect2: null,
 
-//   init: function(shapeEl) {
-//     this.shape = shapeEl
-//   }
-//   rotate(degree = 0) {
-//     el.setAttribute("transform", `translate(0,0) rotate(${degree})`);
-//   }
-//   move: function(u) {
-//     this.rotation += 1;
-//     this.shape.setAttribute("transform", `translate(0,0) rotate(${this.rotation})`);
+  init: function(shapeEl) {
+    this.shape = shapeEl
+  },
+  rotate(degree = 0) {
+    el.setAttribute("transform", `translate(0,0) rotate(${degree})`);
+  },
+  move: function(u) {
+    this.rotation += 1;
+    this.shape.setAttribute("transform", `translate(0,0) rotate(${this.rotation})`);
 
-//     const bb = this.shape.getBoundingClientRect()
-//     const bboxPoint1 = domPoint(scene, bb.x, bb.y, );
-//     const bboxPoint2 = domPoint(scene, bb.width, bb.height);
+    const bb = this.shape.getBoundingClientRect()
+    const bboxPoint1 = domPoint(scene, bb.x, bb.y, );
+    const bboxPoint2 = domPoint(scene, bb.width, bb.height);
 
-//     let oldRect = svg.querySelector('.bbox')
+    let oldRect = svg.querySelector('.bbox')
 
-//     oldRect.remove();
+    oldRect.remove();
 
-//     const rect = drawRect({
-//       x: this.lastBbox.x + ((bboxPoint1.x - this.lastBbox.x) - 0),
-//       y: this.lastBbox.y + ((bboxPoint1.y - this.lastBbox.y) - 0),
-//       height: 50 - this.lastBbox.y + ((bboxPoint2.y - bboxPoint1.y) - 0),
-//       width: 50 + this.lastBbox.x + ((bboxPoint2.x - bboxPoint1.x) - 0),
-//     })
+    const rect = drawRect({
+      x: this.lastBbox.x + ((bboxPoint1.x - this.lastBbox.x) - 0),
+      y: this.lastBbox.y + ((bboxPoint1.y - this.lastBbox.y) - 0),
+      height: 50 - this.lastBbox.y + ((bboxPoint2.y - bboxPoint1.y) - 0),
+      width: 50 + this.lastBbox.x + ((bboxPoint2.x - bboxPoint1.x) - 0),
+    })
 
-//     const rects = [...scene.querySelectorAll('rect')]
+    const rects = [...scene.querySelectorAll('rect')]
 
-//     if (rects.length > 40) { rects[0].remove() }
-//     this.lastBbox = bboxPoint1
-//   }
-// };
+    if (rects.length > 40) { rects[0].remove() }
+    this.lastBbox = bboxPoint1
+  }
+};
 
-const shapeHex = new Hexagon()
+// const shapeHex = new Hexagon()
 
 
 const domPoint = (element, x, y) => {

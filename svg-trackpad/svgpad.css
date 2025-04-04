@@ -144,8 +144,9 @@ justify-content:  flex-start;
 .actor {
   /* fill: #296AB7B3; */
   stroke: #201E1D;
-  transition: all 0.015s ease-out, fill 0.4s;
-  transition:  0.1s ease-out;
+  transition: all 0.0s ease-out, fill 0.4s;
+  transition:  0.0s;
+  
 }
 
 #actor.captured {
@@ -172,7 +173,7 @@ justify-content:  flex-start;
   stroke-linecap: round;
   stroke-linejoin: round;
   trbansition:  stroke 0.15s, filter 0.15s;
-  transition: 0.05s ease-out, stroke 0.25s, filter 0.15s;
+  transition: 0.0s ease-out, stroke 0.25s, filter 0.15s;
   filter: drop-shadow(0 0 1.25px #EDD1C2DE) invert(1) contrast(1.35);
 }
 

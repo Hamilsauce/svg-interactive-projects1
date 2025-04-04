@@ -1,10 +1,11 @@
 // initialize
-const
-  svg = document.getElementById('mysvg'),
-  NS = svg.getAttribute('xmlns'),
-  out = {};
+const elementIdString = 'clientX,clientY,svgX,svgY,targetX,targetY,targetID,addX,addY';
 
-'clientX,clientY,svgX,svgY,targetX,targetY,targetID,addX,addY'.split(',').map(s => {
+const svg = document.getElementById('mysvg');
+const NS = svg.getAttribute('xmlns');
+const out = {};
+
+elementIdString.split(',').forEach(s => {
   out[s] = { node: document.getElementById(s), value: '-' }
 });
 
@@ -16,32 +17,32 @@ svg.addEventListener('pointerdown', createCircle);
 
 // update co-ordinates
 function getCoordinates(event) {
-
+  
   // DOM co-ordinate
   out.clientX.value = event.clientX;
   out.clientY.value = event.clientY;
-
+  
   // SVG co-ordinate
   const svgP = svgPoint(svg, out.clientX.value, out.clientY.value);
   out.svgX.value = svgP.x;
   out.svgY.value = svgP.y;
-
+  
   // target co-ordinate
   const svgT = svgPoint(event.target, out.clientX.value, out.clientY.value);
   out.targetX.value = svgT.x;
   out.targetY.value = svgT.y;
-
+  
   updateInfo();
-
+  
 };
 
 
 // add a circle to the target
 function createCircle(event) {
-
+  
   // circle clicked?
   if (event.target.nodeName === 'circle') return;
-
+  
   // add circle to containing element
   const
     target = event.target.closest('g') || event.target.ownerSVGElement || event.target,
@@ -49,19 +50,19 @@ function createCircle(event) {
     cX = Math.round(svgP.x),
     cY = Math.round(svgP.y),
     circle = document.createElementNS(NS, 'circle');
-
+  
   circle.setAttribute('cx', cX);
   circle.setAttribute('cy', cY);
   circle.setAttribute('r', 30);
-
+  
   target.appendChild(circle);
-
+  
   // output information
   out.targetID.value = target.id || target.nodeName;
   out.addX.value = cX;
   out.addY.value = cY;
   updateInfo();
-
+  
 }
 
 
@@ -76,9 +77,9 @@ function svgPoint(element, x, y) {
 
 // output values
 function updateInfo() {
-
+  
   for (p in out) {
     out[p].node.textContent = isNaN(out[p].value) ? out[p].value : Math.round(out[p].value);
   }
-
+  
 }

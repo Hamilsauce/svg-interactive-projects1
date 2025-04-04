@@ -18,19 +18,19 @@
       margin: 0;
       z-index: 0;
     }
-
+    
     html {
       font-family: 'Roboto', sans-serif;
       font-size: 16px;
     }
-
+    
     html,
     body {
       width: 100%;
       height: 100%;
       /* min-width:100vw;min-height:100vh; */
     }
-
+    
     #app {
       width: 100%;
       height: 100%;
@@ -42,7 +42,11 @@
 
 <body>
   <div id="app">
+    <div id="debouncer">
+      
+    </div>
     <div id="app-body">
+      
       <svg x="0" y="0" width="412" height="300" xmlns="http://www.w3.org/2000/svg" _style="width:402px; height:302px;">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -53,7 +57,7 @@
         <rect id="surface" width="412" height="300" fill="url(#grad1)" style="stroke-width:1;stroke:black" />
         <circle cx="15" cy="15" r="15" stroke="black" stroke-width="1" fill="red" id="ball" />
       </svg>
-  
+      
     </div>
   </div>
   <script src="./bounce-loop.js" type="module"></script>

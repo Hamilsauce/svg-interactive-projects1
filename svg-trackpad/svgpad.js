@@ -5,9 +5,9 @@ import {
 } from './lib.js';
 import { Scene } from './entities/scene.js'
 
-const { forkJoin, Observable, iif, BehaviorSubject, AsyncSubject, Subject, interval, of, fromEvent, merge, empty, delay, from } = rxjs;
-const { flatMap, reduce, groupBy, toArray, mergeMap, switchMap, scan, map, tap, filter } = rxjs.operators;
-const { fromFetch } = rxjs.fetch;
+// const { forkJoin, Observable, iif, BehaviorSubject, AsyncSubject, Subject, interval, of, fromEvent, merge, empty, delay, from } = rxjs;
+// const { flatMap, reduce, groupBy, toArray, mergeMap, switchMap, scan, map, tap, filter } = rxjs.operators;
+// const { fromFetch } = rxjs.fetch;
 
 const app = document.querySelector('#app');
 const coordsDisplay = document.querySelector('#coordsDisplay');
@@ -82,7 +82,7 @@ const onTrackpadDrag = (e) => {
   coordsDisplay.textContent = `trackpad:  [ ${trackpoint.x} , ${trackpoint.y} ]`;
 };
 
-const onscenechange = ({ detail }) => {
+const onSceneChange = ({ detail }) => {
   const { crosshair, pawn } = detail;
   coordsDisplay2.textContent = `crosshair: [ ${Math.round(crosshair.x)} , ${Math.round(crosshair.y)} ]`;
   pawnPointDisplay.textContent = `pawn: [ ${Math.round(pawn.x)} , ${Math.round(pawn.y)} ]`;

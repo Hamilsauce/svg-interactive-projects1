@@ -22,8 +22,7 @@ export class Point {
 
 
 
-class Svg
-Api {
+class SvgApi {
   #defaultMatrix = [1, 0, 0, 1, 0, 0];
   #TransformTypes = {
     translate: 'Translate',
@@ -168,9 +167,6 @@ class SvgElementContainer {
   get height() { return this.#self.height };
   set height(height) { Object.assign(this.#self, { height }) };
 }
-
-
-
 
 
 const DEFAULT_CANVAS_CONFIG = {
