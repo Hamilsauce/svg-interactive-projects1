@@ -1,6 +1,6 @@
-import { toTrackPoint, toScenePoint, addVectors } from '../lib.js';
-import { Pawn } from './pawn.js';
-import { Crosshair } from './crosshair.js';
+import { toTrackPoint, toScenePoint, addVectors } from '/svg-trackpad/lib.js';
+import { Pawn } from '/svg-trackpad/entities/pawn.js';
+import { Crosshair } from '/svg-trackpad/entities/crosshair.js';
 
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 const { template, utils, addDragAction } = ham;
