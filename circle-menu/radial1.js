@@ -24,6 +24,10 @@ const getDisplayCenter = (m) => {
 const app = document.querySelector('#app');
 const appBody = document.querySelector('#app-body')
 const svg = document.querySelector('svg');
+svg.style.width = window.innerWidth;
+svg.style.height = window.innerHeight;
+console.log('svg.style.width svg.style.height', svg.style.width ,svg.style.height)
+
 
 const ins = {
   count: svg.querySelector('#count-input'),
