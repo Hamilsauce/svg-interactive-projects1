@@ -1,0 +1,144 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  z-index: 0;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  gap: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#app-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0px;
+}
+
+#app-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0px;
+  overflow-y: scroll;
+}
+
+
+svg {
+  
+  background: #2934AF38;
+  /* background: #AF372938; */
+  
+  stroke: #9EAF2980;
+  stroke-width: 2px;
+
+  /* filter: contrast(1); */
+  /* transform: rotate(80deg); */
+  
+  /* transition: 2s; */
+  /*   perspective-origin: 150% 150%;
+transform-style: preserve-3d;
+ */
+}
+
+svg.fade {
+  transition: 3s;
+
+  background: #89AF2938;
+  
+  
+  /* filter: contrast(1); */
+  /* transform: rotate(80deg); */
+  
+  /*   perspective-origin: 150% 150%;
+transform-style: preserve-3d;
+ */
+}
+
+svg.fade circle {
+  stroke: #AF29A980;
+  stroke-width: 2px;
+/* transition: 3s; */
+
+  /* filter: contrast(1); */
+  /* transform: translate(-200px)
+  
+  transition: 2s;
+  perspective-origin: 150% 150%;
+  transform-style: preserve-3d; */
+}
+
+svg,
+svg{
+  transition: 3s;
+
+}
+
+#display-container {}
+
+#display-container.flip {
+  filter: hue-rotate(20deg) contrast(1);
+}
+
+svg circle {
+  transition: 3s;
+  
+  stroke: #071034;
+  stroke-width: 2px;
+  filter: drop-shadow(0px 0px 50px #00FFF038);
+  
+}
+
+svg.rotate circle {
+  transform: translate(-200px, 0px);
+  filter: drop-shadow(-20px 14px 75px #FF00D52B);
+  
+  /* filter: contrast(1); */
+  /* transition: 2.5s; */
+  stroke: #23145FCC;
+  stroke-width: 1px;
+}
+
+svg.counter-rotate circle {
+  transform: translate(-200px, 0);
+
+  stroke: #ACAF2947;
+  stroke-width: 2px;
+  
+}
+
+svg.no-filter circle {
+  /* transition: 1.5s; */
+  
+  /* transition: 1.0s ease-out; */
+  stroke: #FFFFFF;
+  stroke-width: 1px;
+  
+  /* filter: drop-shadow(10 10 10px #FF0000); */
+  /* filter: hue-rotate(200) drop-shadow(30px 10px 10px #30BCADBF); */
+  /* transition: 2s; */
+  /* transform: translate(-200px, 0) rotate3d(0, 1, 0, 30deg); */
+  /* transform: translate(-200px, 0); */
+  
+  /* transform: translate(-50,0) */
+}

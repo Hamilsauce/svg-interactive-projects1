@@ -19,13 +19,13 @@ const domPoint = (element, x, y) => {
 }
 
 const getMenuCenter = (m) => {
-
+  
   let x = m.cx.baseVal.value + m.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
   let y = m.cy.baseVal.value + m.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
   console.log({ x, y });
-
+  
   return { x, y }
-
+  
 };
 
 
@@ -36,7 +36,7 @@ const svg = document.querySelector('svg');
 
 const menu = {
   svg: document.querySelector('svg'),
-get container() { return this.svg.querySelector('#menu-container') },
+  get container() { return this.svg.querySelector('#menu-container') },
   get itemContainer() { return this.container.querySelector('#menu-items') },
   get outer() { return this.container.querySelector('#menu-outer') },
   get inner() { return this.container.querySelector('#menu-inner') },
@@ -81,8 +81,8 @@ const createCircle = (x, y, fill, r = 10) => {
   c.classList.add('menu-item');
   c.cy.baseVal.value = y + c.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
   c.cx.baseVal.value = x + c.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
-
-
+  
+  
   return c
 };
 
@@ -99,45 +99,43 @@ const oscillate = (stepSize) => {
     rad += 1 * dir / size
     // spiralStep += stepSize * dir
   }
+  
   return rad
 }
 
-
-
-
 const createPolygon1 = (shape, numberOfPoints, radius) => {
-
+  
   // const radius = radInput.value
   // const numberOfPoints = pointsInput.value
   const angleStep = (Math.PI * 2) / numberOfPoints
   const xPosition = shape.clientWidth / 2
   const yPosition = shape.clientHeight / 2
-
+  
   const points = []
   for (let i = 1; i <= numberOfPoints; i++) {
     oscillate()
     // rad += radius + rad > 150 ? -1 : +1
-
+    
     const radiusAtPoint = i % 5 === 0 ? radius + rad : size
     const x = xPosition + Math.cos(i * angleStep) * radiusAtPoint
     const y = yPosition + Math.sin(i * angleStep) * radiusAtPoint
-
+    
     points.push({ x, y, fill: getColor() })
     // points.push({ x, y })
   }
-
+  
   const polygonCoordinates = points
     .map(({ x, y }) => {
       return `${x}px ${y}px`
     }).join(',')
-
+  
   // shape.style.setProperty('--clip', `polygon(${polygonCoordinates})`)
-
+  
   // pointsLabel.innerText = numberOfPoints
   // radLabel.innerText = `${Math.round(radius / size * 100)}%`
-
+  
   return points
-
+  
 }
 
 const createPolygon = (shape, numberOfPoints, radius, stepSize = 25) => {
@@ -146,49 +144,51 @@ const createPolygon = (shape, numberOfPoints, radius, stepSize = 25) => {
   const angleStep = (Math.PI * 2) / numberOfPoints
   const xPosition = shape.clientWidth / 2
   const yPosition = shape.clientHeight / 2
-
+  
   const points = []
   let spiralStep = 0
   let cnt = 0
   let dir = 1;
-
+  
   const addSpiral = (stepSize) => {
     if (spiralStep >= 300) {
       dir = -1
     } else if (spiralStep <= 0) {
       dir = 1
-
+      
     } {
-
+      
       spiralStep += stepSize * dir
     }
     return spiralStep
   }
-
-
+  
+  
   for (let i = 1; i <= numberOfPoints; i++) {
-    let rad = addSpiral(stepSize)
-
+    // let rad = addSpiral(stepSize)
+  // console.warn('rad', rad)  
     // const radiusAtPoint = i % 2 === 0 ? radius : 50
     const radiusAtPoint = i % 4 === 0 ? rad : 50
     const x = xPosition + Math.cos(i * angleStep) * radiusAtPoint
     const y = yPosition + Math.sin(i * angleStep) * radiusAtPoint
-
+    
     points.push({ x, y, fill: getColor() })
   }
-
+  
   const polygonCoordinates = points
     .map(({ x, y }) => {
       return `${x}px ${y}px`
     }).join(',')
-
+  
   // shape.style.setProperty('--clip', `polygon(${polygonCoordinates})`)
+  
+  console.log({ points })
   return points
 }
 
 const render = (cnt = 225, radius = 33, stepSize = 25) => {
-
-
+  
+  
   // const menuCenter = getMenuCenter(menu.outer)
   // const c = createCircle(p.x, p.y, 25)
   const points = createPolygon(menu.inner, cnt, menu.inner.r.baseVal.value, stepSize)
@@ -196,11 +196,11 @@ const render = (cnt = 225, radius = 33, stepSize = 25) => {
     // const pString =  `${x}px ${y}px`
     const c = createCircle(pt.x, pt.y, pt.fill, radius)
     // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
-
+    
     menu.itemContainer.appendChild(c)
-
+    
   });
-
+  
 }
 
 const ins = {
@@ -215,28 +215,28 @@ rangeInputs.forEach((el, i) => {
   const curryRender = (count) => {
     return (radius) => (steps) => render(+count, +radius, +steps)
   }
-
+  
   el.addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
     menu.items.forEach((item, i) => {
       item.remove()
     });
-
-  render(+ins.count.value, +ins.radius.value,+ins.step.value)
-
+    
+    render(+ins.count.value, +ins.radius.value, +ins.step.value)
+    
     // const id = target.id
-
+    
     // if (id === 'step-size-input') {
     //   render(225, 33, parseInt(target.value))
-
+    
     // }
     // else if (id === 'radius-input') {}
     // else if (id === 'count-input') {
-
+    
     // }
-
-
-
-
+    
+    
+    
+    
     // const menuCenter = getMenuCenter(menu.outer)
     // const c = createCircle(p.x, p.y, 25)
     // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
@@ -245,13 +245,13 @@ rangeInputs.forEach((el, i) => {
     //   // const pString =  `${x}px ${y}px`
     //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
     //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
-
+    
     //   menu.container.appendChild(c)
-
+    
     // });
-
+    
   });
-
+  
 });
 
 
@@ -260,8 +260,8 @@ rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, valu
     item.remove()
   });
   render(225, 33, parseInt(target.value))
-
-
+  
+  
   // const menuCenter = getMenuCenter(menu.outer)
   // const c = createCircle(p.x, p.y, 25)
   // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
@@ -270,27 +270,27 @@ rangeInputs[0].addEventListener('pointermove', ({ target, clientX, clientY, valu
   //   // const pString =  `${x}px ${y}px`
   //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
   //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
-
+  
   //   menu.container.appendChild(c)
-
+  
   // });
-
+  
 });
 menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
   menu.items.forEach((item, i) => {
-const stroke = item.getAttribute('stroke')
-if (stroke === '#FFFFFF50') {
-  item.setAttribute('stroke', `#00000050`)
-
-} else {
-item.setAttribute('stroke', `#FFFFFF50`)
-  
-}
+    const stroke = item.getAttribute('stroke')
+    if (stroke === '#FFFFFF50') {
+      item.setAttribute('stroke', `#00000050`)
+      
+    } else {
+      item.setAttribute('stroke', `#FFFFFF50`)
+      
+    }
     
   });
   // const p = domPoint(menu.outer, clientX, clientY)
-
-
+  
+  
   // const menuCenter = getMenuCenter(menu.outer)
   // const c = createCircle(p.x, p.y, 25)
   // const points = createPolygon(menu.inner, 225, menu.inner.r.baseVal.value)
@@ -298,9 +298,9 @@ item.setAttribute('stroke', `#FFFFFF50`)
   //   // const pString =  `${x}px ${y}px`
   //   const c = createCircle(pt.x, pt.y, pt.fill, 37)
   //   // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
-
+  
   //   menu.container.appendChild(c)
-
+  
   // });
-
+  
 });
