@@ -25,7 +25,6 @@ export const draggable = (parent, element) => {
   el.addEventListener('pointerdown', startMove, false);
 
   function startMove(evt) {
-
     xlate = xforms.numberOfItems > 0 && xforms.getItem(0);
     if (!xlate || xlate.type != SVGTransform.SVG_TRANSFORM_TRANSLATE) {
       xlate = xforms.createSVGTransformFromMatrix(svg.createSVGMatrix());

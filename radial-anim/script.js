@@ -1,31 +1,49 @@
-`s = 490 / 980 = 0.5
-New height = 1861 * 0.5 = 930.5
-`
+import { mainLoop } from './main-loop.js';
 
 const svg = document.querySelector('svg')
 const displayContainer = document.querySelector('#display-container')
-const oldWidth = +getComputedStyle(svg).width.replace('px', '')
-const oldHeight = +getComputedStyle(svg).height.replace('px', '')
-
-const newWidth = 300;
-
-const ratio = newWidth / oldWidth
-
-const newHeight = oldHeight * ratio;
 
 svg.style.width = `${window.innerWidth}px`
 svg.style.height = `${window.innerHeight}px`
-// console.warn('oldHeight, newHeight', oldHeight, newHeight)
-
-setTimeout(() => {
-  const oldWidth2 = +getComputedStyle(svg).width.replace('px', '')
-  const oldHeight2 = +getComputedStyle(svg).height.replace('px', '')
-  // console.warn('oldHeight2, oldWidth2', oldHeight2, oldWidth2)
-  
-}, 1000)
 
 let contrast = 1.5
 let rotate = 0
+
+const circs = svg.querySelectorAll('circle')
+let direction = 1
+let sumDelta = 0
+  const circ20 = circs[20]
+window.circ20 = circ20
+circ20.style.transform = null
+circ20.style.fill = 'pink'
+circ20.r.baseVal.value = 600
+circ20.cx.baseVal.value = -100
+circ20.cy.baseVal.value = -100
+// circ20.style.r = '600px'
+circ20.parentElement.appendChild(circ20)
+
+const updateCircles = (delta) => {
+  // console.log('circ20', circ20.attributes.transform.value)
+  const circTransform = circ20.transform.baseVal
+  const circTransformCount = circ20.transform.baseVal.numberOfItems
+  const circTranslate = circTransform.getItem(0)
+  
+  circTranslate.setTranslate(300 * direction, 300*direction)
+  sumDelta += delta
+  if (sumDelta >= 500) {
+    console.log('delta', delta)
+  direction = direction === 1 ? -1 : 1
+  sumDelta = 0
+
+  }
+  // console.log('circTransformCount', circ20.transform.baseVal.numberOfItems)
+  // console.log('circTranslate', circ20.transform.baseVal)
+  
+  
+};
+
+mainLoop.registerUpdates(updateCircles)
+mainLoop.start()
 
 
 svg.addEventListener('click', e => {
@@ -39,7 +57,7 @@ svg.addEventListener('click', e => {
   if (rotate == 3) {
     rotate = 0
     svg.classList.remove('no-filter')
-
+    
     svg.classList.remove('rotate')
     svg.classList.remove('counter-rotate')
   }
@@ -58,7 +76,7 @@ svg.addEventListener('click', e => {
     rotate = 3
     svg.classList.remove('rotate')
     svg.classList.remove('counter-rotate')
-
+    
     svg.classList.add('no-filter')
   }
   // console.log({rotate})
