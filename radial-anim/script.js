@@ -14,15 +14,36 @@ let direction = 1
 let sumDelta = 0
 const circ20 = circs[20]
 
+const dispatchClick = target => {
+  const ev = new PointerEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: true
+  });
+  target.dispatchEvent(ev);
+};
+
+
 export const sleep = async (time = 500, cb) => {
+  console.warn('cb', cb)
+  
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(cb()); // Yay! Everything went well!
+      console.warn('cb', cb)
+      resolve(() => cb()); // Yay! Everything went well!
     }, time);
   });
   
 };
 
+function shuffleArray(array) {
+  const arr = array.slice(); // Create a copy to avoid mutating the original
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+    [arr[i], arr[j]] = [arr[j], arr[i]]; // swap
+  }
+  return arr;
+}
 
 
 const removeEl = (svgEl) => {
@@ -62,8 +83,11 @@ const groupByTransX = (svgEls = []) => [...svgEls].reduce((acc, el, i) => {
 
 
 
-const groupedCircs = groupByTransX(circs)
-
+let groupedCircs = groupByTransX(
+  // shuffleArray(
+  [...circs]
+  // )
+)
 removeEls(circs)
 // let timeout = 150
 
@@ -124,16 +148,37 @@ const animateCircles = (timeout) => {
   
 }
 animateCircles(50)
- displayContainer.classList.add('flip')
+
+// displayContainer.classList.add('flip')
+let shouldShuffle = false
+setInterval(() => {
+  
+  
+  groupedCircs = shouldShuffle ?
+    groupByTransX(shuffleArray([...circs])) : groupByTransX([...circs])
+
+  // shouldShuffle = !shouldShuffle
+
+  console.log('sleepp')
+  
+  sleep(100, () => {
+    console.log('sleepp')
+    groupedCircs = shuffleArray(circs)
+    displayContainer.classList.toggle('flip')
+  })
+  
+  animateCircles(75)
+  
+}, 8000)
+
 
 setInterval(async () => {
-// displayContainer.classList.toggle('flip')
- 
-  animateCircles(75)
-  // await sleep(20000, () =>{
-  //   displayContainer.classList.toggle('flip')
-  // })
-}, 8000)
+  console.log('sleepp')
+  
+  dispatchClick(svg)
+}, 5000)
+
+
 
 const updateCircles = (delta) => {
   // console.log('circ20', circ20.attributes.transform.value)
