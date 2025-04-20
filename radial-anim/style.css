@@ -51,7 +51,7 @@ svg {
   
   stroke: #9EAF2980;
   stroke-width: 2px;
-
+  
   /* filter: contrast(1); */
   /* transform: rotate(80deg); */
   
@@ -63,7 +63,7 @@ transform-style: preserve-3d;
 
 svg.fade {
   transition: 3s;
-
+  
   background: #89AF2938;
   
   
@@ -78,26 +78,37 @@ transform-style: preserve-3d;
 svg.fade circle {
   stroke: #AF29A980;
   stroke-width: 2px;
-/* transition: 3s; */
-
-  /* filter: contrast(1); */
-  /* transform: translate(-200px)
-  
-  transition: 2s;
-  perspective-origin: 150% 150%;
-  transform-style: preserve-3d; */
 }
 
 svg,
-svg{
+svg {
   transition: 3s;
-
+  
 }
 
-#display-container {}
+#display-container {
+  transition: 20s;
+
+  transform: translate(0);
+  filter: hue-rotate(0deg) contrast(1) saturate(2);
+  
+}
 
 #display-container.flip {
-  filter: hue-rotate(20deg) contrast(1);
+  transition: 20s;
+
+  transform: translate(0);
+  filter: hue-rotate(80deg) contrast(1.5) saturate(1.2);
+}
+
+svg circle[data-fresh=true] {
+  filter: opacity(0);
+  transition: 3s;
+}
+
+svg circle[data-fresh=false] {
+  filter: opacity(1);
+  transition: 3s;
 }
 
 svg circle {
@@ -114,14 +125,14 @@ svg.rotate circle {
   filter: drop-shadow(-20px 14px 75px #FF00D52B);
   
   /* filter: contrast(1); */
-  /* transition: 2.5s; */
+  transition: 2.5s;
   stroke: #23145FCC;
   stroke-width: 1px;
 }
 
 svg.counter-rotate circle {
   transform: translate(-200px, 0);
-
+  
   stroke: #ACAF2947;
   stroke-width: 2px;
   
