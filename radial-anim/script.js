@@ -30,17 +30,17 @@ export const sleep = async (time = 500, cb) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.warn('cb', cb)
-      resolve(() => cb()); // Yay! Everything went well!
+      resolve(() => cb());
     }, time);
   });
   
 };
 
 function shuffleArray(array) {
-  const arr = array.slice(); // Create a copy to avoid mutating the original
+  const arr = array.slice();
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-    [arr[i], arr[j]] = [arr[j], arr[i]]; // swap
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
 }
@@ -77,19 +77,15 @@ const groupByTransX = (svgEls = []) => [...svgEls].reduce((acc, el, i) => {
   if (acc.has(transX)) acc.get(transX).add(el);
   else acc.set(transX, new Set([el]))
   
-  // el.remove()
   return acc
 }, new Map());
 
 
 
-let groupedCircs = groupByTransX(
-  // shuffleArray(
-  [...circs]
-  // )
-)
+let groupedCircs = groupByTransX([...circs])
+// shuffleArray([...circs]// )
+
 removeEls(circs)
-// let timeout = 150
 
 const animateCircles = (timeout) => {
   setTimeout(() => {
@@ -105,9 +101,6 @@ const animateCircles = (timeout) => {
             setTimeout(() => {
               el.dataset.fresh = false
             }, timeout + (timeout * ((k + 5) * 2)))
-            
-            // displayContainer.attributes.transform.value = `translate(0,0) rotate(${k}deg)`
-            
           }, timeout + (timeout * (k * 5)))
         });
         
@@ -125,17 +118,10 @@ const animateCircles = (timeout) => {
           
           setTimeout(() => {
             const hasChild = displayContainer.contains(el)
-            if (!hasChild) {
-              
-              displayContainer.removeChild(el)
-            }
-            
-            
+            if (!hasChild) displayContainer.removeChild(el)
             
             setTimeout(() => {
-              if (!hasChild) {
-                displayContainer.appendChild(el)
-              }
+              if (!hasChild) displayContainer.appendChild(el)
               
               el.dataset.fresh = true
             }, timeout + (timeout * ((k + 5) * 2)))
@@ -145,48 +131,31 @@ const animateCircles = (timeout) => {
       }, timeout + (timeout * i))
     });
   }, 8000)
-  
 }
+
 animateCircles(50)
 
-// displayContainer.classList.add('flip')
 let shouldShuffle = false
 setInterval(() => {
-  
-  
-  groupedCircs = shouldShuffle ?
-    groupByTransX(shuffleArray([...circs])) : groupByTransX([...circs])
-
-  // shouldShuffle = !shouldShuffle
-
-  console.log('sleepp')
+  groupedCircs = shouldShuffle ? groupByTransX(shuffleArray([...circs])) : groupByTransX([...circs])
   
   sleep(100, () => {
-    console.log('sleepp')
     groupedCircs = shuffleArray(circs)
     displayContainer.classList.toggle('flip')
   })
   
   animateCircles(75)
-  
 }, 8000)
 
-
 setInterval(async () => {
-  console.log('sleepp')
-  
   dispatchClick(svg)
 }, 5000)
 
-
-
 const updateCircles = (delta) => {
-  // console.log('circ20', circ20.attributes.transform.value)
   const circTransform = circ20.transform.baseVal
   const circTransformCount = circ20.transform.baseVal.numberOfItems
   const circTranslate = circTransform.getItem(0)
   
-  // circTranslate.setTranslate(300 * direction, 0)
   sumDelta += delta
   
   if (sumDelta >= 1000) {
@@ -194,30 +163,20 @@ const updateCircles = (delta) => {
     const translateValue = transformValue.match(/translate\(\s*(-?\d+\.?\d*)/);
     
     if (translateValue && typeof translateValue[0] === 'string') {
-      const transX = translateValue[1]
-      console.log('transX', transX)
+      const transX = translateValue[1];
     }
     
-    // console.log('circ20.attributes.transfor,.m.value', circ20.attributes.transform.value)
-    direction = direction === 1 ? -1 : 1
-    sumDelta = 0
-    
+    direction = direction === 1 ? -1 : 1;
+    sumDelta = 0;
   }
-  // console.log('circTransformCount', circ20.transform.baseVal.numberOfItems)
-  // console.log('circTranslate', circ20.transform.baseVal)
-  
-  
 };
 
 mainLoop.registerUpdates(updateCircles)
 mainLoop.start()
 
-
 svg.addEventListener('click', e => {
-  // console.warn('contrast', contrast)
   displayContainer.classList.toggle('flip')
   contrast = contrast === 1 ? 1.5 : 1
-  // rotate = rotate === true ? false : true
   svg.style.filter = `contrast(${contrast})`
   svg.classList.toggle('fade')
   
@@ -246,9 +205,4 @@ svg.addEventListener('click', e => {
     
     svg.classList.add('no-filter')
   }
-  // console.log({rotate})
-  // els/e svg.classList.remove('rotate')
-  
-  // svg.style.transform = `rotate(${rotate})`
-  
 });
