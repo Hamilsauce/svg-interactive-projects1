@@ -20,7 +20,6 @@ const main = (timestamp) => {
   }
 };
 
-
 const registerUpdates = (...updatefns) => {
   updatefns.forEach(fn => updates.add(fn));
 }
