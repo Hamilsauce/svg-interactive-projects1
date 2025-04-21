@@ -2,6 +2,7 @@ import { mainLoop } from './main-loop.js';
 
 const svg = document.querySelector('svg');
 const displayContainer = document.querySelector('#display-container');
+const circs = svg.querySelectorAll('circle');
 
 svg.style.width = `${window.innerWidth}px`;
 svg.style.height = `${window.innerHeight}px`;
@@ -9,10 +10,10 @@ svg.style.height = `${window.innerHeight}px`;
 let contrast = 1.5;
 let rotate = 0;
 
-const circs = svg.querySelectorAll('circle');
 let direction = 1;
 let sumDelta = 0;
 let circ20 = circs[20];
+
 const dispatchClick = target => {
   const ev = new PointerEvent('click', {
     view: window,
@@ -24,7 +25,6 @@ const dispatchClick = target => {
 
 
 export const sleep = async (time = 500, cb) => {
-  
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(() => cb());
@@ -43,7 +43,6 @@ const shuffleArray = (array = []) => {
   
   return arr;
 }
-
 
 const removeEl = (svgEl) => {
   if (svgEl.parentElement) {
