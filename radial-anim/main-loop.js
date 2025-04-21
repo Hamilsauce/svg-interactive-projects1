@@ -1,4 +1,4 @@
-let lastTm = 0
+let lastTm = 0;
 let frameRateModifier = 1;
 let time = 0;
 
@@ -12,17 +12,17 @@ const updates = new Set();
 
 const main = (timestamp) => {
   requestAnimationFrame(main);
-  const delta = Math.round(timestamp - lastTm)
+  const delta = Math.round(timestamp - lastTm);
 
   if (delta % config.frameRateModifier === 0) {
-    doUpdates(delta)
+    doUpdates(delta);
     lastTm = timestamp;
   }
 };
 
 
 const registerUpdates = (...updatefns) => {
-  updatefns.forEach(fn => updates.add(fn))
+  updatefns.forEach(fn => updates.add(fn));
 }
 
 const start = (frameRateModifier = 1) => {
@@ -31,20 +31,15 @@ const start = (frameRateModifier = 1) => {
 }
 
 const stop = (updatefn) => {
-  return cancelAnimationFrame(main)
+  return cancelAnimationFrame(main);
 }
 
 const doUpdates = (delta) => {
   updates.forEach((update) => update(delta));
 }
 
-
-
-
 export const mainLoop = {
   start,
   stop,
   registerUpdates,
 }
-
-// main(0);
