@@ -1,14 +1,14 @@
-var gravity = 0.25;
-var dX = 1.5;
-var dY = 0;
-var width = 412;
-var height = 300;
-var radius = 15;
-var x = radius;
-var y = radius;
-var dragY = 0.035;
-var dragX = 0.001;
-var time = 0;
+let gravity = 0.25;
+let dX = 1.5;
+let dY = 0;
+let width = 412;
+let height = 300;
+let radius = 15;
+let x = radius;
+let y = radius;
+let dragY = 0.035;
+let dragX = 0.001;
+let time = 0;
 
 const app = document.querySelector('#app');
 const ball = document.querySelector('#ball');
@@ -50,7 +50,7 @@ const updateRadius = () => {
 let debounceTracker = 0
 
 function bounceBall() {
-  var ball = document.getElementById('ball');
+  let ball = document.getElementById('ball');
   debounceEl.textContent = debounceTracker
 
   updateRadius()
@@ -84,7 +84,7 @@ function ballHit() {
   
   animation()
   
-  var ball = document.getElementById('ball');
+  let ball = document.getElementById('ball');
   ball.setAttribute("r", radius);
   animation = reset();
 }
@@ -101,7 +101,7 @@ function reset() {
   return start()
 }
 
-var animation
+let animation
 
 const startAnimation = (target) => {
   if (!animation) {
@@ -118,13 +118,13 @@ surface.addEventListener('click', startAnimation);
 const printScreenCTM = () => {
   // Get the current screen transformation matrix
   const screenCTM = ball.getScreenCTM();
-  console.log("Screen transformation matrix:");
-  console.warn(
-    `a: ${screenCTM.a}, 
-     b: ${screenCTM.b}, 
-     c: ${screenCTM.c}, 
-     d: ${screenCTM.d}, 
-     e: ${screenCTM.e}, 
-     f: ${screenCTM.f}`,
-  );
+  // console.log("Screen transformation matrix:");
+  // console.warn(
+  //   `a: ${screenCTM.a}, 
+  //   b: ${screenCTM.b}, 
+  //   c: ${screenCTM.c}, 
+  //   d: ${screenCTM.d}, 
+  //   e: ${screenCTM.e}, 
+  //   f: ${screenCTM.f}`,
+  // );
 };

@@ -21,6 +21,10 @@ body {
   height: 100%;
 }
 
+svg{
+  border: 1px solid black;
+}
+
 .bbox {
   fill: #FFFFFF00;
   stroke: #242C2E;
