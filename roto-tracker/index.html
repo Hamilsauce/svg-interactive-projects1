@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>roto-tracker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <header id="app-header">
+      <div id="app-header-left">L</div>
+      <div id="app-header-center">
+        <h1>Track Roto</h1>
+      </div>
+      <div id="app-header-right">R</div>
+    </header>
+    <section id="appBody">
+      <div id="scene-container">
+        <svg id="canvas" width="412" height="770" viewBox="-250 -250 500  500" preserveAspectRatio="" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <defs>
+            <pattern id="smallGrid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path id="smallGridPath" d="M 50 0 H 0 V 50" fill="#FFFFFF" stroke="#FFFFFF90" stroke-width="5" />
+            </pattern>
+            <pattern id="largeGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+              <rect id="largeGridRect" width="100" height="100" fill="url(#smallGrid)" />
+              <path id="largeGridPath" d="M 100 0 H 0 V 100" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" />
+            </pattern>
+          </defs>
+          
+          <g class="scene" id="scene" transform="translate(-0,-0)" x="0" y="0">
+            <g class="layer" id="surface-layer" data-layer="surface" transform="translate(-250,-250)" x="0" y="0" width="500" height="500">
+              <rect transform="translate(0,-0)" id="surface" x="0" y="0" width="500" height="500" fill="#509C86" />
+              <!-- <g id="axes" transform="translate(-0,-0)">
+                <line id="xaxis" class="axis" x1="-5000" x2="5000" y1="0" y2="0" stroke="#000000" stroke-width="2.5"></line>
+                <line id="yaxis" class="axis" x1="0" x2="0" y1="-5000" y2="5000" stroke="#000000" stroke-width="2.5"></line>
+              </g> -->
+            </g>
+            
+            <g class="layer" id="objects-layer" data-layer="objects" transform="translate(0,-0)">
+              <circle stroke="#000000" stroke-width="2" fill="#F2F2F2" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="101.04" cy="22.6715" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#138297" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="87.166" cy="40.0689" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#BB7525" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="67.1175" cy="49.7237" r="56"></circle>
+              <!-- <circle stroke="#000000" stroke-width="2" fill="#AA2C73" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="36.4096" cy="86.771" r="56"></circle> -->
+              <circle stroke="#000000" stroke-width="2" fill="#E2A230" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="24.817" cy="40.0689" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#138297" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="10.943" cy="22.6715" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#F2F2F2" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="5.99147" cy="0.977335" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#138297" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="-102.579" cy="-75.3862" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#BB7525" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="24.817" cy="-38.1142" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#138297" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="44.8654" cy="-47.7691" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#E2A230" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="67.1175" cy="-47.7691" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#AA2C73" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="220.593" cy="-205.426" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#13A414" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="101.04" cy="-20.7169" r="56"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#F2F2F2" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-56,0)" class="display-item" cx="105.991" cy="0.977335" r="56"></circle>
+              
+              
+              
+              <circle stroke="#000000" stroke-width="2" fill="#AF352E" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="91.0414" cy="22.497" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#138297" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="77.1675" cy="39.8944" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#E2A230" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="57.119" cy="49.5492" r="46"></circle>
+              <!-- <circle stroke="#000000" stroke-width="2" fill="#138297" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="26.4112" cy="86.5965" r="46"></circle> -->
+              <circle stroke="#000000" stroke-width="2" fill="#E2A230" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="14.8185" cy="39.8944" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#21639B" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="0.944551" cy="22.497" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#E2A230" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="-4.00701" cy="0.802811" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#AF352E" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="-112.578" cy="-75.5607" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#BB7525" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="14.8185" cy="-38.2888" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#522D89" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="34.8669" cy="-47.9436" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#522D89" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="57.119" cy="-47.9436" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#21639B" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="210.594" cy="-205.601" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#F2F2F2" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="91.0414" cy="-20.8914" r="46"></circle>
+              <circle stroke="#000000" stroke-width="2" fill="#F2F2F2" fill-opacity="0.4" filter="contrast(125%) saturate(150%)" transform="translate(-46,0)" class="display-item" cx="95.993" cy="0.802811" r="46"></circle>
+              <!-- <line id="line" x1="-50" x2="50" y1="-50" y2="50" stroke="#000000" stroke-width="5"></line> -->
+              
+              <!-- <g id="arrow" transform="translate(0,0)">
+                <polygon style="fill:#010002;" points="
+                  152.835,39.285 146.933,45.183 211.113,109.373 0,109.373 0,117.723 
+                  211.124,117.723 146.933,181.902 152.835,187.811 227.096,113.55
+                " />
+              </g> -->
+              <!-- <g id="arrow">
+                <path id="arrowshaft" d=" M 50,74.2188 50,25.5859" style="stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;" />
+                <path id="arrowhead" style="stroke:#0;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;fill:#0;" d="M 47 31.5859 50 22.5859 53 31.5859 47 31.5859  Z" />
+              </g> -->
+              
+              <g id="arrow" transform="translate(-0,0) rotate(0deg) scale(1)">
+                <path id="arrowshaft" d=" M 0,50 0,-50" />
+                <path id=" arrowhead" d="M -21 -42 0 -77 21 -42 -50 -42  Z" />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
+    <footer id="app-footer">
+      <div class="container">
+        footer
+      </div>
+    </footer>
+  </div>
+  <script src="./script.js" type="module"></script>
+</body>
+
+</html>

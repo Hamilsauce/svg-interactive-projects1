@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- Created with PainterSVG V3.92 -->
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:psvg="http://www.paintersvg.com/namespace.html" id="svg" width="412" height="770" viewBox="0 0 412 770">
+	<defs></defs>
+	<g psvg:layer="arrow2">
+		<path id="arrowshaft2" psvg:arrow_shape="2" psvg:arrow_size="14.0" psvg:arrow_last="true" d=" M 206,456.1536 206,313.8465" style="fill:none;stroke:#000000;stroke-width:4;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0;" />
+		<path psvg_type="arrowhead2" style="stroke:#0;stroke-width:0.1;stroke-opacity:1;stroke-linecap:butt;stroke-miterlimit:4;fill-opacity:1;fill:#0;" d="M 199 327.8465 206 306.8465 213 327.8465 199 327.8465  Z" />
+	</g>
+</svg>

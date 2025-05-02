@@ -1,6 +1,6 @@
 const INITIAL_CURVE = 'M -25,25 C -25,-25 25,-25 25,25'
 
-const sourcePath = './path-point-data-default.json'
+const sourcePath = './data/path-point-data-default.json'
 
 const plotData = await (await fetch(sourcePath)).json();
 console.log('plotData', plotData);
@@ -26,7 +26,7 @@ const createCircle = (cx, cy, r, className = 'plot-point') => {
 
 const createPoint = (x, y, options) => {
   
-  return createCircle(x, y, 0.5, options.className);
+  return createCircle(x, y, 0.25, options.className);
 };
 
 const plotPoints = plotData.data

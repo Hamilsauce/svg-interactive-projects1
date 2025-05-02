@@ -16,7 +16,7 @@
 <body>
   <div class="app">
     <div class="app-body">
-      <svg id="my-svg" viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <svg id="my-svg" viewBox="-0 -50 500 500" xmlns="http://www.w3.org/2000/svg" version="1.1">
         <desc>Example showing how to transform svg elements that using SVGTransform objects</desc>
         <script type="application/ecmascript">
           <![CDATA[
@@ -32,7 +32,7 @@
             translate.setTranslate(50, 5);
 
             var rotate = svgroot.createSVGTransform();
-            rotate.setRotate(10, 0, 0);
+            rotate.setRotate(5, -200, -200);
 
             var scale = svgroot.createSVGTransform();
             scale.setScale(0.8, 0.8);
@@ -53,7 +53,7 @@
       </svg>
     </div>
   </div>
-  <script src="./xformlist.js" type="module"></script>
+  <!-- <script src="./xformlist.js" type="module"></script> -->
 </body>
 
 </html>

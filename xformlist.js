@@ -7,9 +7,9 @@ const svg = document.querySelector('svg');
 
 svg.addEventListener('click', e => {
   const { clientX, clientY } = e;
-const point = svg.createSVGPoint();
-const domPoint = new DOMPoint(clientX,clientY);
-
-console.log({clientX,clientY});
-console.log({domPoint});
+  const point = svg.createSVGPoint();
+  const domPoint = new DOMPoint(clientX, clientY);
+  
+  console.log({ clientX, clientY });
+  console.log({ x: domPoint.x, y: domPoint.y });
 })

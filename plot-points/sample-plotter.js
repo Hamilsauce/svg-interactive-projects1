@@ -1,7 +1,9 @@
 import { sampleDataRaw } from './note-data-tony-pitch.js';
+const sourcePath = './data/path-point-data-default.json'
 
+const plotData = await (await fetch(sourcePath)).json();
 
-const samples = sampleDataRaw.split('\n')
+const samples = plotData.split('\n')
   .map((line, index) => {
     const [time, left, right] = line.split(',');
 
