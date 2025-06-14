@@ -23,6 +23,7 @@ const rotateMenu = (dx) => {
     currRoto = currRoto + 1
     
     svgMenu.setAttribute('transform', `translate(0, -100) rotate(${currRoto}, 0, 0) scale(1)`)
+    svgMenu.style.filter = `contrast(1.5) drop-shadow(0px 4px 8px #1010109E) hue-rotate(${currRoto}deg)`;
     // console.warn(Math.round(isFrame))
     // app.innerHTML = Math.round(newRoto)
     

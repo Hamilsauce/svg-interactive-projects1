@@ -36,7 +36,7 @@ body {
   gap: 0px;
   width: 100%;
   font-weight: 800;
-  filter: drop-shadow(0px 0px 10px #E3E3E370);
+  filter: drop-shadow(0px 0px 6px #E5D2D245);
   height: fit-content;
   background: transparent;
 }
@@ -51,16 +51,16 @@ svg {
 
 #menu-container {
   /* fill: #332940E0; */
-  fill: #2E367F;
+  fill: #9B1B80;
   /* fill-opacity: 0.6; */
   /* filter: invert(1) contrast(2); */
-  filter: drop-shadow(0px 0px 10px #451B1B75) invert(0.99);
+  filter: drop-shadow(0px 0px 8px #1010109E);
   /* filter: invert(100%); */
   /* filter: opacity(0.5); */
 }
 
 #menu-container * {
-  filter: drop-shadow(0px 0px 10px #F1F1F1C4);
+  filter: drop-shadow(2px 2px 5px #131313AD);
   /* filter: invert(100%); */
   /* filter: opacity(0.5); */
 }
@@ -71,22 +71,26 @@ svg {
   fill-opacity: 0.6;
   /* filter: invert(100%); */
   /* filter: opacity(0.5); */
+  /* filter: contrast(5.5) invert(1); */
+  /* z-index: 1000; */
+
 }
 
 #inner-center {
-  fill: #8613C1;
+  fill: #FFFFFF;
   fill-opacity: 0.0;
-  /* filter: invert(100%); */
+  filter: contrast(5.5) invert(1);
   
 }
 
 #menu-items>* {
-  fill: #2E44B9;
+  /* fill: #2E44B9; */
+  filter: brightness(0.85) contrast(3) opacity(0.7);
   /* fill-opacity: 0.6; */
 }
 
 #menu-items g:nth-child(1)>path {
-  fill: #A12EB9;
+  fill: #B9412E;
   fill-opacity: 0.7;
 }
 
@@ -96,7 +100,7 @@ svg {
 }
 
 #menu-items g:nth-child(3)>path {
-  fill: #EF129D;
+  fill: #124CEF;
   fill-opacity: 0.7;
 }
 
@@ -111,11 +115,11 @@ svg {
 }
 
 #menu-items g:nth-child(6)>path {
-  fill: #B98B2E;
+  fill: #2EB99F;
   fill-opacity: 0.8;
 }
 
 #menu-items g:nth-child(7)>path {
-  fill: #F01A1A;
+  fill: #1AA6F0;
   fill-opacity: 0.8;
 }
