@@ -1,4 +1,7 @@
+import { draggable } from 'https://hamilsauce.github.io/hamhelper/draggable.js';
+
 const app = document.querySelector('#app');
+const debugConsole = document.querySelector('#debug-console');
 const appBody = document.querySelector('#app-body')
 const containers = document.querySelectorAll('.container')
 const svg = document.querySelector('#svg');
@@ -121,6 +124,47 @@ const domPoint = (element, x, y) => {
   );
 }
 
+function generateStarPath(cx, cy, outerRadius, innerRadius, points) {
+  const angleStep = Math.PI / points;
+  let path = '';
+  
+  for (let i = 0; i < 2 * points; i++) {
+    const angle = i * angleStep - Math.PI / 2; // start at the top
+    const r = i % 2 === 0 ? outerRadius : innerRadius;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    path += i === 0 ? `M${x},${y}` : `L${x},${y}`;
+  }
+  
+  path += 'Z'; // close the path
+  
+  const svg = document.querySelector('svg');
+  const pathEl = document.createElementNS(SVG_NS, 'path')
+  const g = document.createElementNS(SVG_NS, 'g')
+  g.classList.add('star');
+  pathEl.setAttribute('d', path)
+  pathEl.setAttribute('fill', 'gold');
+  pathEl.setAttribute('stroke', 'black');
+  g.appendChild(pathEl);
+  
+  return g;
+}
+
+function generateStarPoints(cx, cy, outerRadius, innerRadius, points) {
+  const angleStep = Math.PI / points;
+  let pts = [];
+  
+  for (let i = 0; i < 2 * points; i++) {
+    const angle = i * angleStep - Math.PI / 2;
+    const r = i % 2 === 0 ? outerRadius : innerRadius;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    pts.push(`${x},${y}`);
+  }
+  
+  return pts.join(' ');
+}
+
 
 const plotPoints = (radius, numberOfPoints) => {
   const angleStep = (Math.PI * 2) / numberOfPoints;
@@ -185,12 +229,100 @@ const square1 = drawShape(26, 4);
 const triangle1 = drawShape(26, 3);
 const manyAngle1 = drawShape(26, 16);
 
+const star5 = generateStarPath(0, 0, 26, 13, 5);
+
+const stopdrag = draggable(svg, star5)
+
+let starIntervalStart
+let starIntervalEnd
+
+let starAnimState = {
+  scale: 1,
+  rotate: 0,
+  hueRotate: 0,
+  active: false,
+  mod: -1,
+}
+
+const initValueUpdater = (initial, min, max, step = 1, name) => {
+  let val = initial
+  let roundMod = step < 1 ? 100 : 1
+  
+  return (mod = -1) => {
+    val = Math.round((val + (step * mod)) * roundMod) / roundMod
+    
+    const inRange = !(val <= min || val > max)
+    
+    if (!inRange) val = val <= min ? min : max
+    
+    return val
+  }
+};
+
+const updateScale = initValueUpdater(1, 1, 5, 0.05, 'scale')
+const updateRotate = initValueUpdater(0, 0, 720, 7.2, 'rotate')
+const updateHueRotate = initValueUpdater(0, 0, 720, 7.2)
+
+svg.addEventListener('dragstart', e => {
+  if (starIntervalEnd) {
+    clearInterval(starIntervalEnd)
+    starIntervalEnd = null
+  }
+  
+  
+  if (starIntervalStart) {
+    clearInterval(starIntervalStart)
+    starIntervalStart = null
+  } else {
+    starIntervalStart = setInterval(() => {
+      starAnimState.rotate = updateRotate(1);
+      starAnimState.hueRotate = updateHueRotate(1);
+      starAnimState.scale = updateScale(1);
+      
+      const { rotate, hueRotate, scale } = starAnimState;
+      
+      debugConsole.textContent = `r: ${Math.round(rotate)} s: ${Math.round(scale)} hr: ${hueRotate}`
+      star5.firstElementChild.style.transform = `translate(0,0) rotate(${rotate}deg) scale(${scale})`
+      
+      star5.firstElementChild.style.fill = `hsl(${hueRotate}, 100%, 50%)`
+      star5.firstElementChild.setAttribute(`hue-rotate`, hueRotate)
+    }, 32)
+  }
+});
+
+svg.addEventListener('dragend', e => {
+  if (starIntervalStart) {
+    clearInterval(starIntervalStart)
+    starIntervalStart = null
+  }
+  
+  starIntervalEnd = setInterval(() => {
+    starAnimState.rotate = updateRotate(-1);
+    starAnimState.hueRotate = updateHueRotate(-1);
+    starAnimState.scale = updateScale(-1);
+    
+    const { rotate, hueRotate, scale } = starAnimState;
+    
+    if (rotate <= 0) {
+      clearInterval(starIntervalEnd)
+      starIntervalEnd = null
+    }
+    
+    debugConsole.textContent = `r: ${rotate} s: ${scale} hr: ${hueRotate}`
+    
+    star5.firstElementChild.style.fill = `hsl(${hueRotate}, 100%, 50%)`
+    star5.firstElementChild.style.transform = `translate(0,0) rotate(${rotate}deg) scale(${scale})`
+  }, 32)
+});
+
 scene.append(
   hex1,
   // triangle1,
   // square1,
   manyAngle1,
+  star5
 )
+
 shapeHex.init(hex1)
 const rect = drawRect(hex1.getBoundingClientRect());
 

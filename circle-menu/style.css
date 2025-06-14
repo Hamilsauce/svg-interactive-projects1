@@ -3,6 +3,7 @@
   padding: 0;
   margin: 0;
   z-index: 0;
+  touch-action: none;
 }
 
 html {
@@ -21,15 +22,47 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: #2D3031;
+  
   /* min-width:100vw;min-height:100vh; */
+}
+
+#app-title {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  width: 100%;
+  font-weight: 800;
+  filter: drop-shadow(0px 0px 10px #E3E3E370);
+  height: fit-content;
+  background: transparent;
 }
 
 svg {
   width: 100%;
   height: 100%;
   /* filter: invert(100%); */
+  
+  /* background: #2493B7; */
+}
 
-  background: #2D3031;
+#menu-container {
+  /* fill: #332940E0; */
+  fill: #2E367F;
+  /* fill-opacity: 0.6; */
+  /* filter: invert(1) contrast(2); */
+  filter: drop-shadow(0px 0px 10px #451B1B75) invert(0.99);
+  /* filter: invert(100%); */
+  /* filter: opacity(0.5); */
+}
+
+#menu-container * {
+  filter: drop-shadow(0px 0px 10px #F1F1F1C4);
+  /* filter: invert(100%); */
+  /* filter: opacity(0.5); */
 }
 
 #outer-center1 {
@@ -44,38 +77,45 @@ svg {
   fill: #8613C1;
   fill-opacity: 0.0;
   /* filter: invert(100%); */
-
+  
 }
 
 #menu-items>* {
   fill: #2E44B9;
   /* fill-opacity: 0.6; */
 }
-#menu-items g:nth-child(1) > path{
+
+#menu-items g:nth-child(1)>path {
   fill: #A12EB9;
   fill-opacity: 0.7;
 }
-#menu-items g:nth-child(2) > path{
+
+#menu-items g:nth-child(2)>path {
   fill: #0CB576;
   fill-opacity: 0.7;
 }
-#menu-items g:nth-child(3) > path{
+
+#menu-items g:nth-child(3)>path {
   fill: #EF129D;
   fill-opacity: 0.7;
 }
-#menu-items g:nth-child(4) > path{
+
+#menu-items g:nth-child(4)>path {
   fill: #BCF524;
   fill-opacity: 0.7;
 }
-#menu-items g:nth-child(5) > path{
+
+#menu-items g:nth-child(5)>path {
   fill: #B92E2E;
   fill-opacity: 0.8;
 }
-#menu-items g:nth-child(6) > path{
+
+#menu-items g:nth-child(6)>path {
   fill: #B98B2E;
   fill-opacity: 0.8;
 }
-#menu-items g:nth-child(7) > path{
+
+#menu-items g:nth-child(7)>path {
   fill: #F01A1A;
   fill-opacity: 0.8;
 }

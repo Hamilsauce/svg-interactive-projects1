@@ -159,11 +159,11 @@ setInterval(() => {
   });
   
   animateCircles(75);
-}, 8000);
+}, 1000);
 
 setInterval(async () => {
   dispatchClick(svg);
-}, 5000);
+}, 3000);
 
 let turboOn = false;
 
@@ -181,6 +181,8 @@ turboButton.addEventListener('click', e => {
 });
 
 svg.addEventListener('click', e => {
+  
+  
   displayContainer.classList.toggle('flip');
   contrast = contrast === 1 ? 1.5 : 1;
   svg.style.filter = `contrast(${contrast})`;

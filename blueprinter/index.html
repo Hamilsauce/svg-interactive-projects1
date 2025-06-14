@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>app</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <header id="app-header">
+      <div id="app-header-left">L</div>
+      <div id="app-header-center">
+        <h1>Title</h1>
+      </div>
+      <div id="app-header-right">R</div>
+    </header>
+    <section id="app-body">
+      <svg id="svg" x="0" y="0" width="412" height="700" viewBox="-0 -0 10 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" _style="width: 768px; height: 1024px;">
+        <defs>
+          <pattern id="smallGrid" width="1" height="1" patternUnits="userSpaceOnUse">
+            <path id="smallGridPath" d="M 1 0 H 0 V 1" fill="none" stroke="#b3b3b395" stroke-width="0.1" />
+          </pattern>
+          <pattern id="largeGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <rect id="largeGridRect" width="10" height="10" fill="url(#smallGrid)" />
+            <path id="largeGridPath" d="M 10 0 H 0 V 10" fill="none" stroke="#b3b3b399" stroke-width="0.4" />
+          </pattern>
+          <marker id="trianglestart" viewBox="0 0 1 1" refX="0" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M 10 0 L 0 5 L 10 10 z" />
+          </marker>
+          <marker id="triangleend" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" />
+          </marker>
+          
+          <g id="templates">
+            <g data-template="container" transform="translate(0,-0) rotate(0) scale(1)">
+              <!-- <rect class="bounding-box" id="" width="3" height="3" fill="transparent" /> -->
+            </g>
+            
+            <g data-template="rectangle" transform="translate(0,-0) rotate(0) scale(1)">
+              <rect id="" width="1" height="1" fill="" />
+            </g>
+            
+            <g data-template="circle" transform="translate(0,-0) rotate(0) scale(1)">
+              <circle id="" cx="0" cy="0" r="0.5" transform="translate(0,-0) rotate(0) scale(1)"></circle>
+            </g>
+            
+          </g>
+        </defs>
+        
+        <g id="display-container" transform="translate(0,-0) scale(1)">
+          <rect id="surface" width="10" height="16" fill="url(#smallGrid)" />
+          
+          <g id="object-layer" transform="translate(0,-0) scale(1)">
+            <!-- <g data-template="circle" transform="translate(0,-0) rotate(0) scale(1)">
+              <circle id="" cx="5" cy="5" r="20" transform="translate(0,0) scale(1)"></circle>
+            </g> -->
+          </g>
+          
+        </g>
+        
+      </svg>
+    </section>
+    <footer id="app-footer">
+      <div class="container">
+        footer
+      </div>
+    </footer>
+  </div>
+  <script src="./script.js" type="module"></script>
+</body>
+
+</html>

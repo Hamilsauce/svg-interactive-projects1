@@ -3,6 +3,7 @@
   padding: 0;
   margin: 0;
   z-index: 0;
+  user-select: none;
 }
 
 html {
@@ -19,10 +20,12 @@ body {
 #app {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 svg{
   border: 1px solid black;
+  touch-action: none;
 }
 
 .bbox {
@@ -37,8 +40,33 @@ svg{
   stroke-width: 0.2;
 }
 
+.star path {
+  fill: #C39818BF;
+  stroke: #5741E6;
+  stroke-width: 0.2;
+  /* filter: hue-rotate(0); */
+  /* transition: 1s ease-in; */
+
+}
+
+.star.active path {
+  /* fill: #C31818; */
+  /* transform: translate(0,0) rotate(720deg) scale(3); */
+  /* transition: 2s ease-out; */
+
+}
+
+/* .star.huge path {
+  fill: #C31818;
+  transform: translate(0,0) rotate(720deg) scale(5);
+  transition: 1.5s ease-out;
+  filter: hue-rotate(720);
+
+} */
+
 .hexbounds {
   fill: #D02887;
   stroke: #9C9C9C;
   stroke-width: 0.2;
+  /* color: ; */
 }
