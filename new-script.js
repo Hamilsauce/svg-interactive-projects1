@@ -43,8 +43,12 @@ loop.addUpdateHandler((dx) => {
 )
 
 loop.start()
-console.warn('location.origin', location.origin)
-svgMenu .addEventListener('click', e => {
-location.href = location.origin + '/hexer/hexa.html'
+console.warn('location.origin', location)
+svgMenu.addEventListener('click', e => {
+  if (location.origin.includes('hamilsauce.github.io')) {
+    location.href = location.origin + '/svg-interactive-projects1/hexer/hexa.html'
+  } else {
+    location.href = location.origin + '/hexer/hexa.html'
+  }
   
 });
