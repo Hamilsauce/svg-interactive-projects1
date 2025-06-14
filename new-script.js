@@ -15,24 +15,38 @@ const panaction$ = addPanAction(svgCanvas, (vb) => {
 });
 panaction$.subscribe()
 
+let outFrame = 0
+let inframe = 0
+let useFrameMod = false
+
 const rotateMenu = (dx) => {
   const dxRounded = Math.round(dx)
   const dxTrunc = Math.trunc(dx)
-  const isFrame = !((Math.round(dx)) % 4)
+  // const isFrame = ((Math.round(dx)) % 1.75)
+  const isFrame = ((Math.round(dx)) % 1.5)
   
   const isTruncFrame = !(dxTrunc % 4)
   const newRoto = (currRoto + dx) % 10
   // console.log(isFrame, isTrunc)Frame)
+  outFrame++
+  const shouldUseMod = useFrameMod ? !!isFrame : true
   
-  if (isTruncFrame) {
+  if (isFrame) {
+    // console.warn(isFrame)
+    inframe++
+    
     currRoto = currRoto + 1
     
     svgMenu.setAttribute('transform', `translate(0, -100) rotate(${currRoto}, 0, 0) scale(1)`)
     svgMenu.style.filter = `contrast(1.5) drop-shadow(0px 4px 8px #1010109E) hue-rotate(${currRoto}deg)`;
-    // console.warn(Math.round(isFrame))
     // app.innerHTML = Math.round(newRoto)
-    
   }
+  
+  document.querySelector('h1').innerHTML =
+    `all frames: ${outFrame}  
+    isFrame: ${inframe} 
+    difference: ${outFrame - inframe}
+  `
   
 };
 
@@ -43,12 +57,17 @@ loop.addUpdateHandler((dx) => {
 )
 
 loop.start()
-console.warn('location.origin', location)
-svgMenu.addEventListener('click', e => {
-  if (location.origin.includes('hamilsauce.github.io')) {
-    location.href = location.origin + '/svg-interactive-projects1/hexer/hexa.html'
-  } else {
-    location.href = location.origin + '/hexer/hexa.html'
-  }
-  
+
+svgMenu.addEventListener('click', () =>{
+  useFrameMod = !useFrameMod
+  console.warn('useFrameMod', useFrameMod)
 });
+
+// svgMenu.addEventListener('click', e => {
+//   if (location.origin.includes('hamilsauce.github.io')) {
+//     location.href = location.origin + '/svg-interactive-projects1/hexer/hexa.html'
+//   } else {
+//     location.href = location.origin + '/hexer/hexa.html'
+//   }
+  
+// });
