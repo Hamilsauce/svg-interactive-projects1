@@ -16,10 +16,15 @@ const panaction$ = addPanAction(svgCanvas, (vb) => {
 panaction$.subscribe()
 
 const rotateMenu = (dx) => {
-  const isFrame = !((Math.trunc(dx)) % 1)
-  const newRoto = (currRoto + dx) % 10
+  const dxRounded = Math.round(dx)
+  const dxTrunc = Math.trunc(dx)
+  const isFrame = !((Math.round(dx)) % 4)
   
-  if (isFrame) {
+  const isTruncFrame = !(dxTrunc % 4)
+  const newRoto = (currRoto + dx) % 10
+  // console.log(isFrame, isTrunc)Frame)
+  
+  if (isTruncFrame) {
     currRoto = currRoto + 1
     
     svgMenu.setAttribute('transform', `translate(0, -100) rotate(${currRoto}, 0, 0) scale(1)`)
@@ -38,3 +43,8 @@ loop.addUpdateHandler((dx) => {
 )
 
 loop.start()
+console.warn('location.origin', location.origin)
+svgMenu .addEventListener('click', e => {
+location.href = location.origin + '/hexer/hexa.html'
+  
+});

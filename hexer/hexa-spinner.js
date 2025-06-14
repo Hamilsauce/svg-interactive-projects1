@@ -189,13 +189,35 @@ const plotPoints = (radius, numberOfPoints) => {
 
 const drawShape = (radius, pointCount = 6) => {
   const points = plotPoints(radius, pointCount)
+  const g = document.createElementNS(SVG_NS, 'g');
+  
   const hex = document.createElementNS(SVG_NS, 'polygon');
   
   points.forEach((p) => hex.points.appendItem(p))
+  g.appendChild(hex)
+  svg.appendChild(g)
   
   hex.classList.add('hex')
+  g.classList.add('container')
+  const radBCR = hex.getBoundingClientRect()
+  const radBBox = hex.getBBox()
+  const radScreenCTM = hex.getScreenCTM()
+  const radCTM = hex.getCTM()
+  const {width, height} = radBBox
+  console.log(pointCount,
+    {
+      radBBox,
+      radBCR,
+      radScreenCTM,
+      radCTM
+    }
+  )
+  g.setAttribute('transform', `translate(-${width/2},-${height/2}) rotate(0) scale(1)`)
+  // hex.setAttribute('transform', `translate(-${radius},-${radius}) rotate(0) scale(1)`)
+  // g.setAttribute('transform-origin', 'center center')
   
-  return hex
+  
+  return g
 };
 
 let rotation = 0
@@ -231,7 +253,11 @@ const manyAngle1 = drawShape(26, 16);
 
 const star5 = generateStarPath(0, 0, 26, 13, 5);
 
-const stopdrag = draggable(svg, star5)
+// const stopdrag = 
+draggable(svg, hex1)
+draggable(svg, square1)
+draggable(svg, triangle1)
+draggable(svg, manyAngle1)
 
 let starIntervalStart
 let starIntervalEnd
@@ -318,9 +344,9 @@ svg.addEventListener('dragend', e => {
 scene.append(
   hex1,
   // triangle1,
-  // square1,
+  square1,
   manyAngle1,
-  star5
+  // star5
 )
 
 shapeHex.init(hex1)
