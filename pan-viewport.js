@@ -108,5 +108,5 @@ export const addPanAction = (svg, callback) => {
       // }),
     )),
     switchMap(delta => pointerup$)
-  )
+  ).subscribe()
 };
