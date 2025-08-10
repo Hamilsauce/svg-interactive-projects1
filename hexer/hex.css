@@ -18,12 +18,26 @@ body {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0px;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+#app-body{
+  /* height: 100%; */
 }
 
-svg{
+#debug-console {
+  width: 100%;
+  height: 40px;
+  /* overflow: hidden; */
+}
+
+svg {
   border: 1px solid black;
   touch-action: none;
 }
@@ -46,14 +60,32 @@ svg{
   stroke-width: 0.2;
   /* filter: hue-rotate(0); */
   /* transition: 1s ease-in; */
+  
+}
 
+.vertex {
+  fill: #C31818;
+  stroke: #FFFFFF;
+  stroke-width: 0.4;
+  /* filter: hue-rotate(0); */
+  /* transition: 1s ease-in; */
+  
+}
+
+.origin {
+  fill: transparent;
+  stroke: #C31818;
+  stroke-width: 2;
+  /* filter: opacity(0.5); */
+  /* transition: 1s ease-in; */
+  
 }
 
 .star.active path {
   /* fill: #C31818; */
   /* transform: translate(0,0) rotate(720deg) scale(3); */
   /* transition: 2s ease-out; */
-
+  
 }
 
 /* .star.huge path {

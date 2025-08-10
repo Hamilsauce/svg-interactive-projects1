@@ -8,8 +8,6 @@ const svg = document.querySelector('#svg');
 const scene = svg.querySelector('#scene');
 import { anim } from './anim.js';
 
-svg.style.width = window.innerWidth + 'px'
-svg.style.height = window.innerHeight + 'px'
 
 export class Hexagon {
   shape = null;
@@ -93,7 +91,8 @@ const shapeHex = {
     this.rotation += 1;
     this.shape.setAttribute("transform", `translate(0,0) rotate(${this.rotation})`);
     
-    const bb = this.shape.getBoundingClientRect()
+    // const bb = this.shape.getBoundingClientRect()
+    const bb = this.shape.getBBox()
     const bboxPoint1 = domPoint(scene, bb.x, bb.y, );
     const bboxPoint2 = domPoint(scene, bb.width, bb.height);
     
@@ -107,6 +106,13 @@ const shapeHex = {
       height: 50 - this.lastBbox.y + ((bboxPoint2.y - bboxPoint1.y) - 0),
       width: 50 + this.lastBbox.x + ((bboxPoint2.x - bboxPoint1.x) - 0),
     })
+    
+    // const rect = drawRect({
+    //   x: bb.x, 
+    //   y: bb.y,
+    //   height: bb.height,
+    //   width: bb.width,
+    // })
     
     const rects = [...scene.querySelectorAll('rect')]
     
@@ -141,10 +147,13 @@ function generateStarPath(cx, cy, outerRadius, innerRadius, points) {
   const svg = document.querySelector('svg');
   const pathEl = document.createElementNS(SVG_NS, 'path')
   const g = document.createElementNS(SVG_NS, 'g')
+  
   g.classList.add('star');
+  
   pathEl.setAttribute('d', path)
   pathEl.setAttribute('fill', 'gold');
   pathEl.setAttribute('stroke', 'black');
+  
   g.appendChild(pathEl);
   
   return g;
@@ -192,9 +201,19 @@ const drawShape = (radius, pointCount = 6) => {
   const g = document.createElementNS(SVG_NS, 'g');
   
   const hex = document.createElementNS(SVG_NS, 'polygon');
-  
-  points.forEach((p) => hex.points.appendItem(p))
   g.appendChild(hex)
+  
+  points.forEach((p) => {
+    const vert = document.createElementNS(SVG_NS, 'circle');
+    vert.classList.add('vertex')
+    vert.setAttribute('r', 2.5)
+    vert.setAttribute('cx', p.x)
+    vert.setAttribute('cy', p.y)
+    
+    hex.points.appendItem(p)
+    g.appendChild(vert)
+    
+  })
   svg.appendChild(g)
   
   hex.classList.add('hex')
@@ -203,15 +222,14 @@ const drawShape = (radius, pointCount = 6) => {
   const radBBox = hex.getBBox()
   const radScreenCTM = hex.getScreenCTM()
   const radCTM = hex.getCTM()
-  const {width, height} = radBBox
+  const { width, height } = radBBox
   console.log(pointCount,
-    {
-      radBBox,
-      radBCR,
-      radScreenCTM,
-      radCTM
-    }
-  )
+  {
+    radBBox,
+    radBCR,
+    radScreenCTM,
+    radCTM
+  })
   g.setAttribute('transform', `translate(-${width/2},-${height/2}) rotate(0) scale(1)`)
   // hex.setAttribute('transform', `translate(-${radius},-${radius}) rotate(0) scale(1)`)
   // g.setAttribute('transform-origin', 'center center')
@@ -252,6 +270,7 @@ const triangle1 = drawShape(26, 3);
 const manyAngle1 = drawShape(26, 16);
 
 const star5 = generateStarPath(0, 0, 26, 13, 5);
+const star4 = generateStarPath(0, 0, 26, 13, 4);
 
 // const stopdrag = 
 draggable(svg, hex1)
@@ -308,7 +327,8 @@ svg.addEventListener('dragstart', e => {
       const { rotate, hueRotate, scale } = starAnimState;
       
       debugConsole.textContent = `r: ${Math.round(rotate)} s: ${Math.round(scale)} hr: ${hueRotate}`
-      star5.firstElementChild.style.transform = `translate(0,0) rotate(${rotate}deg) scale(${scale})`
+      // star5.firstElementChild.style.transform = `translate(0,0) rotate(${rotate}deg) scale(${scale})`
+      triangle1.firstElementChild.style.transform = `translate(0,0) rotate(${rotate}deg) scale(${scale})`
       
       star5.firstElementChild.style.fill = `hsl(${hueRotate}, 100%, 50%)`
       star5.firstElementChild.setAttribute(`hue-rotate`, hueRotate)
@@ -341,13 +361,31 @@ svg.addEventListener('dragend', e => {
   }, 32)
 });
 
+
+const svgParentWidth = getComputedStyle(svg.parentElement).width
+const svgParentheight = getComputedStyle(svg.parentElement).height
+svg.style.width = svgParentWidth
+svg.style.height = svgParentheight
+
+console.warn('svgParentheight', svgParentheight)
+const vert = document.createElementNS(SVG_NS, 'circle');
+vert.classList.add('origin')
+vert.setAttribute('r', 16)
+vert.setAttribute('cx', 0)
+vert.setAttribute('cy', 0)
+
+
+
 scene.append(
-  hex1,
+  star4,
+  vert,
+  // hex1,
   // triangle1,
   square1,
   manyAngle1,
   // star5
 )
+
 
 shapeHex.init(hex1)
 const rect = drawRect(hex1.getBoundingClientRect());

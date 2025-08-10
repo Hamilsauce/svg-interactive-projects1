@@ -1,0 +1,92 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  z-index: 0;
+  touch-action: none;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  gap: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#app-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0px;
+}
+
+#app-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0px;
+  overflow-y: scroll;
+}
+
+#svg-canvas {
+  border: 1px solid #C2C2C2;
+}
+
+circle {
+  fill: #1E7563;
+  stroke: #322C3BF2;
+}
+
+#squiggly {
+  fill: transparent;
+  stroke: #000000;
+  stroke-width: 1;
+  filter: invert(1) drop-shadow(0 0 1px rgba(0, 0, 0, 1));
+
+}
+
+.vertex{
+  fill: #FF0000;
+  stroke: #F1F1F1;
+  stroke-width: 1;
+  r: 5;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+.control-point{
+  fill: #FF0000;
+  stroke: #F1F1F1;
+  stroke-width: 1;
+  r: 5;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+.vertex2{
+  fill: #17FF00;
+  stroke: #F1F1F1;
+  stroke-width: 0.5;
+  r: 4;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+
+}
+
+.vertex:nth-child(odd) {
+  fill: #3500FF;
+
+}
