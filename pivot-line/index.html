@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>app</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- <link rel="stylesheet" href="./style.css" /> -->
+  <link rel="stylesheet" href="./main.css">
+  <link rel="stylesheet" href="./hex.css">
+  
+</head>
+
+<body>
+  <div id="app">
+    <header id="app-header">
+      <div id="app-header-left">L</div>
+      <div id="app-header-center">
+        <h1>Title</h1>
+      </div>
+      <div id="app-header-right">R</div>
+    </header>
+    <section id="app-body">
+      <!-- <svg id="svg-canvas" width="412" height="690" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <g id="circle-container">
+            <circle id="circle-template" fill="teal" cx="0" cy="0" r=" 10" stroke="#000000" stroke-width="1" transform="translate(0,0) rotate(0) scale(1)" />
+          </g>
+        </defs>
+        <g id="scene" transform="translate(0,0) rotate(0) scale(1)">
+          <g id="circle-container">
+            <circle id="circle" fill="teal" cx="0" cy="0" r=" 10" stroke="#000000" stroke-width="1" transform="translate(0,0) rotate(0) scale(1)" />
+          </g>
+        </g>
+        <use href="#circle-container"></use>
+      </svg> -->
+      
+      <svg id="svg-canvas" width="400" height="700" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          
+          <marker id="edge-line-arrow" viewBox="0 0 10 10" refX="2.5" refY="2.5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 5 2.5 L 0 5 z" _fill="#00000090" />
+          </marker>
+          
+          <g data-template="edge-line" class="edge-line" id="" data-x="0" data-y="0" transform="translate(0,0) rotate(0) scale(1)">
+            <line _class="edge-line-arrow-path" x1="0" y1="0" x2="1" y2="1" marker-end="url(#edge-line-arrow)" transform="translate(0,0) rotate(0) scale(1)" />
+            <circle cx="1" cy="1" r="0.25" fill="#FFFFFF00" transform="translate(0,0) rotate(0) scale(1)" />
+          </g>
+          
+          
+        </defs>
+        <g id="scene">
+          <!-- <path id="squiggly" d=" 
+            M  0,80 
+            Q -50,120 
+               0,160 
+               50,200 
+               0,240 
+              -50,280 
+               0,320" /> -->
+          
+          <!-- <g id="vertices">
+            <circle id="0" class="vertex" transform="translate(0,80) rotate(0) scale(1)" />
+            <circle id="1" data-id="control-point1" class="control-point" transform="translate(-50,120) rotate(0) scale(1)" />
+            <circle id="2" class="vertex" transform="translate(0,160) rotate(0) scale(1)" />
+            <circle id="3" data-id="control-point2" class="control-point" transform="translate(50,200) rotate(0) scale(1)" />
+            <circle id="4" class="vertex" transform="translate(0,240) rotate(0) scale(1)" />
+            <circle id="5" data-id="control-point3" class="control-point" transform="translate(-50,280) rotate(0) scale(1)" />
+            <circle id="6" class="vertex" transform="translate(0,320) rotate(0) scale(1)" />
+            <circle id="7" class="vertex2" transform="translate(0,0) rotate(0) scale(1)" />
+            
+          </g> -->
+          
+          
+          <!-- <g id="wheel-root" transform="translate(0 0)">
+            
+            <g id="wheel">
+              <circle r="32" fill="#39a9c6" />
+              
+              <g class="menu-node" transform="rotate(0) translate(32 0)">
+                <circle r="4" fill="white" />
+              </g>
+              
+              <g class="menu-node" transform="rotate(30) translate(32 0)">
+                <circle r="4" fill="white" />
+              </g>
+              
+              <g class="menu-node" transform="rotate(60) translate(32 0)">
+                <circle r="4" fill="white" />
+              </g>
+              
+            </g>
+          </g> -->
+          <circle cx="0" cy="0" id="7" class="vertex" transform="translate(0,0) rotate(0) scale(1)" />
+          
+          <g data-template="edge-line" class="edge-line" id="arrow1" data-x="0" data-y="0" transform="translate(0,0) rotate(0) scale(1)">
+            <g class="arrow-line" data-x="0" data-y="0" transform="translate(0,0) rotate(0) scale(1)">
+              <line class="edge-line-arrow-path" x1="0" y1="0" x2="80" y2="0" marker-end="url(#edge-line-arrow)" transform="translate(0,0) rotate(0) scale(1)" />
+            </g>
+            <circle data-handle="start" class="edge-line-handle" cx="0" cy="0" r="0.25" _fill="#FFFFFF00" transform="translate(15,0) rotate(0) scale(1)" />
+            <circle data-handle="end" class="edge-line-handle" cx="0" cy="0" r="0.25" _fill="#FFFFFF00" transform="translate(65,0) rotate(0) scale(1)" />
+          </g>
+          
+        </g>
+      </svg>
+      <!-- <svg id="svg" width="412" height="690" viewBox="0 0 1000 1000">
+        <g id="wheel-root" transform="translate(0 1000)">
+          
+          giant hidden/offscreen wheel
+          <g id="wheel">
+            <circle r="420" fill="#39a9c6" />
+            
+            orbiting menu nodes
+            <g class="menu-node" transform="rotate(0) translate(420 0)">
+              <circle r="40" fill="white" />
+            </g>
+            
+            <g class="menu-node" transform="rotate(30) translate(420 0)">
+              <circle r="40" fill="white" />
+            </g>
+            
+            <g class="menu-node" transform="rotate(60) translate(420 0)">
+              <circle r="40" fill="white" />
+            </g>
+            
+          </g>
+        </g>
+      </svg> -->
+    </section>
+    <footer id="app-footer">
+      <div class="container">
+        footer
+      </div>
+    </footer>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+  </script>
+  <!-- <script src="./hexa-spinner.js" type="module"></script> -->
+  <!-- <script src="./menu-rotation.js" type="module"></script> -->
+  <script src="./script.js" type="module"></script>
+</body>
+
+</html>

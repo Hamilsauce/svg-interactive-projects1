@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="cid:css-023b16b4-f56a-4de3-8aa1-09d4813113c9@mhtml.blink" />
+  
+  
+  <title>Conveyor belt representation</title>
+  <link rel="canonical" href="https://www.redblobgames.com/x/1805-conveyor-belts/">
+  <!--DO NOT EDIT: generated from redblobgames/x/1805-conveyor-belts/index.bxml-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preload" as="image" href="https://www.redblobgames.com/img/transparent-blob.png">
+  <link rel="alternate" type="application/atom+xml" title="Blog posts" href="https://www.redblobgames.com/blog/posts.xml">
+  <meta name="theme-color" content="hsl(0,50%,45%)">
+  <meta property="og:title" content="Red Blob Games: Conveyor belt representation">
+  <meta property="og:url" content="https://www.redblobgames.com/x/1805-conveyor-belts/">
+  <style>
+    :root {
+      --hue: 0;
+    }
+    
+    :root {
+      --bgurl: url(/img/transparent-blob.png);
+    }
+    
+    body {
+      --serif: "Iowan Old Style", Cambria, Georgia, serif;
+      --sans-serif: "Avenir Next", Candara, Ubuntu, "Fira Sans", system-ui, "Segoe UI", sans-serif;
+      --monospace: "Roboto Mono", "Cascadia Mono", Consolas, monospace, "Segoe UI Symbol", Symbol;
+      --body-width: calc(100vw - 2.25rem);
+      --font-size: calc(.625rem + 1vw);
+      --line-height: calc(1.5 * var(--font-size));
+      font-family: var(--sans-serif);
+      font-size: var(--font-size);
+      font-size-adjust: 0.48;
+      line-height: 1.5em;
+      min-height: 95%;
+    }
+    
+    svg {
+      font-size-adjust: none;
+    }
+    
+    @media (min-width: 34.375em) {
+      body {
+        --body-width: min(20.6rem + 33vw, 41.25rem);
+        --font-size: calc(var(--body-width) / 33);
+      }
+    }
+    
+    main {
+      font-family: var(--serif);
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    figcaption,
+    .sans-serif {
+      font-family: var(--sans-serif);
+      text-wrap: pretty;
+    }
+    
+    tt,
+    code,
+    kbd,
+    samp,
+    pre {
+      font-family: var(--monospace);
+      font-size: 0.9em;
+    }
+    
+    pre :is(tt, code, kbd, samp) {
+      font-size: unset;
+    }
+    
+    #table-of-contents {
+      background-color: rgb(255, 255, 255);
+      padding-left: 1em;
+      width: 18em;
+      float: right;
+    }
+    
+    #table-of-contents::after {
+      clear: right;
+    }
+    
+    nav,
+    #table-of-contents {
+      font-family: var(--sans-serif);
+      font-size: calc(var(--font-size) / 1.25);
+
+      & a {
+        text-decoration-color: hsl(var(--hue), 20%, 90%);
+      }
+    }
+    
+    @media screen {
+
+      header,
+      section>h2 {
+        text-shadow: rgba(0, 0, 0, 0.8) 0px 2px 5px;
+        text-rendering: optimizelegibility;
+      }
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin: 0px;
+      line-height: calc(1.5 * var(--line-height));
+
+      & .subheading {
+        font-size: 0.5em;
+        line-height: var(--line-height);
+      }
+    }
+    
+    sup,
+    sub {
+      position: relative;
+      vertical-align: baseline;
+      font-size: 0.75em;
+      line-height: 0;
+      padding-left: 0.125em;
+    }
+    
+    sup {
+      top: -0.5em;
+    }
+    
+    sub {
+      bottom: -0.25em;
+    }
+    
+    details summary {
+      cursor: pointer;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+    
+    html {
+      background-color: rgb(228, 228, 224);
+      color: rgb(0, 0, 0);
+    }
+    
+    body {
+      background-color: rgb(255, 255, 255);
+      color: rgb(51, 51, 51);
+    }
+    
+    header {
+      display: block;
+      text-align: center;
+    }
+    
+    header>h1 {
+      padding-top: var(--line-height);
+    }
+    
+    @media screen {
+
+      header,
+      footer,
+      .divider,
+      section>h2 {
+        color: rgb(255, 255, 255);
+        background-color: hsl(var(--hue), 50%, 45%);
+        background-image: var(--bgurl), var(--bgurl), linear-gradient(180deg, hsl(var(--hue), 50%, 45%), hsl(var(--hue), 75%, 30%));
+        background-position: 0px 0px, 16px 16px;
+        -webkit-font-smoothing: antialiased;
+
+        & a {
+          color: hsl(var(--hue), 40%, 90%);
+          background: unset;
+          text-decoration: none;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    
+    footer,
+    .divider {
+      & a {
+        text-decoration: underline;
+      }
+    }
+    
+    main {
+      margin-inline: 0px;
+      padding-inline: 0px;
+    }
+    
+    section {
+      margin: var(--line-height) 0;
+    }
+    
+    section>* {
+      width: var(--body-width);
+      max-width: 100%;
+    }
+    
+    .comments {
+      width: calc(1.5 * var(--body-width));
+      max-width: 100%;
+    }
+    
+    @media screen {
+
+      .comments,
+      .below-divider {
+        background-color: rgb(230, 230, 229);
+      }
+    }
+    
+    .comments {
+      padding-bottom: 1.25em;
+      font-size: 1em;
+
+      & .comment-author {
+        text-shadow: rgb(255, 255, 255) 1px 1px 3px;
+      }
+    }
+    
+    section>h2 {
+      --h2-margin: 3em;
+      margin: var(--line-height) auto;
+      padding: calc(var(--line-height) / 2 - 1px) 0;
+      font-size: 1.25em;
+      width: calc(2 * var(--h2-margin) + var(--body-width));
+      max-width: 100%;
+
+      &>span {
+        display: inline-block;
+        margin-left: var(--h2-margin);
+      }
+      
+      & a.anchor {
+        float: right;
+        width: calc(var(--h2-margin));
+        text-align: center;
+        color: hsl(var(--hue), 50%, 45%);
+      }
+      
+      &:hover a.anchor {
+        color: hsl(var(--hue), 20%, 80%);
+      }
+    }
+    
+    h3 {
+      --h2-margin: 3em;
+      margin: var(--line-height) auto;
+      font-size: 1.125em;
+
+      & a.anchor {
+        float: right;
+        width: calc(var(--h2-margin));
+        text-align: center;
+        color: hsl(var(--hue), 20%, 80%);
+
+        @media (min-width: 34.375em) {
+          margin-right: calc(0em - var(--h2-margin));
+        }
+      }
+    }
+    
+    h4 a.anchor,
+    h5 a.anchor,
+    h6 a.anchor {
+      padding-left: 1em;
+      color: hsl(var(--hue), 20%, 80%);
+    }
+    
+    h3:hover a.anchor,
+    h4:hover a.anchor,
+    h5:hover a.anchor,
+    h6:hover a.anchor {
+      color: hsl(var(--hue), 50%, 40%);
+    }
+    
+    header nav {
+      display: block;
+
+      & ul {
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
+        line-height: 1;
+        margin: 0px;
+
+        & li {
+          display: inline-block;
+          padding: 0.1em 0.3em;
+          text-align: center;
+          flex: 0 0 4em;
+          align-self: center;
+          white-space: nowrap;
+
+          & a {
+            display: block;
+            font-weight: 700;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+    
+    header,
+    .divider,
+    section>h2 {
+      border-bottom: 1px solid rgb(0, 0, 0);
+    }
+    
+    .divider,
+    section>h2 {
+      border-top: 1px solid rgb(0, 0, 0);
+    }
+    
+    .divider {
+      min-height: calc(2 * var(--line-height));
+      text-align: center;
+    }
+    
+    .below-divider {
+      padding-top: var(--line-height);
+      border-bottom: 1px solid black;
+
+      &>p:first-child {
+        font-size: 1.25em;
+        text-align: center;
+        margin-top: 0px;
+      }
+    }
+    
+    footer {
+      --footer-padding-y: calc(var(--line-height) / 2);
+      --footer-padding-x: var(--font-size);
+      padding: var(--footer-padding-y) var(--footer-padding-x);
+      border-top: 1px solid rgb(0, 0, 0);
+    }
+    
+    footer>div>div>address {
+      display: block;
+    }
+    
+    @media (min-width: 50em) {
+      footer>div {
+        margin: 0px auto;
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
+        max-width: calc(2 * var(--body-width));
+        width: calc(100vw - 2 * var(--footer-padding-x));
+      }
+      
+      footer>div>div:nth-child(1) {
+        flex: 0 1 20em;
+        align-self: center;
+        text-align: left;
+      }
+      
+      footer>div>div:nth-child(2) {
+        flex: 1 1 20em;
+        align-self: center;
+        text-align: right;
+      }
+      
+      footer>div>div>p,
+      footer>div>div>div {
+        margin-top: 0px;
+      }
+    }
+    
+    h2:target {
+      animation: 0.4s ease 0s 1 normal none running target-attention;
+      font-size: 2em;
+    }
+    
+    @keyframes target-attention {
+      0% {
+        transform: scale(1.1);
+      }
+      
+      100% {
+        transform: scale(1.1);
+      }
+    }
+    
+    div:target {
+      border: 1px dashed rgb(136, 136, 136);
+    }
+    
+    kbd kbd {
+      padding: 0.1em 0.4em;
+      margin: 0px 0.1em 0.2em;
+      font-size: 0.75em;
+      white-space: nowrap;
+      background-color: rgb(221, 221, 221);
+      color: rgb(34, 68, 34);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 0.2em;
+      box-shadow: rgb(255, 255, 255) 0px 0px 1px 1px inset, rgba(0, 0, 0, 0.3) 0px 2px;
+    }
+    
+    samp,
+    kbd {
+      background-color: rgb(243, 243, 242);
+    }
+    
+    code,
+    samp {
+      color: rgb(68, 68, 34);
+    }
+    
+    kbd {
+      margin: 0px 0.4em;
+      color: rgb(34, 85, 34);
+    }
+    
+    section li::marker {
+      font-family: var(--sans-serif);
+      color: hsl(var(--hue), 50%, 40%);
+    }
+    
+    main ::target-text {
+      background-color: hsl(var(--hue), 20%, 80%);
+      color: rgb(0, 0, 0);
+    }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    section figcaption {
+      font-size: 0.75em;
+      line-height: 1.1;
+      text-align: center;
+    }
+    
+    a {
+      color: hsl(var(--hue), 50%, 45%);
+      text-decoration-color: hsl(var(--hue), 20%, 80%);
+      text-underline-offset: 0.25em;
+
+      &:hover {
+        text-decoration-line: underline;
+        text-decoration-thickness: initial;
+        text-decoration-style: initial;
+        text-decoration-color: hsl(var(--hue), 50%, 45%);
+        background: hsla(var(--hue), 50%, 50%, .1);
+      }
+    }
+    
+    :focus-visible {
+      outline-color: hsl(var(--hue), 50%, 45%);
+    }
+    
+    .draft {
+      font-family: var(--serif);
+      font-size: calc(4 * var(--font-size));
+      letter-spacing: -0.1em;
+      color: rgb(238, 238, 238);
+      opacity: 0.5;
+      text-align: center;
+      transform: rotate(-5deg);
+      line-height: 1;
+      position: absolute;
+      top: 0px;
+      height: 0px;
+      left: 25%;
+      width: 50%;
+      pointer-events: none;
+    }
+    
+    @media (min-width: 34.375em) {
+
+      section p,
+      section li {
+        hyphens: auto;
+        hyphenate-limit-chars: 7;
+      }
+      
+      code,
+      kbd,
+      pre {
+        hyphens: none;
+      }
+    }
+    
+    nav,
+    .section-number,
+    address,
+    time {
+      font-variant-numeric: oldstyle-nums;
+    }
+    
+    .w-auto,
+    section>.w-auto {
+      width: auto;
+    }
+    
+    .w-full,
+    section>.w-full {
+      width: 100%;
+    }
+    
+    .w-150b,
+    section>.w-150b {
+      width: calc(1.5 * var(--body-width));
+    }
+    
+    .select-none {
+      user-select: none;
+    }
+    
+    .text-left {
+      text-align: left;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-right {
+      text-align: right;
+    }
+    
+    .text-sm {
+      font-size: 0.875em;
+    }
+    
+    .font-sans {
+      font-family: var(--sans-serif);
+    }
+    
+    .font-serif {
+      font-family: var(--serif);
+    }
+    
+    .font-mono {
+      font-family: var(--monospace);
+    }
+    
+    .normal-nums {
+      font-variant-numeric: normal;
+    }
+    
+    .oldstyle-nums {
+      font-variant-numeric: oldstyle-nums;
+    }
+    
+    p,
+    figure,
+    ul,
+    ol {
+      margin: var(--line-height) 0;
+    }
+    
+    header>*,
+    section>*,
+    footer>*,
+    main>address,
+    .comments {
+      margin-inline: auto;
+    }
+    
+    figure {
+      text-align: center;
+
+      & pre {
+        text-align: left;
+      }
+      
+      & img,
+      & svg,
+      & canvas {
+        max-width: 100%;
+        touch-action: manipulation;
+      }
+    }
+    
+    :is(li, dd)> :is(ul, ol, p) {
+      margin-block: 0px;
+    }
+    
+    dt {
+      font-weight: 700;
+    }
+    
+    pre {
+      width: var(--body-width);
+      max-width: 100%;
+      line-height: 1.4;
+      overflow: auto;
+      border-block: 1px solid rgb(204, 204, 204);
+      border-inline-width: 0px;
+    }
+    
+    footer pre {
+      border-block: unset;
+    }
+    
+    pre.simple,
+    .comments pre {
+      overflow: auto;
+      width: calc(var(--body-width) * 1.2);
+      border-width: medium;
+      border-style: none;
+      border-color: currentcolor;
+      border-image: initial;
+      background: transparent;
+      box-shadow: none;
+    }
+    
+    pre.snippet,
+    pre.src {
+      border-top-style: dashed;
+      border-bottom-style: dashed;
+    }
+    
+    section>pre:only-child {
+      padding-bottom: var(--font-size);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    }
+    
+    blockquote {
+      font-style: italic;
+      text-wrap: balance;
+    }
+    
+    table.standard2024 {
+      font-family: var(--sans-serif);
+      font-size: 0.875em;
+      border: 2px solid white;
+      border-collapse: collapse;
+      overflow-x: auto;
+
+      & th {
+        background-color: rgb(232, 232, 227);
+        border: 2px solid white;
+        padding: 0px 0.5em;
+      }
+      
+      & td {
+        background-color: rgb(255, 255, 255);
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgb(243, 243, 242) rgb(186, 186, 171) rgb(243, 243, 242) rgb(243, 243, 242);
+        border-image: initial;
+        padding: 0px 0.5em;
+      }
+      
+      & thead {
+        border-bottom: 2px solid rgb(186, 186, 171);
+
+        & th {
+          background: linear-gradient(to top, rgb(232, 232, 227), rgb(244, 244, 241), rgb(250, 250, 249));
+        }
+      }
+    }
+    
+    table.standard {
+      font-family: var(--sans-serif);
+      font-size: 0.875em;
+      border-block: 2px solid hsl(var(--hue), 10%, 50%);
+      border-collapse: collapse;
+      overflow-x: auto;
+      text-align: left;
+
+      & td,
+      & th {
+        border-bottom: 1px solid rgb(243, 243, 242);
+        padding: 0px 0.5em;
+      }
+      
+      & :is(td, th):not(:last-child) {
+        border-right: 1px solid rgb(186, 186, 171);
+      }
+      
+      & td {
+        background-color: hsl(var(--hue), 10%, 97%);
+        border-bottom-color: rgb(255, 255, 255);
+      }
+      
+      & tbody,
+      & thead {
+        border-bottom: 2px solid hsl(var(--hue), 10%, 50%);
+        vertical-align: bottom;
+      }
+      
+      & tfoot {
+        border-top: 2px solid hsl(var(--hue), 10%, 50%);
+        vertical-align: bottom;
+      }
+      
+      & thead th {
+        background: linear-gradient(to top, hsl(var(--hue), 10%, 85%), hsl(var(--hue), 15%, 87%), hsl(var(--hue), 15%, 90%));
+        border-bottom: unset;
+      }
+      
+      & tbody th {
+        background-color: hsl(var(--hue), 10%, 95%);
+        border-bottom: 1px solid white;
+      }
+      
+      & tr:hover :is(td, th) {
+        background-color: hsl(var(--hue), 25%, 93%);
+      }
+    }
+    
+    aside,
+    p.note,
+    div.note>p {
+      width: calc(var(--body-width) - 2em);
+      padding: 1em;
+      background: rgb(238, 238, 238);
+      border: 1px solid rgb(221, 221, 221);
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 6px -6px;
+    }
+    
+    tt,
+    code {
+      padding: 0px 2px;
+    }
+    
+    pre :is(tt, code) {
+      padding: unset;
+    }
+    
+    main>address,
+    section>address,
+    section>time {
+      display: block;
+      width: var(--body-width);
+      max-width: 100%;
+      font-family: var(--sans-serif);
+      text-align: right;
+    }
+    
+    form {
+      margin: 0px;
+    }
+    
+    input {
+      accent-color: hsl(var(--hue), 50%, 50%);
+    }
+    
+    input[type="text"] {
+      max-width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.7);
+      background-color: rgb(248, 248, 244);
+      color: rgb(0, 0, 0);
+      text-align: center;
+      font-weight: 700;
+
+      &:focus {
+        background-color: rgb(255, 255, 244);
+      }
+    }
+    
+    input::placeholder {
+      color: rgb(170, 170, 170);
+    }
+    
+    input[type="search"][name="q"] {
+      box-shadow: rgba(0, 0, 0, 0.5) 0px 0.1em 0.3em inset;
+      border-radius: 0.6em;
+      padding: 0.3em 0.6em;
+      border-width: 0px;
+    }
+    
+    button {
+      touch-action: manipulation;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .TODO {
+      color: rgb(191, 64, 64);
+      background: rgb(232, 227, 227);
+      border: 1px solid rgb(191, 64, 64);
+      margin-left: 0.5ex;
+    }
+    
+    .DONE {
+      color: rgb(64, 64, 191);
+      background: rgb(227, 227, 232);
+      border: 1px solid rgb(64, 64, 191);
+    }
+    
+    .src {
+      & .constant {
+        font-style: oblique;
+      }
+      
+      & .comment-delimiter,
+      & .nxml-comment-delimiter {
+        color: rgb(68, 136, 255);
+      }
+      
+      & .comment,
+      & .nxml-comment-content {
+        color: rgb(0, 102, 153);
+      }
+      
+      & .builtin {
+        color: rgb(80, 139, 32);
+      }
+      
+      & .warning {
+        color: rgb(204, 0, 0);
+      }
+      
+      & .function-name {
+        color: rgb(38, 139, 210);
+        font-weight: 700;
+      }
+      
+      & .variable-name {
+        font-weight: 700;
+        color: rgb(92, 61, 92);
+      }
+      
+      & .type {
+        color: rgb(108, 113, 196);
+      }
+      
+      & .constant-face {
+        color: rgb(211, 54, 130);
+      }
+      
+      & .doc {
+        color: rgb(102, 102, 102);
+        background-color: rgb(226, 230, 232);
+      }
+      
+      & .string {
+        color: rgb(136, 136, 136);
+      }
+      
+      & .preprocessor {
+        color: rgb(133, 153, 0);
+      }
+      
+      & .negation-char,
+      & .sh-escaped-newline {
+        color: red;
+      }
+      
+      & .todo {
+        color: rgb(255, 255, 255);
+        background: rgb(220, 50, 47);
+      }
+      
+      & .note {
+        color: rgb(255, 255, 255);
+        background: rgb(42, 161, 152);
+      }
+      
+      & .hack {
+        color: rgb(255, 255, 255);
+        background: rgb(133, 153, 0);
+      }
+      
+      & .operator {
+        color: rgb(0, 0, 0);
+        font-weight: 700;
+      }
+      
+      & .paren {
+        color: rgb(160, 160, 144);
+        font-weight: 700;
+      }
+      
+      & .keyword {
+        color: rgb(102, 119, 153);
+        font-weight: 700;
+      }
+      
+      & .minor-control-construct {
+        color: rgb(64, 106, 191);
+        font-weight: 700;
+      }
+      
+      & .major-control-construct {
+        color: rgb(191, 64, 64);
+      }
+    }
+    
+    .src-cpp {
+      & .constant {
+        color: rgb(153, 153, 153);
+      }
+    }
+    
+    .src-emacs-lisp {
+      & .paren {
+        color: rgb(201, 201, 196);
+      }
+    }
+    
+    .src-sh {
+
+      & .string,
+      & .comment {
+        color: inherit;
+      }
+    }
+    
+    .src-python {
+      & .highlight-indentation {
+        border-right: 2px solid rgb(238, 238, 238);
+      }
+    }
+    
+    .src-css {
+      & .css-selector {
+        color: rgb(71, 133, 71);
+      }
+      
+      & .css-property {
+        color: rgb(64, 106, 191);
+      }
+    }
+    
+    .src-xml {
+      & .nxml-element-prefix {
+        color: rgb(191, 64, 191);
+      }
+      
+      & .nxml-element-local-name {
+        color: rgb(64, 106, 191);
+        font-weight: 400;
+      }
+      
+      & .nxml-attribute-local-name {
+        color: rgb(71, 133, 71);
+      }
+      
+      & .nxml-element-colon {
+        color: rgb(163, 173, 194);
+      }
+      
+      & .nxml-tag-delimiter,
+      & .nxml-tag-slash {
+        color: rgb(156, 171, 201);
+        font-weight: 700;
+      }
+    }
+    
+    table.standard td.left,
+    table.standard th.left {
+      text-align: left;
+    }
+    
+    table.standard td.center,
+    table.standard th.center {
+      text-align: center;
+    }
+    
+    table.standard td.right,
+    table.standard th.right {
+      text-align: right;
+    }
+    
+    @media screen {
+      [class^="section-number"] {
+        color: hsl(var(--hue), 20%, 50%);
+      }
+      
+      h2 .section-number {
+        display: inline-block;
+        margin-left: 0px;
+        padding-left: 0.5em;
+        text-align: center;
+        width: var(--h2-margin);
+        color: hsl(var(--hue), 50%, 80%);
+      }
+      
+      h2 .section-number+span {
+        margin-left: 0px;
+      }
+      
+      h3>.section-number {
+        float: left;
+        text-align: center;
+        width: 2.7em;
+        margin-right: 0.3em;
+        color: hsl(var(--hue), 25%, 90%);
+        background-size: ;
+        background-repeat: ;
+        background-attachment: ;
+        background-origin: ;
+        background-clip: ;
+        background-color: ;
+        background-image: var(--bgurl), var(--bgurl);
+        background-position: 0px 0px, 16px 16px;
+        border-radius: 0.25em;
+        text-shadow: rgba(0, 0, 0, 0.8) 0px 2px 5px;
+      }
+      
+      @media (min-width: 34.375em) {
+        h3>.section-number {
+          height: 2em;
+          margin-left: -3em;
+          margin-top: -0.3em;
+          padding-top: 0.3em;
+          border-block: 1px solid black;
+        }
+        
+        h3>a.anchor {
+          background: url("https://www.redblobgames.com/img/svg-blob-mini.svg") center center / 2cap 2cap no-repeat;
+        }
+        
+        h3:hover>a.anchor {
+          background: none;
+        }
+      }
+    }
+    
+    .print-endnote {
+      display: none;
+    }
+    
+    @media print {
+      @page {
+        margin: 0.5in;
+      }
+      
+      body {
+        --font-size: 14pt;
+        --serif: "Book Antiqua", "Times New Roman", serif;
+        --sans-serif: "Helvetica", sans-serif;
+        --monospace: "Courier", "Courier New", monospace;
+      }
+      
+      h2,
+      h3 {
+        break-after: avoid;
+      }
+      
+      figure {
+        break-inside: avoid;
+      }
+      
+      p,
+      li {
+        orphans: 5;
+        widows: 5;
+      }
+      
+      section p a,
+      section li a {
+        text-decoration: underline rgb(221, 221, 221);
+      }
+      
+      header nav,
+      .comments {
+        display: none;
+      }
+      
+      .print-endnote {
+        display: unset;
+      }
+      
+      .print-endnote li {
+        list-style-type: none;
+        word-break: break-all;
+      }
+      
+      .print-endnote img {
+        width: 2.5em;
+        vertical-align: bottom;
+      }
+    }
+    
+    @media print {
+      header::before {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        content: url("https://chart.apis.google.com/chart?chs=120x120&cht=qr&chl=https%3A%2F%2Fwww.redblobgames.com%2Fx%2F1805-conveyor-belts%2F");
+      }
+    }
+    
+    [v-cloak] {
+      display: none;
+    }
+    
+    svg {
+      overflow: visible;
+      pointer-events: none;
+    }
+    
+    text {
+      text-anchor: middle;
+    }
+    
+    .tile {
+      fill: rgb(231, 231, 228);
+      stroke: rgb(219, 219, 215);
+    }
+    
+    .tile.on {
+      fill: rgb(232, 201, 201);
+    }
+    
+    .node-marker {
+      fill: rgb(184, 166, 148);
+    }
+    
+    .edge-marker {
+      fill: rgb(204, 191, 179);
+    }
+    
+    .conveyor-outer {
+      fill: none;
+      stroke: black;
+      stroke-width: 25px;
+    }
+    
+    .conveyor-inner {
+      fill: none;
+      stroke: white;
+      stroke-width: 22px;
+    }
+    
+    .clickable {
+      cursor: pointer;
+      fill: none;
+      pointer-events: all;
+    }
+    
+    .clickable.W {
+      cursor: ew-resize;
+    }
+    
+    .clickable.N {
+      cursor: ns-resize;
+    }
+    
+    .clickable:hover {
+      fill: rgba(184, 166, 148, 0.1);
+    }
+    
+    ------MultipartBoundary--yZ6NQuM6QpnVrLyDYClunZpBNo2q1ZLMQfqbeQoMEY------
+  </style>
+  
+</head>
+
+<body class="gameprog">
+  <header>
+    <h1>Conveyor belt representation</h1>
+    <div class="subheading">
+      &nbsp;from <a href="https://www.redblobgames.com/">Red Blob Games</a>
+    </div>
+    <nav>
+      <search>
+        <form action="https://www.google.com/search" target="_blank">
+          <ul>
+            <li><a href="https://www.redblobgames.com/">Home</a></li>
+            <li><a href="https://www.redblobgames.com/blog/">Blog</a></li>
+            <li><a href="https://pinboard.in/u:amitp/t:gamedev/">Links</a></li>
+            <li><a href="https://bsky.app/profile/redblobgames.com">Bluesky</a></li>
+            <li><a rel="me" href="http://www-cs-students.stanford.edu/~amitp/">About</a></li>
+            <li>&nbsp;</li>
+            <li><input type="search" name="q" placeholder="Search" size="8"></li>
+          </ul>
+          
+        </form>
+      </search>
+    </nav>
+  </header>
+  <main>
+    
+    <address>29 Jan 2018</address>
+    
+    
+    
+    <section>
+      
+      <p>
+        I wanted to explore how to represent conveyor belts on a grid.
+      </p>
+      
+      <p>
+        In <a href="https://www.factorio.com/">Factorio</a><sup class="print-endnote">[1]</sup>, each grid tile with a conveyor belt has a <em>direction</em>. Adjacent tiles combine together to determine what type of conveyor belt is on the tile. The main operations are: build belt, destroy belt, rotate belt. The model is simple and can express straight belts, curved belts, and joins. It does not support splits, and Factorio uses a separate splitter object for that. Each <b>tile</b> has <b>5</b> states: empty, east, north, west, south. <strong>Click a tile to cycle through the states</strong>:
+      </p>
+      
+      <figure>
+        <svg id="diagram-tile" viewBox="0 0 600 300" class="select-none">
+          <g>
+            <g>
+              <rect x="5" y="5" width="90" height="90" class="tile off"></rect> <text x="50" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="50" cy="50" r="40" class="clickable"></circle>
+            <circle cx="50" cy="50" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="5" y="105" width="90" height="90" class="tile off"></rect> <text x="50" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="50" cy="150" r="40" class="clickable"></circle>
+            <circle cx="50" cy="150" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="5" y="205" width="90" height="90" class="tile off"></rect> <text x="50" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="50" cy="250" r="40" class="clickable"></circle>
+            <circle cx="50" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="105" y="5" width="90" height="90" class="tile on"></rect>
+              <path d="M 200 50
+                                        A 50 50 0 0 0 150 100" class="conveyor-outer"></path>
+              <path d="M 200 50
+                                        A 50 50 0 0 0 150 100" class="conveyor-inner"></path> <text x="150" y="50" dy="5">
+                ↓
+              </text>
+            </g>
+            <circle cx="150" cy="50" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="105" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 150 100 
+                                    L 150 150" class="conveyor-outer"></path>
+              <path d="M 150 100 
+                                    L 150 150" class="conveyor-outer"></path>
+              <path d="M 150 100 
+                                    L 150 150" class="conveyor-outer"></path>
+              <path d="M 150 200 
+                                    L 150 150" class="conveyor-outer"></path>
+              <path d="M 150 200 
+                                    L 150 150" class="conveyor-outer"></path>
+              <path d="M 150 200 
+                                    L 150 150" class="conveyor-outer"></path>
+              <path d="M 150 100 
+                                    L 150 150" class="conveyor-inner"></path>
+              <path d="M 150 100 
+                                    L 150 150" class="conveyor-inner"></path>
+              <path d="M 150 100 
+                                    L 150 150" class="conveyor-inner"></path>
+              <path d="M 150 200 
+                                    L 150 150" class="conveyor-inner"></path>
+              <path d="M 150 200 
+                                    L 150 150" class="conveyor-inner"></path>
+              <path d="M 150 200 
+                                    L 150 150" class="conveyor-inner"></path> <text x="150" y="150" dy="5">
+                ↑
+              </text>
+            </g>
+            <circle cx="150" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="105" y="205" width="90" height="90" class="tile on"></rect>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-outer"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-outer"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-outer"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-inner"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-inner"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-inner"></path> <text x="150" y="250" dy="5">
+                ↑
+              </text>
+            </g>
+            <circle cx="150" cy="250" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="205" y="5" width="90" height="90" class="tile on"></rect>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-outer"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-outer"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-outer"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-inner"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-inner"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-inner"></path> <text x="250" y="50" dy="5">
+                ←
+              </text>
+            </g>
+            <circle cx="250" cy="50" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="205" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 250 150
+                                    L 300 150" class="conveyor-outer"></path>
+              <path d="M 250 150
+                                    L 300 150" class="conveyor-outer"></path>
+              <path d="M 250 150
+                                    L 300 150" class="conveyor-outer"></path>
+              <path d="M 250 150
+                                    L 300 150" class="conveyor-inner"></path>
+              <path d="M 250 150
+                                    L 300 150" class="conveyor-inner"></path>
+              <path d="M 250 150
+                                    L 300 150" class="conveyor-inner"></path> <text x="250" y="150" dy="5">
+                →
+              </text>
+            </g>
+            <circle cx="250" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="205" y="205" width="90" height="90" class="tile off"></rect> <text x="250" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="250" cy="250" r="40" class="clickable"></circle>
+            <circle cx="250" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="305" y="5" width="90" height="90" class="tile off"></rect> <text x="350" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="350" cy="50" r="40" class="clickable"></circle>
+            <circle cx="350" cy="50" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="305" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 300 150
+                                        L 400 150" class="conveyor-outer"></path>
+              <path d="M 300 150
+                                        L 400 150" class="conveyor-inner"></path> <text x="350" y="150" dy="5">
+                →
+              </text>
+            </g>
+            <circle cx="350" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="305" y="205" width="90" height="90" class="tile off"></rect> <text x="350" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="350" cy="250" r="40" class="clickable"></circle>
+            <circle cx="350" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="405" y="5" width="90" height="90" class="tile on"></rect>
+              <path d="M 450 100
+                                        A 50 50 0 0 1 500 50" class="conveyor-outer"></path>
+              <path d="M 450 100
+                                        A 50 50 0 0 1 500 50" class="conveyor-inner"></path> <text x="450" y="50" dy="5">
+                →
+              </text>
+            </g>
+            <circle cx="450" cy="50" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="405" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 400 150
+                                        A 50 50 0 0 0 450 100" class="conveyor-outer"></path>
+              <path d="M 400 150
+                                        A 50 50 0 0 0 450 100" class="conveyor-inner"></path> <text x="450" y="150" dy="5">
+                ↑
+              </text>
+            </g>
+            <circle cx="450" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="405" y="205" width="90" height="90" class="tile off"></rect> <text x="450" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="450" cy="250" r="40" class="clickable"></circle>
+            <circle cx="450" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="505" y="5" width="90" height="90" class="tile off"></rect> <text x="550" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="550" cy="50" r="40" class="clickable"></circle>
+            <circle cx="550" cy="50" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="505" y="105" width="90" height="90" class="tile off"></rect> <text x="550" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="550" cy="150" r="40" class="clickable"></circle>
+            <circle cx="550" cy="150" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="505" y="205" width="90" height="90" class="tile off"></rect> <text x="550" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="550" cy="250" r="40" class="clickable"></circle>
+            <circle cx="550" cy="250" r="5" class="node-marker"></circle>
+          </g>
+        </svg>
+        <figcaption>tile belts: direction stored on tiles, supports joins</figcaption>
+      </figure>
+      
+      <p>
+        In <a href="http://www.positech.co.uk/productionline/">Production Line</a><sup class="print-endnote">[2]</sup>, each grid tile with a conveyor belt may have multiple flows, allowing for both joins and splits. I implemented a data model that supports that functionality, but what I show here is not exactly the same as what the game uses. Each <b>tile</b> has <b>2</b> states: full, empty. Each <b>edge</b> between adjacent full tiles has <b>3</b> states: east/south, west/north, neither. <strong>Click a tile or an edge to cycle through its states:</strong>
+      </p>
+      
+      <figure>
+        <svg id="diagram-edge" viewBox="0 0 600 300" class="select-none">
+          <g>
+            <g>
+              <rect x="5" y="5" width="90" height="90" class="tile off"></rect> <text x="50" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="50" cy="50" r="40" class="clickable"></circle>
+            <circle cx="50" cy="50" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="5" y="105" width="90" height="90" class="tile off"></rect> <text x="50" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="50" cy="150" r="40" class="clickable"></circle>
+            <circle cx="50" cy="150" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="5" y="205" width="90" height="90" class="tile off"></rect> <text x="50" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="50" cy="250" r="40" class="clickable"></circle>
+            <circle cx="50" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="105" y="5" width="90" height="90" class="tile on"></rect>
+              <path d="M 200 50
+                                        A 50 50 0 0 0 150 100" class="conveyor-outer"></path>
+              <path d="M 200 50
+                                        A 50 50 0 0 0 150 100" class="conveyor-inner"></path> <text x="150" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="150" cy="50" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="105" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 150 100
+                                        A 50 50 0 0 0 200 150" class="conveyor-outer"></path>
+              <path d="M 150 200
+                                        A 50 50 0 0 1 200 150" class="conveyor-outer"></path>
+              <path d="M 150 100
+                                        A 50 50 0 0 0 200 150" class="conveyor-inner"></path>
+              <path d="M 150 200
+                                        A 50 50 0 0 1 200 150" class="conveyor-inner"></path> <text x="150" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="150" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="105" y="205" width="90" height="90" class="tile on"></rect>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-outer"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-outer"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-outer"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-inner"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-inner"></path>
+              <path d="M 150 250
+                                    L 150 200" class="conveyor-inner"></path> <text x="150" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="150" cy="250" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="205" y="5" width="90" height="90" class="tile on"></rect>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-outer"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-outer"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-outer"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-inner"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-inner"></path>
+              <path d="M 250 50
+                                    L 200 50" class="conveyor-inner"></path> <text x="250" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="250" cy="50" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="205" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 200 150
+                                        L 300 150" class="conveyor-outer"></path>
+              <path d="M 200 150
+                                        L 300 150" class="conveyor-inner"></path> <text x="250" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="250" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="205" y="205" width="90" height="90" class="tile off"></rect> <text x="250" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="250" cy="250" r="40" class="clickable"></circle>
+            <circle cx="250" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="305" y="5" width="90" height="90" class="tile off"></rect> <text x="350" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="350" cy="50" r="40" class="clickable"></circle>
+            <circle cx="350" cy="50" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="305" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 300 150
+                                        A 50 50 0 0 1 350 200" class="conveyor-outer"></path>
+              <path d="M 300 150
+                                        L 400 150" class="conveyor-outer"></path>
+              <path d="M 300 150
+                                        A 50 50 0 0 1 350 200" class="conveyor-inner"></path>
+              <path d="M 300 150
+                                        L 400 150" class="conveyor-inner"></path> <text x="350" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="350" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="305" y="205" width="90" height="90" class="tile on"></rect>
+              <path d="M 350 200 
+                                    L 350 250" class="conveyor-outer"></path>
+              <path d="M 350 200 
+                                    L 350 250" class="conveyor-outer"></path>
+              <path d="M 350 200 
+                                    L 350 250" class="conveyor-outer"></path>
+              <path d="M 350 200 
+                                    L 350 250" class="conveyor-inner"></path>
+              <path d="M 350 200 
+                                    L 350 250" class="conveyor-inner"></path>
+              <path d="M 350 200 
+                                    L 350 250" class="conveyor-inner"></path> <text x="350" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="350" cy="250" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="405" y="5" width="90" height="90" class="tile on"></rect>
+              <path d="M 450 100 
+                                    L 450 50" class="conveyor-outer"></path>
+              <path d="M 450 100 
+                                    L 450 50" class="conveyor-outer"></path>
+              <path d="M 450 100 
+                                    L 450 50" class="conveyor-outer"></path>
+              <path d="M 450 100 
+                                    L 450 50" class="conveyor-inner"></path>
+              <path d="M 450 100 
+                                    L 450 50" class="conveyor-inner"></path>
+              <path d="M 450 100 
+                                    L 450 50" class="conveyor-inner"></path> <text x="450" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="450" cy="50" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="405" y="105" width="90" height="90" class="tile on"></rect>
+              <path d="M 400 150
+                                        A 50 50 0 0 1 450 200" class="conveyor-outer"></path>
+              <path d="M 400 150
+                                        A 50 50 0 0 0 450 100" class="conveyor-outer"></path>
+              <path d="M 400 150
+                                        A 50 50 0 0 1 450 200" class="conveyor-inner"></path>
+              <path d="M 400 150
+                                        A 50 50 0 0 0 450 100" class="conveyor-inner"></path> <text x="450" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="450" cy="150" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="405" y="205" width="90" height="90" class="tile on"></rect>
+              <path d="M 450 200 
+                                    L 450 250" class="conveyor-outer"></path>
+              <path d="M 450 200 
+                                    L 450 250" class="conveyor-outer"></path>
+              <path d="M 450 200 
+                                    L 450 250" class="conveyor-outer"></path>
+              <path d="M 450 200 
+                                    L 450 250" class="conveyor-inner"></path>
+              <path d="M 450 200 
+                                    L 450 250" class="conveyor-inner"></path>
+              <path d="M 450 200 
+                                    L 450 250" class="conveyor-inner"></path> <text x="450" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="450" cy="250" r="40" class="clickable"></circle> <!---->
+          </g>
+          <g>
+            <g>
+              <rect x="505" y="5" width="90" height="90" class="tile off"></rect> <text x="550" y="50" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="550" cy="50" r="40" class="clickable"></circle>
+            <circle cx="550" cy="50" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="505" y="105" width="90" height="90" class="tile off"></rect> <text x="550" y="150" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="550" cy="150" r="40" class="clickable"></circle>
+            <circle cx="550" cy="150" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <g>
+              <rect x="505" y="205" width="90" height="90" class="tile off"></rect> <text x="550" y="250" dy="5">
+              
+              </text>
+            </g>
+            <circle cx="550" cy="250" r="40" class="clickable"></circle>
+            <circle cx="550" cy="250" r="5" class="node-marker"></circle>
+          </g>
+          <g>
+            <circle cx="150" cy="100" r="20" class="clickable N"></circle> <text x="150" y="100" dy="5" class="edge">
+              ↓</text>
+          </g>
+          <g>
+            <circle cx="150" cy="200" r="20" class="clickable N"></circle> <text x="150" y="200" dy="5" class="edge">
+              ↑</text>
+          </g>
+          <g>
+            <circle cx="200" cy="50" r="20" class="clickable W"></circle> <text x="200" y="50" dy="5" class="edge">
+              ←</text>
+          </g>
+          <g>
+            <circle cx="250" cy="100" r="20" class="clickable N"></circle> <text x="250" y="100" dy="5" class="edge">
+              ⨉</text>
+          </g>
+          <g>
+            <circle cx="200" cy="150" r="20" class="clickable W"></circle> <text x="200" y="150" dy="5" class="edge">
+              →</text>
+          </g>
+          <g>
+            <circle cx="300" cy="150" r="20" class="clickable W"></circle> <text x="300" y="150" dy="5" class="edge">
+              →</text>
+          </g>
+          <g>
+            <circle cx="350" cy="200" r="20" class="clickable N"></circle> <text x="350" y="200" dy="5" class="edge">
+              ↓</text>
+          </g>
+          <g>
+            <circle cx="450" cy="100" r="20" class="clickable N"></circle> <text x="450" y="100" dy="5" class="edge">
+              ↑</text>
+          </g>
+          <g>
+            <circle cx="400" cy="150" r="20" class="clickable W"></circle> <text x="400" y="150" dy="5" class="edge">
+              →</text>
+          </g>
+          <g>
+            <circle cx="450" cy="200" r="20" class="clickable N"></circle> <text x="450" y="200" dy="5" class="edge">
+              ↓</text>
+          </g>
+          <g>
+            <circle cx="400" cy="250" r="20" class="clickable W"></circle> <text x="400" y="250" dy="5" class="edge">
+              ⨉</text>
+          </g>
+        </svg>
+        <figcaption>edge belts: direction stored between tiles, supports joins and splits</figcaption>
+      </figure>
+      
+      <p>
+        Another model is for each tile to have flow information on all four edges, but that allows the possibility that adjacent tiles have inconsistent flow directions.
+      </p>
+      
+      <p>
+        <em>Both games have a much nicer drag-move UI than what I have here.</em> The UI here was just for me to edit the state and see the results.
+      </p>
+      
+      <p>
+        <strong>Thoughts:</strong> I was hoping to find that one of these models was much better than the other, but I didn't find that. The tile model is better by being simpler. The edge model is better by supporting 2-way and 3-way splits. The tile model has some nonsense configurations, such as two tiles pointing at each other. The edge model also has some nonsense configurations, such as a tile that doesn't point anywhere.
+      </p>
+      
+      <p>
+        (Making-of: when I started this page I thought I would find a different model, involving connecting adjacent edges together. I built some diagrams and they made me realize my model wouldn't work. I slept on it, slept on it again, and came up with a simpler model.)
+      </p>
+      
+      <p>
+        Implementation note: I used edge coordinates x,y,W and x,y,N as described in my <a href="https://www.redblobgames.com/grids/parts/">article on grid parts</a>. Each tile has data for itself (full or empty) and its <em>north</em> side and its <em>west</em> side. To get information about the east side, the tile at x,y asks the tile at x+1,y for its west edge. To get information about the south side, the tile at x,y asks the tile at x,y+1 about the north side. The edge flow is stored only once and used by both adjacent tiles.
+      </p>
+      
+      <p>
+        Also see <a href="https://www.redblobgames.com/grids/edges/">my page about grid edges</a> to see a version of this without directions on each edge.
+      </p>
+      
+    </section>
+    
+    
+    
+    
+  </main>
+  <div class="below-divider">
+    <p>Email me <a class="email" rel="me" href="mailto:redblobgames@gmail.com">redblobgames@gmail.com</a>, or comment here:</p>
+    <div class="print-endnote">
+      <h3>Links</h3>
+      <ol>
+        <li>[1]:&nbsp;https://www.factorio.com/</li>
+        <li>[2]:&nbsp;http://www.positech.co.uk/productionline/</li>
+      </ol>
+    </div>
+    <div class="comments" role="complementary">
+      <div id="disqus_thread"><button style="padding:1em;width:100%">Load <b>6 comments</b> from Disqus</button></div>
+      
+    </div>
+  </div>
+  <footer>
+    <div>
+      <div>
+        <address>
+          Copyright © <time>2026</time> <a rel="author home copyright" href="https://www.redblobgames.com/">Red Blob Games</a><br><a href="https://www.redblobgames.com/blog/posts.xml"><svg viewBox="0 0 30 30" height="0.8em">
+              <rect width="30" height="30" rx="5" fill="orange"></rect>
+              <circle cx="7" cy="23" r="4" fill="white"></circle>
+              <path d="M 5,5 A 20,20,0,0,1,25,25 M 5,13 A 12,12,0,0,1,17,25" fill="none" stroke="white" stroke-width="4" stroke-linecap="square"></path>
+            </svg>&nbsp;RSS Feed</a>
+        </address>
+      </div>
+      <div>
+        
+        
+        
+        
+        
+      </div>
+    </div>
+  </footer>
+  
+  
+</body>
+
+</html>

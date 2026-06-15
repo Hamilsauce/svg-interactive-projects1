@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>Grid Selection</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./draw.css" />
+  <link rel="stylesheet" href="../redblob-conveyer.css" />
+  <!-- <link rel="stylesheet" href="./selection-box.css" /> -->
+</head>
+
+<body>
+  <div id="app">
+    <div id="app-body-top">
+      <svg data-type="canvas" id="svg" width="375" height="300" viewBox="-0 -0 600 300" transform="translate(0,0)" preserveAspectRatio="xMidYMin meet" x="0" y="0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <g id="scene" class="layer1" transform="translate(-0 -0)">
+          <rect id="surface" x="0" y="0" width="10" height="20"></rect>
+          <g id="tile-container">
+            <g>
+              <g>
+                <rect x="105" y="105" width="90" height="90" class="tile on"></rect>
+                <path d="M 150 100 L 150 150" class="conveyor-outer"></path>
+                <path d="M 150 100 L 150 150" class="conveyor-outer"></path>
+                <path d="M 150 100 L 150 150" class="conveyor-outer"></path>
+                <path d="M 150 200 L 150 150" class="conveyor-outer"></path>
+                <path d="M 150 200 L 150 150" class="conveyor-outer"></path>
+                <path d="M 150 200 L 150 150" class="conveyor-outer"></path>
+                <path d="M 150 100 L 150 150" class="conveyor-inner"></path>
+                <path d="M 150 100 L 150 150" class="conveyor-inner"></path>
+                <path d="M 150 100 L 150 150" class="conveyor-inner"></path>
+                <path d="M 150 200 L 150 150" class="conveyor-inner"></path>
+                <path d="M 150 200 L 150 150" class="conveyor-inner"></path>
+                <path d="M 150 200 L 150 150" class="conveyor-inner"></path>
+                <text x="150" y="150" dy="5">↑</text>
+              </g>
+              <circle cx="150" cy="150" r="40" class="clickable"></circle> <!---->
+            </g>
+            <g>
+              <g>
+                <rect x="105" y="5" width="90" height="90" class="tile on"></rect>
+                <path d="M 200 50
+                                        A 50 50 0 0 0 150 100" class="conveyor-outer"></path>
+                <path d="M 200 50
+                                        A 50 50 0 0 0 150 100" class="conveyor-inner"></path> <text x="150" y="50" dy="5">
+                  ↓
+                </text>
+              </g>
+              <circle cx="150" cy="50" r="40" class="clickable"></circle> <!---->
+            </g>
+          </g>
+          <g id="objects">
+            <circle fill="#00000080" id="center" cx="0" cy="0" r="0.25"></circle>
+          </g>
+          <!-- <g class="tile-selector" data-is-dragging="false" transform="translate(0.5,0.5)">
+          <rect class="selection-box" stroke-width="0.07" stroke="green" fill="none" width="1" height="1" x="2" y="2" transform="translate(-0.5,-0.5)"></rect>
+          <circle class="selection-handle" data-handle="a" id="a-handle" r="0.33" _fill="white" stroke-width="0.07" stroke="green" cx="2" cy="2" transform="translate(0.0,0.0)"></circle>
+          <circle class="selection-handle" data-handle="b" id="b-handle" r="0.33" _fill="white" stroke-width="0.07" stroke="green" cx="2" cy="2" transform="translate(0,0)" data-is-dragging="false"></circle>
+        </g> -->
+        </g>
+        <circle fill="#00000080" id="center" cx="0" cy="0" r="0.25"></circle>
+      </svg>
+      
+      <svg data-type="canvas" id="svg" width="375" height="300" viewBox="-0 -0 6 3" transform="translate(0,0)" preserveAspectRatio="xMidYMin meet" x="0" y="0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <g id="scene" class="layer1" transform="translate(-0 -0)">
+          <rect id="surface" x="0" y="0" width="10" height="20"></rect>
+          <g id="tile-container">
+            <rect class="tile" data-x="0" data-y="0" data-selected="false" width="1" height="1" transform="translate(0 0)"></rect>
+            <rect class="tile" data-x="1" data-y="0" data-selected="false" width="1" height="1" transform="translate(1 0)"></rect>
+            <rect class="tile" data-x="2" data-y="0" data-selected="false" width="1" height="1" transform="translate(2 0)"></rect>
+            <rect class="tile" data-x="3" data-y="0" data-selected="false" width="1" height="1" transform="translate(3 0)"></rect>
+            <rect class="tile" data-x="4" data-y="0" data-selected="false" width="1" height="1" transform="translate(4 0)"></rect>
+            <rect class="tile" data-x="5" data-y="0" data-selected="false" width="1" height="1" transform="translate(5 0)"></rect>
+            <rect class="tile" data-x="6" data-y="0" data-selected="false" width="1" height="1" transform="translate(0 1)"></rect>
+            <rect class="tile" data-x="7" data-y="0" data-selected="false" width="1" height="1" transform="translate(1 1)"></rect>
+            <rect class="tile" data-x="8" data-y="0" data-selected="false" width="1" height="1" transform="translate(2 1)"></rect>
+            <rect class="tile" data-x="9" data-y="0" data-selected="false" width="1" height="1" transform="translate(3 1)"></rect>
+            <rect class="tile" data-x="0" data-y="1" data-selected="false" width="1" height="1" transform="translate(4 1)"></rect>
+            <rect class="tile" data-x="1" data-y="1" data-selected="false" width="1" height="1" transform="translate(5 1)"></rect>
+            <rect class="tile" data-x="5" data-y="0" data-selected="false" width="1" height="1" transform="translate(0 2)"></rect>
+            <rect class="tile" data-x="6" data-y="0" data-selected="false" width="1" height="1" transform="translate(1 2)"></rect>
+            <rect class="tile" data-x="7" data-y="0" data-selected="false" width="1" height="1" transform="translate(2 2)"></rect>
+            <rect class="tile" data-x="8" data-y="0" data-selected="false" width="1" height="1" transform="translate(3 2)"></rect>
+            <rect class="tile" data-x="9" data-y="0" data-selected="false" width="1" height="1" transform="translate(4 2)"></rect>
+            <rect class="tile" data-x="0" data-y="1" data-selected="false" width="1" height="1" transform="translate(5 2)"></rect>
+            
+          </g>
+          <g id="objects">
+            <circle fill="#00000080" id="center" cx="0" cy="0" r="0.25"></circle>
+          </g>
+          <!-- <g class="tile-selector" data-is-dragging="false" transform="translate(0.5,0.5)">
+          <rect class="selection-box" stroke-width="0.07" stroke="green" fill="none" width="1" height="1" x="2" y="2" transform="translate(-0.5,-0.5)"></rect>
+          <circle class="selection-handle" data-handle="a" id="a-handle" r="0.33" _fill="white" stroke-width="0.07" stroke="green" cx="2" cy="2" transform="translate(0.0,0.0)"></circle>
+          <circle class="selection-handle" data-handle="b" id="b-handle" r="0.33" _fill="white" stroke-width="0.07" stroke="green" cx="2" cy="2" transform="translate(0,0)" data-is-dragging="false"></circle>
+        </g> -->
+        </g>
+        <circle fill="#00000080" id="center" cx="0" cy="0" r="0.25"></circle>
+      </svg>
+      
+    </div>
+    <div id="app-body-bottom"></div>
+    
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+  </script>
+  <!-- <script src="./SelectionBoxBest.js" type="module"></script> -->
+  <script src="./script.js" type="module"></script>
+</body>
+
+</html>

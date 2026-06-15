@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Line Mode Selection Face Demo</title>
+  <style>
+    :root {
+      --bg: #111318;
+      --panel: #1b1f29;
+      --grid: #2b3242;
+      --grid-bold: #47526b;
+      --text: #d7dded;
+      --muted: #93a1bf;
+      --accent: #f055d5;
+      --accent-fill: rgba(240, 85, 213, 0.22);
+      --cell-fill: rgba(240, 85, 213, 0.08);
+      --face-hit: rgba(255,255,255,0.001);
+      --handle: #7ef2c1;
+      --handle-stroke: #0e392c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: linear-gradient(160deg, #0f1218, #181d28 50%, #10131a);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .app {
+      width: min(1100px, 100%);
+      background: rgba(20, 24, 31, 0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+    .bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+    .bar h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+    }
+    .bar .meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .wrap { padding: 16px; }
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.03), transparent 35%), #131722;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.07);
+      touch-action: none;
+      user-select: none;
+    }
+    .grid line { stroke: var(--grid); stroke-width: 0.03; }
+    .grid line.bold { stroke: var(--grid-bold); stroke-width: 0.04; }
+    .cell-debug rect { fill: var(--cell-fill); stroke: none; pointer-events: none; }
+    .face {
+      fill: var(--accent-fill);
+      stroke: var(--accent);
+      stroke-width: 0.08;
+      stroke-linejoin: round;
+      cursor: grab;
+    }
+    .face:active { cursor: grabbing; }
+    .outline {
+      fill: none;
+      stroke: rgba(255,255,255,0.12);
+      stroke-width: 0.02;
+      pointer-events: none;
+    }
+    .handle {
+      fill: var(--handle);
+      stroke: var(--handle-stroke);
+      stroke-width: 0.08;
+      cursor: pointer;
+    }
+    .hint {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    code { color: #ffe48f; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="bar">
+      <h1>Line-mode selection face demo</h1>
+      <div class="meta">Drag handles • Drag face • Plain JS single-file demo</div>
+    </div>
+    <div class="wrap">
+      <svg id="svg" viewBox="0 0 30 20" aria-label="grid demo">
+        <g class="grid" id="grid"></g>
+        <g class="cell-debug" id="cells"></g>
+        <g id="selectionLayer">
+          <polygon id="selectionFace" class="face"></polygon>
+          <polyline id="selectionOutline" class="outline"></polyline>
+          <circle id="handleA" class="handle" r="0.38"></circle>
+          <circle id="handleB" class="handle" r="0.38"></circle>
+        </g>
+      </svg>
+      <div class="hint">
+        This uses <code>line cells → exposed edges → traced loop → single polygon face</code>.
+        The face is the interactive selection surface, not the individual cells.
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('svg');
+  const gridG = document.getElementById('grid');
+  const cellsG = document.getElementById('cells');
+  const face = document.getElementById('selectionFace');
+  const outline = document.getElementById('selectionOutline');
+  const handleA = document.getElementById('handleA');
+  const handleB = document.getElementById('handleB');
+
+  const state = {
+    a: { x: 6, y: 12 },
+    b: { x: 20, y: 4 },
+    dragging: null,
+    pointerStart: null,
+    startSnapshot: null,
+  };
+
+  const bounds = { minX: 0, minY: 0, maxX: 29, maxY: 19 };
+
+  function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+  function roundCell(pt) {
+    return {
+      x: clamp(Math.round(pt.x), bounds.minX, bounds.maxX),
+      y: clamp(Math.round(pt.y), bounds.minY, bounds.maxY),
+    };
+  }
+  function svgPointFromEvent(e) {
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse());
+  }
+
+  function buildGrid() {
+    for (let x = 0; x <= 30; x++) {
+      const line = document.createElementNS(SVG_NS, 'line');
+      line.setAttribute('x1', x);
+      line.setAttribute('y1', 0);
+      line.setAttribute('x2', x);
+      line.setAttribute('y2', 20);
+      if (x % 5 === 0) line.classList.add('bold');
+      gridG.appendChild(line);
+    }
+    for (let y = 0; y <= 20; y++) {
+      const line = document.createElementNS(SVG_NS, 'line');
+      line.setAttribute('x1', 0);
+      line.setAttribute('y1', y);
+      line.setAttribute('x2', 30);
+      line.setAttribute('y2', y);
+      if (y % 5 === 0) line.classList.add('bold');
+      gridG.appendChild(line);
+    }
+  }
+
+  function linePoints(a, b) {
+    const dx = Math.abs(b.x - a.x);
+    const dy = Math.abs(b.y - a.y);
+    const steps = Math.max(dx, dy);
+    const pts = [];
+    const seen = new Set();
+
+    for (let i = 0; i <= steps; i++) {
+      const t = steps === 0 ? 0 : i / steps;
+      const x = Math.round(a.x * (1 - t) + b.x * t);
+      const y = Math.round(a.y * (1 - t) + b.y * t);
+      const key = `${x},${y}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        pts.push({ x, y });
+      }
+    }
+    return pts;
+  }
+
+  function edgeKey(a, b) {
+    return `${a.x},${a.y}|${b.x},${b.y}`;
+  }
+
+  function addOrCancelEdge(map, a, b) {
+    const fwd = edgeKey(a, b);
+    const rev = edgeKey(b, a);
+    if (map.has(rev)) {
+      map.delete(rev);
+    } else {
+      map.set(fwd, { a, b });
+    }
+  }
+
+  function tileSetToLoops(cells) {
+    const edges = new Map();
+
+    for (const { x, y } of cells) {
+      addOrCancelEdge(edges, { x, y }, { x: x + 1, y });
+      addOrCancelEdge(edges, { x: x + 1, y }, { x: x + 1, y: y + 1 });
+      addOrCancelEdge(edges, { x: x + 1, y: y + 1 }, { x, y: y + 1 });
+      addOrCancelEdge(edges, { x, y: y + 1 }, { x, y });
+    }
+
+    const outgoing = new Map();
+    for (const edge of edges.values()) {
+      const key = `${edge.a.x},${edge.a.y}`;
+      if (!outgoing.has(key)) outgoing.set(key, []);
+      outgoing.get(key).push(edge.b);
+    }
+
+    const unused = new Set(edges.keys());
+    const loops = [];
+
+    function pointKey(p) { return `${p.x},${p.y}`; }
+
+    while (unused.size) {
+      const firstKey = unused.values().next().value;
+      const firstEdge = edges.get(firstKey);
+      const start = firstEdge.a;
+      let current = start;
+      let next = firstEdge.b;
+      const loop = [start];
+
+      while (true) {
+        const currentEdgeKey = edgeKey(current, next);
+        unused.delete(currentEdgeKey);
+        loop.push(next);
+        current = next;
+        if (current.x === start.x && current.y === start.y) break;
+
+        const candidates = (outgoing.get(pointKey(current)) || [])
+          .filter(pt => unused.has(edgeKey(current, pt)));
+
+        if (!candidates.length) break;
+
+        next = candidates[0];
+      }
+
+      if (loop.length > 2) loops.push(loop);
+    }
+
+    return loops;
+  }
+
+  function render() {
+    const cells = linePoints(state.a, state.b);
+
+    cellsG.innerHTML = '';
+    for (const c of cells) {
+      const rect = document.createElementNS(SVG_NS, 'rect');
+      rect.setAttribute('x', c.x);
+      rect.setAttribute('y', c.y);
+      rect.setAttribute('width', 1);
+      rect.setAttribute('height', 1);
+      cellsG.appendChild(rect);
+    }
+
+    const loops = tileSetToLoops(cells);
+    const primary = loops[0] || [];
+    const pointsStr = primary.map(p => `${p.x},${p.y}`).join(' ');
+
+    face.setAttribute('points', pointsStr);
+    outline.setAttribute('points', pointsStr);
+
+    handleA.setAttribute('cx', state.a.x + 0.5);
+    handleA.setAttribute('cy', state.a.y + 0.5);
+    handleB.setAttribute('cx', state.b.x + 0.5);
+    handleB.setAttribute('cy', state.b.y + 0.5);
+  }
+
+  function beginDrag(kind, e) {
+    state.dragging = kind;
+    state.pointerStart = svgPointFromEvent(e);
+    state.startSnapshot = {
+      a: { ...state.a },
+      b: { ...state.b },
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', endDrag);
+  }
+
+  function onMove(e) {
+    if (!state.dragging) return;
+    const pt = svgPointFromEvent(e);
+
+    if (state.dragging === 'a') {
+      state.a = roundCell(pt);
+    } else if (state.dragging === 'b') {
+      state.b = roundCell(pt);
+    } else if (state.dragging === 'face') {
+      const dx = Math.round(pt.x - state.pointerStart.x);
+      const dy = Math.round(pt.y - state.pointerStart.y);
+      state.a = roundCell({
+        x: state.startSnapshot.a.x + dx,
+        y: state.startSnapshot.a.y + dy,
+      });
+      state.b = roundCell({
+        x: state.startSnapshot.b.x + dx,
+        y: state.startSnapshot.b.y + dy,
+      });
+    }
+
+    render();
+  }
+
+  function endDrag() {
+    state.dragging = null;
+    state.pointerStart = null;
+    state.startSnapshot = null;
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', endDrag);
+  }
+
+  handleA.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+    beginDrag('a', e);
+  });
+  handleB.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+    beginDrag('b', e);
+  });
+  face.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+    beginDrag('face', e);
+  });
+
+  buildGrid();
+  render();
+})();
+</script>
+</body>
+</html>

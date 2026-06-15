@@ -3,7 +3,6 @@
   padding: 0;
   margin: 0;
   z-index: 0;
- touch-action: none;
 }
 
 html {
@@ -42,23 +41,4 @@ body {
   align-items: flex-start;
   gap: 0px;
   overflow-y: scroll;
-  background: #C15A19;
-}
-
-#arrow {}
-
-#arrowhead {
-  stroke: #000000;
-  stroke-width: 0.1;
-  fill: #000000;
-  /* filter: drop-shadow(0 0 5px #FFFFFF); */
-}
-
-#arrowshaft {
-  fill: none;
-  stroke: #000000;
-  stroke-width: 8;
-  stroke-linecap: butt;
-  /* filter: drop-shadow(0 0 5px #FFFFFF); */
-
 }

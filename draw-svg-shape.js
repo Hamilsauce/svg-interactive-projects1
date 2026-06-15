@@ -1,4 +1,4 @@
-const plotPoints = (radius, numberOfPoints) => {
+export const plotPoints = (radius, numberOfPoints) => {
   const angleStep = (Math.PI * 2) / numberOfPoints;
   const points = [];
   
@@ -19,7 +19,7 @@ const plotPoints = (radius, numberOfPoints) => {
   return points;
 }
 
-const drawShape = (radius, pointCount = 6) => {
+export const drawShape = (radius, pointCount = 6) => {
   const points = plotPoints(radius, pointCount);
   const hex = document.createElementNS(SVG_NS, 'polygon');
   

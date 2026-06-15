@@ -177,32 +177,10 @@ export class Scene extends EventTarget {
       )
     );
     
-    this.crosshair.connectInput(this.dragStartStop$
-      .pipe(
-        // scan((prev, curr) => {
-        //   curr = curr ? curr : prev
-        
-        //   const dirX = prev.x - curr.x > 0 ? 'left' : 'right'
-        //   const dirY = prev.y - curr.y > 0 ? 'up' : 'down'
-        //   // console.warn('dirX, dirY', dirX, dirY)
-        //   let x = this.viewBox.x > curr.x && dirX === 'left' ?
-        //     prev.x :
-        //     curr.x > (this.viewBox.width / 2) && dirX === 'right' ? prev.x : curr.x
-        
-        //   console.warn('dirX', dirX)
-        //   console.warn('x', x)
-        //   // console.warn('Math.abs(this.viewBox.x) - Math.abs(curr.x) ', this.viewBox.x - curr.x)
-        //   return {
-        //     ...curr,
-        //     x: x, // !this.isInBoundsX(curr) ? curr.x : prev.x,
-        //     y: !this.isInBoundsY(curr) ? curr.y : prev.y,
-        //   }
-        // }, { x: 0, y: 0 }),
-      )
-    );
+    this.crosshair.connectInput(this.dragStartStop$)
     
-    this.pawn$ = this.pawns[0].watch().pipe();
-    this.pawns$ = this.pawn.watch().pipe();
+    this.pawn$ = this.pawns[0].watch();
+    this.pawns$ = this.pawn.watch();
     
     
     this.scene$ = combineLatest(
@@ -210,12 +188,10 @@ export class Scene extends EventTarget {
       this.pawn$.pipe(startWith({})),
       (crosshair, pawn) => ({ crosshair, pawn })
     ).pipe(
-      // sampleTime(0),
-      tap(({ crosshair, pawn }) => {
+ tap(({ crosshair, pawn }) => {
         this.collisions$.next({ crosshair, pawn });
       }),
       tap(({ crosshair, pawn }) => {
-        // console.log('crosshair, pawn', crosshair, pawn)
         this.scene.dispatchEvent(new CustomEvent('scenechange', {
           bubbles: true,
           detail: {

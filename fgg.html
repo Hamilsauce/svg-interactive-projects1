@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>App</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <header id="app-header">
+      <div id="app-header-left">L</div>
+      <div id="app-header-center">
+        <h1>App</h1>
+      </div>
+      <div id="app-header-right">R</div>
+    </header>
+    <section id="app-body">
+      <svg id="svg-canvas" width="400" height="700" viewBox="-50 0 100 100" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <g id="scene">
+          <g class="container" transform="translate(0 0) rotate(21.6202) scale(1 1)">
+            <polygon class="poly" points="31.1772 30.5988 10.0382 39.3549 -11.1007 30.5988 -19.8568 9.45985 -11.1007 -11.6791 10.0382 -20.4352 31.1772 -11.6791 39.9333 9.45985"></polygon>
+            <circle class="vertex" r="2.5" cx="31.17721939086914" cy="30.59882354736328"></circle>
+            <circle class="vertex" r="2.5" cx="10.038241386413574" cy="39.35487747192383"></circle>
+            <circle class="vertex" r="2.5" cx="-11.100736618041992" cy="30.59882354736328"></circle>
+            <circle class="vertex" r="2.5" cx="-19.856788635253906" cy="9.459846496582031"></circle>
+            <circle class="vertex" r="2.5" cx="-11.100736618041992" cy="-11.679130554199219"></circle>
+            <circle class="vertex" r="2.5" cx="10.038241386413574" cy="-20.435182571411133"></circle>
+            <circle class="vertex" r="2.5" cx="31.17721939086914" cy="-11.679130554199219"></circle>
+            <circle class="vertex" r="2.5" cx="39.93326950073242" cy="9.459846496582031"></circle>
+          </g>
+        </g>
+      </svg>
+    </section>
+    <footer id="app-footer">
+      <div class="container"></div>
+    </footer>
+  </div>
+  <script src="./script.js" type="module"></script>
+</body>
+
+</html>

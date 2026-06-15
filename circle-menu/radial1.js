@@ -17,7 +17,7 @@ const domPoint = (element, x, y) => {
 const getDisplayCenter = (m) => {
   let x = m.cx.baseVal.value + m.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
   let y = m.cy.baseVal.value + m.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
-
+  
   return { x, y }
 };
 
@@ -26,7 +26,7 @@ const appBody = document.querySelector('#app-body')
 const svg = document.querySelector('svg');
 svg.style.width = window.innerWidth;
 svg.style.height = window.innerHeight;
-console.log('svg.style.width svg.style.height', svg.style.width ,svg.style.height)
+console.log('svg.style.width svg.style.height', svg.style.width, svg.style.height)
 
 
 const ins = {
@@ -51,7 +51,7 @@ const display = {
 
 const createCircle = (x, y, fill, r = 10) => {
   const c = document.createElementNS(SVG_NS, 'circle');
-
+  
   // c.setAttribute('stroke', `#00000050`)
   c.setAttribute('stroke', `#FFFFFF50`)
   c.setAttribute('stroke-width', 2)
@@ -63,13 +63,13 @@ const createCircle = (x, y, fill, r = 10) => {
   c.classList.add('display-item');
   c.cy.baseVal.value = y + c.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
   c.cx.baseVal.value = x + c.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
-
+  
   setInterval(() => {
-  c.setAttribute('stroke', `#000000`)
+    c.setAttribute('stroke', `#000000`)
     
   }, 1000)
-
-
+  
+  
   return c
 };
 
@@ -82,7 +82,7 @@ const oscillate = (stepSize) => {
   else if (rad <= 0) { dir = 1 }
   rad += 1 * dir / size
   // spiralStep += stepSize * dir
-
+  
   return rad
 }
 
@@ -90,29 +90,29 @@ const createPolygon = (shape, numberOfPoints, radius, stepSize = 25) => {
   const angleStep = (Math.PI * 2) / numberOfPoints
   const xPosition = shape.clientWidth / 2
   const yPosition = shape.clientHeight / 2
-
+  
   const points = []
   let spiralStep = 0
   let cnt = 0
   let dir = 1;
-
+  
   const addSpiral = (stepSize) => {
     if (spiralStep >= 300) { dir = -1 }
     else if (spiralStep <= 0) { dir = 1 }
-
+    
     spiralStep += stepSize * dir
     return spiralStep
   }
-
+  
   for (let i = 1; i <= numberOfPoints; i++) {
     let rad = addSpiral(stepSize)
     const radiusAtPoint = i % 4 === 0 ? rad : 50
     const x = xPosition + Math.cos(i * angleStep) * radiusAtPoint
     const y = yPosition + Math.sin(i * angleStep) * radiusAtPoint
-
+    
     points.push({ x, y, fill: getColor() })
   }
-
+  
   return points
 }
 
@@ -150,7 +150,7 @@ const renderRadial = (cnt = 225, radius = 33, stepSize = 25) => {
     });
   }
   else {
-
+    
     // while (display.items.length >= radialValues.limit) {
     //   display.items[0].remove()
     //   display.items[0].remove()
@@ -166,11 +166,11 @@ const renderRadial = (cnt = 225, radius = 33, stepSize = 25) => {
 const updateRadial = (changedTime) => {
   // console.log(changedTime);
   // if (changedTime > 0.25) {
-
+  
   radialValues.stepSize = getRandomInt(radialValues.stepSize + 50)
   radialValues.radius = getRandomInt(radialValues.radius + 50)
   radialValues.count = getRandomInt(radialValues.count + 50)
-
+  
   renderRadial(radialValues.count, radialValues.radius, radialValues.stepSize)
   // }
 }
@@ -184,7 +184,7 @@ rangeInputs.forEach((el, i) => {
   const curryRenderRadial = (count) => {
     return (radius) => (steps) => renderRadial(+count, +radius, +steps)
   }
-
+  
   el.addEventListener('pointermove', ({ target, clientX, clientY, value }) => {
     el.nextElementSibling.textContent = el.value
     renderRadial(+ins.count.value, +ins.radius.value * 2, +ins.step.value * 2)

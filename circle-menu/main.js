@@ -16,12 +16,12 @@ const domPoint = (element, x, y) => {
 
 
 const getMenuCenter = (m) => {
-
+  
   let x = m.cx.baseVal.value + m.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
   let y = m.cy.baseVal.value + m.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
-
+  
   return { x, y }
-
+  
 };
 
 
@@ -67,9 +67,9 @@ const createCircle = (x, y, fill, r = 10) => {
   c.classList.add('menu-item');
   c.cy.baseVal.value = y + c.r.baseVal.value * Math.sin(DEGREE_TO_RADIANS);
   c.cx.baseVal.value = x + c.r.baseVal.value * Math.cos(DEGREE_TO_RADIANS);
-
+  
   console.log({ x, y });
-
+  
   return c
 };
 
@@ -80,7 +80,7 @@ const createPolygon = (shape, numberOfPoints, radius) => {
   const angleStep = (Math.PI * 2) / numberOfPoints
   const xPosition = shape.clientWidth / 2
   const yPosition = shape.clientHeight / 2
-
+  
   const points = []
   let spiralStep = 0
   let cnt = 0
@@ -90,31 +90,31 @@ const createPolygon = (shape, numberOfPoints, radius) => {
       dir = -1
     } else if (spiralStep <= 0) {
       dir = 1
-
+      
     } {
-
+      
       spiralStep += stepSize * dir
     }
     return spiralStep
   }
-
-
+  
+  
   for (let i = 1; i <= numberOfPoints; i++) {
     let rad = addSpiral(16)
-
+    
     // const radiusAtPoint = i % 2 === 0 ? radius : 50
     const radiusAtPoint = i % 2 === 0 ? rad : 50
     const x = xPosition + Math.cos(i * angleStep) * radiusAtPoint
     const y = yPosition + Math.sin(i * angleStep) * radiusAtPoint
-
+    
     points.push({ x, y, fill: getColor() })
   }
-
+  
   const polygonCoordinates = points
     .map(({ x, y }) => {
       return `${x}px ${y}px`
     }).join(',')
-
+  
   // shape.style.setProperty('--clip', `polygon(${polygonCoordinates})`)
   return points
 }
@@ -124,18 +124,18 @@ menu.container.addEventListener('click', ({ target, clientX, clientY }) => {
     item.remove()
   });
   const p = domPoint(menu.outer, clientX, clientY)
-
-
+  
+  
   // const menuCenter = getMenuCenter(menu.outer)
   // const c = createCircle(p.x, p.y, 25)
-  const points = createPolygon(menu.inner, 80, 10)//menu.inner.r.baseVal.value)
+  const points = createPolygon(menu.inner, 80, 10) //menu.inner.r.baseVal.value)
   points.forEach((pt, i) => {
     // const pString =  `${x}px ${y}px`
-    const c = createCircle(pt.x ,pt.y,    pt.fill, 26)
+    const c = createCircle(pt.x, pt.y, pt.fill, 26)
     // const c = createCircle(p.x + ((pt.x*Math.random())/0.5), p.y + ((pt.y*Math.random())/0.5),   pt.fill, 40)
-
+    
     menu.container.appendChild(c)
-
+    
   });
-
+  
 });

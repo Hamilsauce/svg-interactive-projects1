@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <title>Making of: draggable handles</title>
+  <link rel="canonical" href="https://www.redblobgames.com/articles/curved-paths/making-of.html">
+  <!--DO NOT EDIT: generated from redblobgames/articles/curved-paths/making-of.bxml-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preload" as="image" href="/img/transparent-blob.png">
+  <link rel="alternate" type="application/atom+xml" title="Blog posts" href="https://www.redblobgames.com/blog/posts.xml">
+  <meta name="theme-color" content="hsl(0,50%,45%)">
+  <meta property="og:title" content="Red Blob Games: Making of: draggable handles">
+  <meta property="og:url" content="https://www.redblobgames.com/articles/curved-paths/making-of.html">
+  <style>
+    :root {
+      --hue: 0
+    }
+    
+    :root {
+      --bgurl: url(/img/transparent-blob.png)
+    }
+    
+    body {
+      --serif: "Iowan Old Style", Cambria, Georgia, serif;
+      --sans-serif: "Avenir Next", Candara, Ubuntu, "Fira Sans", system-ui, "Segoe UI", sans-serif;
+      --monospace: "Roboto Mono", "Cascadia Mono", Consolas, monospace, "Segoe UI Symbol", Symbol;
+      --body-width: calc(100vw - 2.25rem);
+      --font-size: calc(.625rem + 1vw);
+      --line-height: calc(1.5 * var(--font-size));
+      font-family: var(--sans-serif);
+      font-size: var(--font-size);
+      font-size-adjust: ex-height .48;
+      line-height: 1.5em;
+      min-height: 95%
+    }
+    
+    svg {
+      font-size-adjust: none
+    }
+    
+    @media(min-width:34.375em) {
+      body {
+        --body-width: min(20.6rem + 33vw, 41.25rem);
+        --font-size: calc(var(--body-width) / 33)
+      }
+    }
+    
+    main {
+      font-family: var(--serif)
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    figcaption,
+    .sans-serif {
+      font-family: var(--sans-serif);
+      text-wrap: balance;
+      text-wrap: pretty
+    }
+    
+    tt,
+    code,
+    kbd,
+    samp,
+    pre {
+      font-family: var(--monospace);
+      font-size: .9em
+    }
+    
+    pre :is(tt, code, kbd, samp) {
+      font-size: unset
+    }
+    
+    #table-of-contents {
+      background-color: #fff;
+      padding-left: 1em;
+      width: 18em;
+      float: right
+    }
+    
+    #table-of-contents:after {
+      clear: right
+    }
+    
+    nav,
+    #table-of-contents {
+      font-family: var(--sans-serif);
+      font-size: calc(var(--font-size) / 1.25);
+      
+      a {
+        text-decoration-color: hsl(var(--hue), 20%, 90%)
+      }
+    }
+    
+    @media screen {
+      
+      header,
+      section>h2 {
+        text-shadow: 0px 2px 5px rgba(0, 0, 0, .8);
+        text-rendering: optimizeLegibility
+      }
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin: 0;
+      line-height: calc(1.5 * var(--line-height));
+      
+      .subheading {
+        font-size: .5em;
+        line-height: var(--line-height)
+      }
+    }
+    
+    sup,
+    sub {
+      position: relative;
+      vertical-align: baseline;
+      font-size: .75em;
+      line-height: 0;
+      padding-left: .125em
+    }
+    
+    sup {
+      top: -.5em
+    }
+    
+    sub {
+      bottom: -.25em
+    }
+    
+    details summary {
+      cursor: pointer
+    }
+    
+    * {
+      box-sizing: border-box
+    }
+    
+    html,
+    body {
+      margin: 0;
+      padding: 0
+    }
+    
+    html {
+      background-color: #e4e4e0;
+      color: #000
+    }
+    
+    body {
+      background-color: #fff;
+      color: #333
+    }
+    
+    header {
+      display: block;
+      text-align: center
+    }
+    
+    header>h1 {
+      padding-top: var(--line-height)
+    }
+    
+    @media screen {
+      
+      header,
+      footer,
+      .divider,
+      section>h2 {
+        color: #fff;
+        background-color: hsl(var(--hue), 50%, 45%);
+        background-image: var(--bgurl), var(--bgurl), linear-gradient(180deg, hsl(var(--hue), 50%, 45%), hsl(var(--hue), 75%, 30%));
+        background-position: 0 0, 16px 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        
+        a {
+          color: hsl(var(--hue), 40%, 90%);
+          background: unset;
+          text-decoration: none;
+          
+          &:hover {
+            background-color: #00000080;
+            text-decoration: underline
+          }
+        }
+      }
+    }
+    
+    footer,
+    .divider {
+      a {
+        text-decoration: underline
+      }
+    }
+    
+    main {
+      margin-inline: 0;
+      padding-inline: 0
+    }
+    
+    section {
+      margin: var(--line-height) 0
+    }
+    
+    section>* {
+      width: var(--body-width);
+      max-width: 100%
+    }
+    
+    .comments {
+      width: calc(1.5 * var(--body-width));
+      max-width: 100%
+    }
+    
+    @media screen {
+      
+      .comments,
+      .below-divider {
+        background-color: #e6e6e5
+      }
+    }
+    
+    .comments {
+      padding-bottom: 1.25em;
+      font-size: 1em;
+      
+      .comment-author {
+        text-shadow: 1px 1px 3px #fff
+      }
+    }
+    
+    section>h2 {
+      --h2-margin: 3em;
+      margin: var(--line-height) auto;
+      padding: calc(var(--line-height) / 2 - 1px) 0;
+      font-size: 1.25em;
+      width: calc(2 * var(--h2-margin) + var(--body-width));
+      max-width: 100%;
+      
+      >span {
+        display: inline-block;
+        margin-left: var(--h2-margin)
+      }
+      
+      a.anchor {
+        float: right;
+        width: calc(var(--h2-margin));
+        text-align: center;
+        color: hsl(var(--hue), 50%, 45%)
+      }
+      
+      &:hover a.anchor {
+        color: hsl(var(--hue), 20%, 80%)
+      }
+    }
+    
+    h3 {
+      --h2-margin: 3em;
+      margin: var(--line-height) auto;
+      font-size: 1.125em;
+      
+      a.anchor {
+        float: right;
+        width: calc(var(--h2-margin));
+        text-align: center;
+        color: hsl(var(--hue), 20%, 80%);
+        
+        @media(min-width:34.375em) {
+          margin-right: calc(0em - var(--h2-margin))
+        }
+      }
+    }
+    
+    h4 a.anchor,
+    h5 a.anchor,
+    h6 a.anchor {
+      padding-left: 1em;
+      color: hsl(var(--hue), 20%, 80%)
+    }
+    
+    h3:hover a.anchor,
+    h4:hover a.anchor,
+    h5:hover a.anchor,
+    h6:hover a.anchor {
+      color: hsl(var(--hue), 50%, 40%)
+    }
+    
+    header nav {
+      display: block;
+      
+      ul {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        line-height: 1;
+        margin: 0;
+        
+        li {
+          display: inline-block;
+          padding: .1em .3em;
+          text-align: center;
+          flex: 0 0 4em;
+          align-self: center;
+          white-space: nowrap;
+          
+          a {
+            display: block;
+            font-weight: 700;
+            text-decoration: none
+          }
+        }
+      }
+    }
+    
+    header,
+    .divider,
+    section>h2 {
+      border-bottom: 1px solid #000
+    }
+    
+    .divider,
+    section>h2 {
+      border-top: 1px solid #000
+    }
+    
+    .divider {
+      min-height: calc(2 * var(--line-height));
+      text-align: center
+    }
+    
+    .below-divider {
+      padding-top: var(--line-height);
+      border-bottom: 1px solid black;
+      
+      >p:first-child {
+        font-size: 1.25em;
+        text-align: center;
+        margin-top: 0
+      }
+    }
+    
+    footer {
+      --footer-padding-y: calc(var(--line-height) / 2);
+      --footer-padding-x: var(--font-size);
+      padding: var(--footer-padding-y) var(--footer-padding-x);
+      border-top: 1px solid #000
+    }
+    
+    footer>div>div>address {
+      display: block
+    }
+    
+    @media(min-width:50em) {
+      footer>div {
+        margin: 0 auto;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        max-width: calc(2 * var(--body-width));
+        width: calc(100vw - 2 * var(--footer-padding-x))
+      }
+      
+      footer>div>div:nth-child(1) {
+        flex: 0 1 20em;
+        align-self: center;
+        text-align: left
+      }
+      
+      footer>div>div:nth-child(2) {
+        flex: 1 1 20em;
+        align-self: center;
+        text-align: right
+      }
+      
+      footer>div>div>p,
+      footer>div>div>div {
+        margin-top: 0
+      }
+    }
+    
+    h2:target {
+      animation: target-attention .4s 1;
+      font-size: 2em
+    }
+    
+    @keyframes target-attention {
+      0% {
+        transform: scale(1.1)
+      }
+      
+      to {
+        transform: scale(1.1)
+      }
+    }
+    
+    div:target {
+      border: 1px dashed #888
+    }
+    
+    kbd kbd {
+      padding: .1em .4em;
+      margin: 0 .1em .2em;
+      font-size: .75em;
+      white-space: nowrap;
+      background-color: #ddd;
+      color: #242;
+      border: 1px solid rgba(0, 0, 0, .2);
+      border-radius: .2em;
+      box-shadow: inset 0 0 1px 1px #fff, 0 2px #0000004d
+    }
+    
+    samp,
+    kbd {
+      background-color: #f3f3f2
+    }
+    
+    code,
+    samp {
+      color: #442
+    }
+    
+    kbd {
+      margin: 0 .4em;
+      color: #252
+    }
+    
+    section li::marker {
+      font-family: var(--sans-serif);
+      color: hsl(var(--hue), 50%, 40%)
+    }
+    
+    main ::target-text {
+      background-color: hsl(var(--hue), 20%, 80%);
+      color: #000
+    }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+      -ms-interpolation-mode: bicubic
+    }
+    
+    section figcaption {
+      font-size: .75em;
+      line-height: 1.1;
+      text-align: center
+    }
+    
+    a {
+      color: hsl(var(--hue), 50%, 45%);
+      text-decoration-color: hsl(var(--hue), 20%, 80%);
+      text-underline-offset: .25em;
+      
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: hsl(var(--hue), 50%, 45%);
+        background: hsla(var(--hue), 50%, 50%, .1)
+      }
+    }
+    
+    :focus-visible {
+      outline-color: hsl(var(--hue), 50%, 45%)
+    }
+    
+    .draft {
+      font-family: var(--serif);
+      font-size: calc(4 * var(--font-size));
+      letter-spacing: -.1em;
+      color: #eee;
+      opacity: .5;
+      text-align: center;
+      transform: rotate(-5deg);
+      line-height: 1;
+      position: absolute;
+      top: 0;
+      height: 0;
+      left: 25%;
+      width: 50%;
+      pointer-events: none
+    }
+    
+    @media(min-width:34.375em) {
+      
+      section p,
+      section li {
+        hanging-punctuation: first last;
+        hyphens: auto;
+        hyphenate-limit-chars: 7
+      }
+      
+      code,
+      kbd,
+      pre {
+        hyphens: none
+      }
+    }
+    
+    nav,
+    .section-number,
+    address,
+    time {
+      font-variant-numeric: oldstyle-nums
+    }
+    
+    .w-auto,
+    section>.w-auto {
+      width: auto
+    }
+    
+    .w-full,
+    section>.w-full {
+      width: 100%
+    }
+    
+    .w-150b,
+    section>.w-150b {
+      width: calc(1.5 * var(--body-width))
+    }
+    
+    .select-none {
+      user-select: none;
+      -webkit-user-select: none
+    }
+    
+    .text-left {
+      text-align: left
+    }
+    
+    .text-center {
+      text-align: center
+    }
+    
+    .text-right {
+      text-align: right
+    }
+    
+    .text-sm {
+      font-size: .875em
+    }
+    
+    .font-sans {
+      font-family: var(--sans-serif)
+    }
+    
+    .font-serif {
+      font-family: var(--serif)
+    }
+    
+    .font-mono {
+      font-family: var(--monospace)
+    }
+    
+    .normal-nums {
+      font-variant-numeric: normal
+    }
+    
+    .oldstyle-nums {
+      font-variant-numeric: oldstyle-nums
+    }
+    
+    p,
+    figure,
+    ul,
+    ol {
+      margin: var(--line-height) 0
+    }
+    
+    header>*,
+    section>*,
+    footer>*,
+    main>address,
+    .comments {
+      margin-inline: auto
+    }
+    
+    figure {
+      text-align: center;
+      
+      pre {
+        text-align: left
+      }
+      
+      img,
+      svg,
+      canvas {
+        max-width: 100%;
+        touch-action: manipulation
+      }
+    }
+    
+    :is(li, dd)>:is(ul, ol, p) {
+      margin-block: 0
+    }
+    
+    dt {
+      font-weight: 700
+    }
+    
+    pre {
+      width: var(--body-width);
+      max-width: 100%;
+      line-height: 1.4;
+      overflow: auto;
+      border-block: 1px solid #ccc;
+      border-inline-width: 0
+    }
+    
+    footer pre {
+      border-block: unset
+    }
+    
+    pre.simple,
+    .comments pre {
+      overflow: auto;
+      width: calc(var(--body-width) * 1.2);
+      border: none;
+      background: transparent;
+      background-color: transparent;
+      box-shadow: none
+    }
+    
+    pre.snippet,
+    pre.src {
+      border-top-style: dashed;
+      border-bottom-style: dashed
+    }
+    
+    section>pre:only-child {
+      padding-bottom: var(--font-size);
+      border-bottom: 1px solid rgba(0, 0, 0, .5)
+    }
+    
+    blockquote {
+      font-style: italic;
+      text-wrap: balance
+    }
+    
+    table.standard2024 {
+      font-family: var(--sans-serif);
+      font-size: .875em;
+      border: 2px solid white;
+      border-collapse: collapse;
+      overflow-x: auto;
+      
+      th {
+        background-color: #e8e8e3;
+        border: 2px solid white;
+        padding: 0 .5em
+      }
+      
+      td {
+        background-color: #fff;
+        border: 1px solid hsl(60, 5%, 95%);
+        border-right-color: #babaab;
+        padding: 0 .5em
+      }
+      
+      thead {
+        border-bottom: 2px solid hsl(60, 10%, 70%);
+        
+        th {
+          background: linear-gradient(to top, #e8e8e3, #f4f4f1, #fafaf9)
+        }
+      }
+    }
+    
+    table.standard {
+      font-family: var(--sans-serif);
+      font-size: .875em;
+      border-block: 2px solid hsl(var(--hue), 10%, 50%);
+      border-collapse: collapse;
+      overflow-x: auto;
+      text-align: left;
+      
+      td,
+      th {
+        border-bottom: 1px solid hsl(60, 5%, 95%);
+        padding: 0 .5em
+      }
+      
+      :is(td, th):not(:last-child) {
+        border-right: 1px solid hsl(60, 10%, 70%)
+      }
+      
+      td {
+        background-color: hsl(var(--hue), 10%, 97%);
+        border-bottom-color: #fff
+      }
+      
+      tbody,
+      thead {
+        border-bottom: 2px solid hsl(var(--hue), 10%, 50%);
+        vertical-align: bottom
+      }
+      
+      tfoot {
+        border-top: 2px solid hsl(var(--hue), 10%, 50%);
+        vertical-align: bottom
+      }
+      
+      thead th {
+        background: linear-gradient(to top, hsl(var(--hue), 10%, 85%), hsl(var(--hue), 15%, 87%), hsl(var(--hue), 15%, 90%));
+        border-bottom: unset
+      }
+      
+      tbody th {
+        background-color: hsl(var(--hue), 10%, 95%);
+        border-bottom: 1px solid white
+      }
+      
+      tr:hover :is(td, th) {
+        background-color: hsl(var(--hue), 25%, 93%)
+      }
+    }
+    
+    aside,
+    p.note,
+    div.note>p {
+      width: calc(var(--body-width) - 2em);
+      padding: 1em;
+      background: #eee;
+      border: 1px solid #ddd;
+      box-shadow: 0 8px 6px -6px #0006
+    }
+    
+    tt,
+    code {
+      padding: 0 2px
+    }
+    
+    pre :is(tt, code) {
+      padding: unset
+    }
+    
+    main>address,
+    section>address,
+    section>time {
+      display: block;
+      width: var(--body-width);
+      max-width: 100%;
+      font-family: var(--sans-serif);
+      text-align: right
+    }
+    
+    form {
+      margin: 0
+    }
+    
+    input {
+      accent-color: hsl(var(--hue), 50%, 50%)
+    }
+    
+    input[type=text] {
+      max-width: 100%;
+      border: 1px solid rgba(0, 0, 0, .7);
+      background-color: #f8f8f4;
+      color: #000;
+      text-align: center;
+      font-weight: 700;
+      
+      &:focus {
+        background-color: #fffff4
+      }
+    }
+    
+    input::placeholder {
+      color: #aaa
+    }
+    
+    input[type=search][name=q] {
+      box-shadow: inset 0 .1em .3em #00000080;
+      border-radius: .6em;
+      padding: .3em .6em;
+      border-width: 0
+    }
+    
+    button {
+      touch-action: manipulation;
+      cursor: pointer;
+      user-select: none
+    }
+    
+    .TODO {
+      color: #bf4040;
+      background: #e8e3e3;
+      border: 1px solid hsl(0, 50%, 50%);
+      margin-left: .5ex
+    }
+    
+    .DONE {
+      color: #4040bf;
+      background: #e3e3e8;
+      border: 1px solid hsl(240, 50%, 50%)
+    }
+    
+    .src {
+      .constant {
+        font-style: oblique
+      }
+      
+      .comment-delimiter,
+      .nxml-comment-delimiter {
+        color: #48f
+      }
+      
+      .comment,
+      .nxml-comment-content {
+        color: #069
+      }
+      
+      .builtin {
+        color: #508b20
+      }
+      
+      .warning {
+        color: #c00
+      }
+      
+      .function-name {
+        color: #268bd2;
+        font-weight: 700
+      }
+      
+      .variable-name {
+        font-weight: 700;
+        color: #5c3d5c
+      }
+      
+      .type {
+        color: #6c71c4
+      }
+      
+      .constant-face {
+        color: #d33682
+      }
+      
+      .doc {
+        color: #666;
+        background-color: #e2e6e8
+      }
+      
+      .string {
+        color: #888
+      }
+      
+      .preprocessor {
+        color: #859900
+      }
+      
+      .negation-char,
+      .sh-escaped-newline {
+        color: red
+      }
+      
+      .todo {
+        color: #fff;
+        background: #dc322f
+      }
+      
+      .note {
+        color: #fff;
+        background: #2aa198
+      }
+      
+      .hack {
+        color: #fff;
+        background: #859900
+      }
+      
+      .operator {
+        color: #000;
+        font-weight: 700
+      }
+      
+      .paren {
+        color: #a0a090;
+        font-weight: 700
+      }
+      
+      .keyword {
+        color: #679;
+        font-weight: 700
+      }
+      
+      .minor-control-construct {
+        color: #406abf;
+        font-weight: 700
+      }
+      
+      .major-control-construct {
+        color: #bf4040
+      }
+    }
+    
+    .src-cpp {
+      .constant {
+        color: #999
+      }
+    }
+    
+    .src-emacs-lisp {
+      .paren {
+        color: #c9c9c4
+      }
+    }
+    
+    .src-sh {
+      
+      .string,
+      .comment {
+        color: inherit
+      }
+    }
+    
+    .src-python {
+      .highlight-indentation {
+        border-right: 2px solid #eeeeee
+      }
+    }
+    
+    .src-css {
+      .css-selector {
+        color: #478547
+      }
+      
+      .css-property {
+        color: #406abf
+      }
+    }
+    
+    .src-xml {
+      .nxml-element-prefix {
+        color: #bf40bf
+      }
+      
+      .nxml-element-local-name {
+        color: #406abf;
+        font-weight: 400
+      }
+      
+      .nxml-attribute-local-name {
+        color: #478547
+      }
+      
+      .nxml-element-colon {
+        color: #a3adc2
+      }
+      
+      .nxml-tag-delimiter,
+      .nxml-tag-slash {
+        color: #9cabc9;
+        font-weight: 700
+      }
+    }
+    
+    table.standard td.left,
+    table.standard th.left {
+      text-align: left
+    }
+    
+    table.standard td.center,
+    table.standard th.center {
+      text-align: center
+    }
+    
+    table.standard td.right,
+    table.standard th.right {
+      text-align: right
+    }
+    
+    @media screen {
+      *[class^=section-number] {
+        color: hsl(var(--hue), 20%, 50%)
+      }
+      
+      h2 .section-number {
+        display: inline-block;
+        margin-left: 0;
+        padding-left: .5em;
+        text-align: center;
+        width: var(--h2-margin);
+        color: hsl(var(--hue), 50%, 80%)
+      }
+      
+      h2 .section-number+span {
+        margin-left: 0
+      }
+      
+      h3>.section-number {
+        float: left;
+        text-align: center;
+        width: 2.7em;
+        margin-right: .3em;
+        color: hsl(var(--hue), 25%, 90%);
+        background: hsl(var(--hue), 50%, 50%);
+        background-image: var(--bgurl), var(--bgurl);
+        background-position: 0 0, 16px 16px;
+        border-radius: .25em;
+        text-shadow: 0px 2px 5px rgba(0, 0, 0, .8)
+      }
+      
+      @media(min-width:34.375em) {
+        h3>.section-number {
+          height: 2em;
+          margin-left: -3em;
+          margin-top: -.3em;
+          padding-top: .3em;
+          border-block: 1px solid black
+        }
+        
+        h3>a.anchor {
+          background: url(https://www.redblobgames.com/img/svg-blob-mini.svg) no-repeat center center;
+          background-size: 2cap 2cap
+        }
+        
+        h3:hover>a.anchor {
+          background: none
+        }
+      }
+    }
+    
+    .print-endnote {
+      display: none
+    }
+    
+    @media print {
+      @page {
+        margin: .5in
+      }
+      
+      body {
+        --font-size: 14pt;
+        --serif: "Book Antiqua", "Times New Roman", serif;
+        --sans-serif: "Helvetica", sans-serif;
+        --monospace: "Courier", "Courier New", monospace
+      }
+      
+      h2,
+      h3 {
+        page-break-after: avoid
+      }
+      
+      figure {
+        page-break-inside: avoid
+      }
+      
+      p,
+      li {
+        orphans: 5;
+        widows: 5
+      }
+      
+      section p a,
+      section li a {
+        text-decoration: underline;
+        text-decoration-color: #ddd
+      }
+      
+      header nav,
+      .comments {
+        display: none
+      }
+      
+      .print-endnote {
+        display: unset
+      }
+      
+      .print-endnote li {
+        list-style-type: none;
+        word-break: break-all
+      }
+      
+      .print-endnote img {
+        width: 2.5em;
+        vertical-align: bottom
+      }
+    }
+    
+    /*! CSS Copyright 2007-2026 by amitp@cs.stanford.edu (Amit J. Patel)  */
+    /*! I don't mind if you copy my stylesheet.  However, I'd appreciate it if you gave me credit. */
+    
+    @media print {
+      header::before {
+        position: absolute;
+        right: 0;
+        top: 0;
+        content: url(https://chart.apis.google.com/chart?chs=120x120&cht=qr&chl=https%3A%2F%2Fwww.redblobgames.com%2Farticles%2Fcurved-paths%2Fmaking-of.html);
+      }
+    }
+    
+    svg {
+      background-color: #eee;
+      box-shadow: 0 1px 4px -2px #000;
+    }
+    
+    .draggable {
+      cursor: grab;
+    }
+    
+    .draggable.dragging {
+      cursor: none;
+    }
+    
+    .draggable .circle {
+      fill: hsl(0, 50%, 50%);
+    }
+    
+    .draggable.dragging .circle,
+    .draggable:hover .circle {
+      fill: hsl(0, 60%, 50%);
+      filter: url(#drop-shadow);
+    }
+    
+    .draggable .shadow {
+      fill: hsl(0, 0%, 0%);
+      fill-opacity: 0.1;
+      stroke: hsl(0, 0%, 0%);
+      stroke-width: 1px;
+      stroke-opacity: 0.05;
+      transform: scale(1.05) translate(0, 1px);
+    }
+    
+    .draggable.dragging .shadow,
+    .draggable:hover .shadow {
+      fill: hsl(0, 0%, 100%);
+      fill-opacity: 1.0;
+    }
+    
+    pre.src {
+      border-top: none;
+      border-bottom: none;
+      border-left: 1em solid #eee;
+      resize: none;
+    }
+    
+    script+.org-src-container pre {
+      margin-top: 0;
+      padding-top: 0.5em;
+    }
+  </style>
+  <script>
+    function $l(s, e, d) {
+      d = document;
+      if (d.location.hostname != 'localhost') {
+        e = d.createElement('script');
+        e.async = true;
+        e.src = s;
+        e.dataset.timestamp = +new Date();
+        d.body.appendChild(e)
+      }
+    }
+  </script>
+</head>
+
+<body class="gameprog">
+  <header>
+    <h1>Making of: draggable handles</h1>
+    <div class="subheading">
+       from <a href="https://www.redblobgames.com/">Red Blob Games</a>
+    </div>
+    <nav>
+      <search>
+        <form action="https://www.google.com/search" target="_blank">
+          <ul>
+            <li><a href="https://www.redblobgames.com/">Home</a></li>
+            <li><a href="https://www.redblobgames.com/blog/">Blog</a></li>
+            <li><a href="https://pinboard.in/u:amitp/t:gamedev/">Links</a></li>
+            <li><a href="https://bsky.app/profile/redblobgames.com">Bluesky</a></li>
+            <li><a rel="me" href="http://www-cs-students.stanford.edu/~amitp/">About</a></li>
+            <li> </li>
+            <li><input type="search" name="q" placeholder="Search" size="8"></li>
+          </ul>
+          <input type="hidden" name="hq" value="site:www.redblobgames.com OR site:theory.stanford.edu/~amitp/ OR site:www-cs-students.stanford.edu/~amitp/ OR site:amitp.blogspot.com OR site:simblob.blogspot.com">
+        </form>
+      </search>
+    </nav>
+  </header>
+  <main>
+    <address> 1 Sep 2014</address>
+    <section>
+      <p>
+        For some of my projects I want the reader to drag something around on a diagram. I use the position to control some aspect of the diagram. The <a href="https://www.redblobgames.com/articles/curved-paths/">curved roads page</a><sup class="print-endnote">[1]</sup> uses this. I want an easy way to <em>constrain</em> the ways you can drag something, and I also want a way to <em>transform</em> the variable being controlled into a position on the screen. I’m going to describe the implementation.
+      </p>
+      
+      <!-- more -->
+      
+      <!--
+
+
+
+The JS code here is very messy!!  For the demos I threw together some quick &amp; dirty code.
+
+The code presented on the page is much cleaner than the hacks I used to make the page interactive.
+
+
+-->
+      
+      
+      
+      <script src="/js/d3.v4.min.js?2018-09-10-13-57-02"></script>
+      <script src="making-of.js?2022-08-27-10-22-04"></script>
+      
+      
+      
+      <p>
+        Here’s an example of the kinds of things I want to be able to do:
+      </p>
+      
+      <div id="begin"></div>
+      <script>
+        var model0 = { theta1: 0, radius2: 30, theta2: 0.2, slider1: 50, slider2: 3, x: 2, y: 1 };
+        make_diagram("#begin", polar(Model.constant(40),
+            Model.ref(model0, 'theta1')
+            .multiply(1 / 360)
+            .multiply(9).rounded().multiply(1 / 9)
+            .multiply(2 * Math.PI)
+          )
+          .offset([70, 50]),
+          []);
+        d3.select("#begin svg").insert('circle', ":first-child").attr('cx', 70).attr('cy', 50).attr('r', 40).attr('fill', "none").attr('stroke', "#ddd").attr('stroke-width', "3px");
+        for (var a = 0; a < 360; a += (360 / 9)) {
+          d3.select("#begin svg").insert('circle', ":first-child").attr('cx', 70 + 40 * Math.cos(a / 180 * Math.PI)).attr('cy', 50 + 40 * Math.sin(a / 180 * Math.PI)).attr('r', 5).attr('fill', "#ddd");
+        }
+        
+        make_diagram("#begin", polar(Model.ref(model0, 'radius2')
+            .clamped(0, 90),
+            Model.ref(model0, 'theta2')
+            .clamped(-Math.PI / 6, Math.PI / 6))
+          .offset([500, 50]),
+          []);
+        d3.select("#begin svg").insert('path', ":first-child").attr('d', ['M', 500, 50, 'l', 90 * Math.cos(-Math.PI / 6), 90 * Math.sin(-Math.PI / 6), 'A', 90, 90, 0, 0, 1, 500 + 90 * Math.cos(Math.PI / 6), 50 + 90 * Math.sin(Math.PI / 6), 'z'].join(" ")).attr('fill', "#ddd");
+        
+        make_diagram("#begin", cartesian(Model.constant(400),
+            Model.ref(model0, 'slider1')
+            .clamped(0, 80)
+            .add(10)),
+          []);
+        d3.select("#begin svg").insert('line', ":first-child").attr('x1', 400).attr('y1', 10).attr('x2', 400).attr('y2', 90).attr('stroke', "#ddd").attr('stroke-width', "3px");
+        
+        make_diagram("#begin", cartesian(Model.constant(450),
+            Model.ref(model0, 'slider2')
+            .clamped(0, 4)
+            .rounded()
+            .multiply(20)
+            .add(10)),
+          []);
+        d3.select("#begin svg").insert('line', ":first-child").attr('x1', 450).attr('y1', 10).attr('x2', 450).attr('y2', 90).attr('stroke', "#ddd").attr('stroke-width', "3px");
+        for (var y = 0; y <= 4; y++) {
+          d3.select("#begin svg").insert('line', ":first-child").attr('x1', 440).attr('y1', 10 + 20 * y).attr('x2', 460).attr('y2', 10 + 20 * y).attr('stroke', "#ddd").attr('stroke-width', "3px");
+        }
+        
+        make_diagram("#begin", cartesian(Model.ref(model0, 'x')
+            .clamped(0, 4)
+            .rounded()
+            .multiply(30)
+            .add(200),
+            Model.ref(model0, 'y')
+            .clamped(0, 2)
+            .rounded()
+            .multiply(30)
+            .add(20)),
+          []);
+        for (var x = 0; x <= 4; x++) {
+          for (var y = 0; y <= 2; y++) {
+            d3.select("#begin svg").insert('circle', ":first-child").attr('cx', x * 30 + 200).attr('cy', y * 30 + 20).attr('r', 5).attr('fill', "#ddd");
+          }
+        }
+      </script>
+      
+      <p>
+        I want to make things like this easy, with as little code as I can get away with.
+      </p>
+      
+      <p>
+        Let’s start at the beginning.
+      </p>
+      
+      <p>
+        The first thing that comes to mind is to have a function that takes the <em>mouse position</em> and sets an <em>internal variable</em>. I can have a separate function that takes the <em>internal variable</em> and sets the <em>circle position</em>. Let’s try this with a simple example:
+      </p>
+      
+      <figure id="intro">
+        <svg viewBox="0 0 600 100">
+          <g id="handle" class="draggable">
+            <circle class="shadow" r="10"></circle>
+            <circle class="circle" r="10"></circle>
+          </g>
+        </svg>
+      </figure>
+      
+      <script>
+        redraw();
+        d3.select("#handle").call(d3.drag()
+          .on('drag', on_drag_wrapper)
+          .on('start', function() { d3.select(this).classed('dragging', true); })
+          .on('end', function() { d3.select(this).classed('dragging', false); }));
+        
+        function on_drag_wrapper() {
+          on_drag();
+          var pre = d3.select("#intro + script + .org-src-container");
+          pre.select(".constant:nth-child(4)").text(Math.round(model.position[0]));
+          pre.select(".constant:nth-child(5)").text(Math.round(model.position[1]));
+        }
+        // TODO: the nth-child thing is very fragile as it depends on *emacs* font-locking but somehow it depends on the org-babel output which is different than what I see in the buffer; would be better to find the node with the initial value and then hold on to that node for updating. As of 2022 this hack fails entirely, and it's too bad, as it was a pretty cool effect. Maybe I should use a placeholder, and then I can grab the initial innerHTML (as emitted by emacs), then substitute the placeholder and update the innerHTML
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">position</span> = [100, 50];  <span class="comment-delimiter">// </span><span class="comment">internal variable</span>
+<span class="keyword">function</span> <span class="function-name">on_drag</span>() {
+    <span class="comment-delimiter">// </span><span class="comment">set internal variable based on mouse position</span>
+    position = [d3.event.x, d3.event.y];
+    redraw();
+}
+<span class="keyword">function</span> <span class="function-name">redraw</span>() {
+    <span class="comment-delimiter">// </span><span class="comment">set circle's position based on internal variable</span>
+    d3.select(<span class="string">"#handle"</span>)
+        .attr(<span class="string">"cx"</span>, position[0])
+        .attr(<span class="string">"cy"</span>, position[1]);
+}
+d3.select(<span class="string">"#handle"</span>)  <span class="comment-delimiter">// </span><span class="comment">capture mouse drag event</span>
+    .call(d3.drag().on(<span class="string">'drag'</span>, on_drag));
+</pre>
+      </div>
+      
+      <p>
+        I used to use <a href="https://d3js.org/">d3.js</a><sup class="print-endnote">[2]</sup> for making my diagrams (v3 back in 2014 when I wrote this page, v4 later, then stopped using d3 in 2015), and it has a <a href="https://github.com/d3/d3-drag">mouse drag api</a><sup class="print-endnote">[3]</sup>. The code above is for d3 v4/v5. When you drag the mouse on an element, it’ll call the callback function. You can capture the mousedown, mousemove, and mouseup events (or better yet: <a href="https://caniuse.com/pointer">pointer events</a><sup class="print-endnote">[4]</sup>). In 2017 I made <a href="/x/1845-draggable/">my own drag library</a> so that I can use it outside of d3. In 2022 <a href="/x/2251-draggable/">I greatly simplified it by using pointerevents</a>, which got <a href="https://caniuse.com/pointer">widespread support in 2020</a><sup class="print-endnote">[5]</sup>.
+      </p>
+      
+      <p>
+        Once I pull out the ui-specific code, all I have left is a setter and getter function, which I put into an object:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">model</span> = {
+    position: [100, 50],
+    <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="constant">this</span>.position; },
+    <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">p</span>) { <span class="constant">this</span>.position = p; }
+};
+
+<span class="keyword">function</span> <span class="function-name">on_drag</span>() {
+    model.set([d3.event.x, d3.event.y]);
+    redraw();
+}
+<span class="keyword">function</span> <span class="function-name">redraw</span>() {
+    d3.select(<span class="string">"#handle"</span>)
+        .attr(<span class="string">'transform'</span>, <span class="string">"translate("</span> + model.get() + <span class="string">")"</span>);
+}
+</pre>
+      </div>
+      
+      <p>
+        This seems like a trivial object. Why bother? Because I want to transform the position into something other than a simple internal variable. For example, I want to directly store the value in an object or array instead of always using the getter. Here’s a setter/getter pair that lets me do that:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">function</span> <span class="function-name">ref</span>(<span class="variable-name">obj</span>, <span class="variable-name">prop</span>) {
+    <span class="keyword">return</span> {
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> obj[prop]; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { obj[prop] = v; }
+    };
+};
+</pre>
+      </div>
+      
+      <div id="ref"></div>
+      <script>
+        // NOTE: I originally used the same code that I present to the reader,
+        // but it didn't work well with the value display system I have, so I
+        // ended up using this instead
+        var model1 = { pos: [150, 25] };
+        make_diagram("#ref", cartesian(ref(model1.pos, 0), ref(model1.pos, 1)),
+          [
+            ['.constant:nth-child(5)', model1.pos, 0, '.0f'],
+            ['.constant:nth-child(6)', model1.pos, 1, '.0f']
+          ]);
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">obj</span> = {pos: [150, 25]};
+<span class="keyword">var</span> <span class="variable-name">model</span> = ref(obj, <span class="string">'pos'</span>);
+</pre>
+      </div>
+      
+      <p>
+        Sometimes I want to treat the x and y axes separately. Here’s a setter/getter pair that <em>splits</em> a point into x and y components:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">function</span> <span class="function-name">cartesian</span>(<span class="variable-name">x</span>, <span class="variable-name">y</span>) {
+    <span class="keyword">return</span> {
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> [x.get(), y.get()]; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">p</span>) { x.set(p[0]); y.set(p[1]); }
+    };
+};
+</pre>
+      </div>
+      
+      <div id="cartesian"></div>
+      <script>
+        var model2 = { x: 150, y: 25 };
+        make_diagram("#cartesian", cartesian(ref(model2, 'x'), ref(model2, 'y')), [
+          [".constant:nth-child(4)", model2, 'x', '.0f'],
+          [".constant:nth-child(5)", model2, 'y', '.0f']
+        ]);
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">obj</span> = {x: 150, y: 25};
+<span class="keyword">var</span> <span class="variable-name">model</span> = cartesian(ref(obj, <span class="string">'x'</span>), ref(obj, <span class="string">'y'</span>));
+</pre>
+      </div>
+      
+      <p>
+        Once the components are split, I can transform them separately. Here’s a way to add bounds to a number, and a way to have a constant value:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">function</span> <span class="function-name">clamped</span>(<span class="variable-name">m</span>, <span class="variable-name">lo</span>, <span class="variable-name">hi</span>) {
+    <span class="keyword">return</span> {
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> m.get(); },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { m.set(Math.min(hi, Math.max(lo, v))); }
+    };
+}
+
+<span class="keyword">function</span> <span class="function-name">constant</span>(<span class="variable-name">v</span>) {
+    <span class="keyword">return</span> {
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> v; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">_</span>) { }
+    };
+}
+</pre>
+      </div>
+      
+      <p>
+        I can combine these to make a horizontal slider. The x position stays within the range [0,200] and the y position is always 50:
+      </p>
+      
+      <div id="hslider"></div>
+      <script>
+        var model3 = { x: 25 };
+        make_diagram("#hslider", cartesian(clamped(ref(model3, 'x'), 0, 200), constant(50)), [
+          [".constant", model3, 'x', '.0f']
+        ]);
+        d3.select("#hslider svg").insert('line', ":first-child").attr('x1', 0).attr('y1', 50).attr('x2', 200).attr('y2', 50).attr('stroke', "#ddd").attr('stroke-width', "3px");
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">obj</span> = {x: 25};
+<span class="keyword">var</span> <span class="variable-name">model</span> = cartesian(clamped(ref(obj, <span class="string">'x'</span>), 0, 200), 
+                      constant(50));
+</pre>
+      </div>
+      
+      <p>
+        However, this isn’t really what I want. I want the handle’s <em>position</em> to start at 100 when the slider’s <em>value</em> is 0. To fix this, I can define something that lets me add 100 to the value:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">function</span> <span class="function-name">add</span>(<span class="variable-name">m</span>, <span class="variable-name">a</span>) {
+    <span class="keyword">return</span> {
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> m.get() + a; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { m.set(v - a); }
+    };
+}
+</pre>
+      </div>
+      
+      <p>
+        Let’s try it again:
+      </p>
+      
+      <div id="hslider2"></div>
+      <script>
+        var model4 = { x: 25 };
+        make_diagram("#hslider2", cartesian(add(clamped(ref(model4, 'x'), 0, 200), 100), constant(50)), [
+          [".constant", model4, 'x', '.0f']
+        ]);
+        d3.select("#hslider2 svg").insert('line', ":first-child").attr('x1', 100).attr('y1', 50).attr('x2', 300).attr('y2', 50).attr('stroke', "#ddd").attr('stroke-width', "3px");
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">obj</span> = {x: 150};
+<span class="keyword">var</span> <span class="variable-name">model</span> = cartesian(add(clamped(ref(obj, <span class="string">'x'</span>), 0, 200), 100), 
+                      constant(50));
+</pre>
+      </div>
+      
+      <p>
+        The code is getting a little hard to read. Let’s turn these functions into methods that return new objects:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">function</span> <span class="function-name">Model</span>(<span class="variable-name">init</span>) {
+    <span class="constant">this</span>.get = init.get;
+    <span class="constant">this</span>.set = init.set;
+}
+
+Model.ref = <span class="comment-delimiter">/* </span><span class="comment">static</span><span class="comment-delimiter"> */</span> <span class="keyword">function</span>(<span class="variable-name">obj</span>, <span class="variable-name">prop</span>) {
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Model</span>({
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> obj[prop]; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { obj[prop] = v; }
+    });
+};
+
+Model.constant = <span class="comment-delimiter">/* </span><span class="comment">static</span><span class="comment-delimiter"> */</span> <span class="keyword">function</span>(<span class="variable-name">v</span>) {
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Model</span>({
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> v; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">_</span>) { }
+    });
+};
+
+Model.<span class="constant">prototype</span>.clamped = <span class="keyword">function</span>(<span class="variable-name">lo</span>, <span class="variable-name">hi</span>) {
+    <span class="keyword">var</span> <span class="variable-name">m</span> = <span class="constant">this</span>;
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Model</span>({
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> m.get(); },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { m.set(Math.min(hi, Math.max(lo, v))); }
+    });
+}
+
+Model.<span class="constant">prototype</span>.add = <span class="keyword">function</span>(<span class="variable-name">a</span>) {
+    <span class="keyword">var</span> <span class="variable-name">m</span> = <span class="constant">this</span>;
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Model</span>({
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> m.get() + a; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { m.set(v - a); }
+    });
+}
+</pre>
+      </div>
+      
+      <p>
+        While I’m at it, I really want the value to go from 0 to 10 while the position goes from 100 to 300. I need a multiplier for that:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js">Model.<span class="constant">prototype</span>.multiply = <span class="keyword">function</span>(<span class="variable-name">k</span>) {
+    <span class="keyword">var</span> <span class="variable-name">m</span> = <span class="constant">this</span>;
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Model</span>({
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> m.get() * k; },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { m.set(v / k); }
+    });
+}
+</pre>
+      </div>
+      
+      <div id="hslider3"></div>
+      <script>
+        var model5 = { x: 5.00 };
+        make_diagram("#hslider3", cartesian(Model.ref(model5, 'x')
+            .clamped(0, 10)
+            .multiply(20)
+            .add(100),
+            Model.constant(50)),
+          [
+            [".constant", model5, 'x', '.2f']
+          ]);
+        d3.select("#hslider3 svg").insert('line', ":first-child").attr('x1', 100).attr('y1', 50).attr('x2', 300).attr('y2', 50).attr('stroke', "#ddd").attr('stroke-width', "3px");
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">obj</span> = {x: 5};
+<span class="keyword">var</span> <span class="variable-name">model</span> = cartesian(Model.ref(model5, <span class="string">'x'</span>)
+                           .clamped(0, 10)
+                           .multiply(20)
+                           .add(100), 
+                      Model.constant(50))
+</pre>
+      </div>
+      
+      <p>
+        That’s a bit easier to understand. Note that the order matters. If I had used <code>add</code> first and then <code>clamped</code>, it’d be different than using <code>clamped</code> and then <code>add</code>.
+      </p>
+      
+      <p>
+        Let’s make the x and y values sit on a grid by rounding the values to the nearest integer:
+      </p>
+      
+      <div class="org-src-container">
+        <pre class="src src-js">Model.<span class="constant">prototype</span>.rounded = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> <span class="variable-name">m</span> = <span class="constant">this</span>;
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Model</span>({
+        <span class="function-name">get</span>: <span class="keyword">function</span>() { <span class="keyword">return</span> m.get(); },
+        <span class="function-name">set</span>: <span class="keyword">function</span>(<span class="variable-name">v</span>) { m.set(Math.round(v)); }
+    });
+}
+</pre>
+      </div>
+      
+      <div id="grid"></div>
+      <script>
+        var model6 = { x: 2, y: 1 };
+        make_diagram("#grid", cartesian(Model.ref(model6, 'x')
+            .clamped(0, 18)
+            .rounded()
+            .multiply(30)
+            .add(30),
+            Model.ref(model6, 'y')
+            .clamped(0, 3)
+            .rounded()
+            .multiply(24)
+            .add(15)),
+          [
+            [".constant:nth-child(4)", model6, 'x', '.0f'],
+            [".constant:nth-child(5)", model6, 'y', '.0f']
+          ]);
+        for (var x = 0; x <= 18; x++) {
+          for (var y = 0; y <= 3; y++) {
+            d3.select("#grid svg").insert('circle', ":first-child").attr('cx', x * 30 + 30).attr('cy', y * 24 + 15).attr('r', 5).attr('fill', "#ddd");
+          }
+        }
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">obj</span> = {x: 2, y: 1};
+<span class="keyword">var</span> <span class="variable-name">model</span> = cartesian(Model.ref(model6, <span class="string">'x'</span>)
+                           .clamped(0, 18)
+                           .rounded()
+                           .multiply(30)
+                           .add(30), 
+                      Model.ref(model6, <span class="string">'y'</span>)
+                           .clamped(0, 3)
+                           .rounded()
+                           .multiply(20)
+                           .add(15));
+</pre>
+      </div>
+      
+      <p>
+        How do I think about this code?
+      </p>
+      
+      <p>
+        The way I think of it is that I’m <em>starting</em> with the underlying value and <em>transforming</em> it into a pixel coordinate. I started with an <code>x</code> value and limited its range to 0…12. I multiply it by 30 and add 25 to it to scale and translate it to pixel coordinates. Alternatively, I could have first scaled and translated, then limited its range to the <em>pixel range</em>.
+      </p>
+      
+      <p>
+        I hope by now you see that there are lots of tiny modifiers that could be written to give a range of behaviors for these draggable handles. <strong>These objects go both directions</strong>. In the forwards direction, the getters transform the underlying value into a pixel coordinate, so that I can <strong>draw</strong> it. In the backwards direction, the setters transform pixel coordinates into the underlying values, so that I can handle <strong>mouse click/drag</strong>. Chaining simple things together can express many different patterns. Here’s one that makes a grid of polar coordinates. Can you imagine how it was made?
+      </p>
+      
+      <div id="end"></div>
+      <script>
+        var model7 = { radius: 1, angle: 0 };
+        make_diagram("#end", polar(Model.ref(model7, 'radius')
+            .clamped(0, 4)
+            .rounded()
+            .multiply(15),
+            Model.ref(model7, 'angle')
+            .multiply(1 / 360)
+            .multiply(5).rounded().multiply(1 / 5)
+            .multiply(2 * Math.PI)
+          )
+          .offset([100, 50]),
+          [
+            [".constant:nth-child(4)", model7, 'radius', '.0f'],
+            [".constant:nth-child(5)", model7, 'angle', '.0f']
+          ]);
+        for (var r = 1; r <= 4; r++) {
+          d3.select("#end svg").insert('circle', ":first-child").attr('cx', 100).attr('cy', 50).attr('r', r * 15).attr('fill', "none").attr('stroke', "#ddd").attr('stroke-width', "3px");
+        }
+        for (var a = 0; a < 360; a += (360 / 5)) {
+          d3.select("#end svg").insert('line', ":first-child").attr('x1', 100).attr('y1', 50).attr('x2', 100 + 60 * Math.cos(a / 180 * Math.PI)).attr('y2', 50 + 60 * Math.sin(a / 180 * Math.PI)).attr('fill', "none").attr('stroke', "#ddd").attr('stroke-width', "3px");
+        }
+      </script>
+      
+      <div class="org-src-container">
+        <pre class="src src-js"><span class="keyword">var</span> <span class="variable-name">model</span> = {radius: 1, angle: 0};
+</pre>
+      </div>
+      
+      <p>
+        I originally built some of this flexibility for a Flash demo that I never did much with, and I reused it for the <a href="/articles/curved-paths/">curved roads page</a>. I had add variable reference, constant, clamp, round, scalar, multiply scalar, add vector, scale vector, project along vector, cartesian decomposition, polar decomposition, and callback functions. It worked great for the Flash road demo, and it worked reasonably well but not perfectly for the curved roads article.
+      </p>
+      
+      <p>
+        Is there a name for this pattern? I don't know. I can't remember where I learned it. Maybe "combinators".
+      </p>
+      
+      <p>
+        There are some things that this system <em>doesn't</em> handle. There are several alternatives I could consider:
+      </p>
+      
+      <ul class="org-ul">
+        <li>An observer/observable system, so if I change the underlying value, it will automatically update. I'd be able to hook up multiple draggable handles to the same underlying values. (In 2018 I wrote <a href="https://simblob.blogspot.com/2018/03/how-i-implement-my-interactive-diagrams.html">more about this topic</a><sup class="print-endnote">[6]</sup>.)</li>
+        <li>A separate constraint solver, instead of building object chains, so that I could specify the constraints separately in a declarative way. It's often better to specify things as data instead of code.</li>
+        <li>Although the transformations are very generic, in practice most everything I do is a geometric transformation. It might be cleaner to separate geometric transformation from constraints. SVG transforms provide geometric transforms. Constraints are "snap to nearest" instead of rounding and bounding region instead of clamping. JQueryUI has <a href="https://api.jqueryui.com/draggable/">snap/grid/range options</a><sup class="print-endnote">[7]</sup> for drag and drop; MooTools <a href="https://mootools.net/more/docs/1.6.0/Drag/Drag">does too</a><sup class="print-endnote">[8]</sup>. Maybe that's a better model.</li>
+        <li>
+          <time>&lt;2025-01-14 Tue&gt; </time> <a href="https://observablehq.com/@tomlarkworthy/manipulate">Tom Larkworthy describes invertible functions for direct manipulation</a><sup class="print-endnote">[9]</sup> using ObservableHQ.
+        </li>
+      </ul>
+      
+      <p>
+        I'm always looking for things that let me get a lot of functionality for little code, and I think this fits the bill. I'm especially drawn to solutions (and games) where I combine several smaller pieces to produce complex behavior. I like this solution, but I'm also curious about other approaches, so I might try something else for a future project. However, in practice, I rarely use something general purpose like what's on this page.
+      </p>
+      
+      <p>
+        Also see <a href="/making-of/little-things/#drag-point">little things that make drag behavior nicer</a>.
+      </p>
+      
+      <aside>
+        [Note from 2022] I love the elegance of this system but in practice I rarely need this much control, so I usually hard code a single level of get/set instead of making a reusable chainable "combinator" library.
+      </aside>
+      
+      
+    </section>
+  </main>
+  <div class="below-divider">
+    <p>Email me <a class="email" rel="me" href="mailto:redblobgames@gmail.com">redblobgames@gmail.com</a>, or comment here:</p>
+    <div class="print-endnote">
+      <h3>Links</h3>
+      <ol>
+        <li>[1]: https://www.redblobgames.com/articles/curved-paths/</li>
+        <li>[2]: https://d3js.org/</li>
+        <li>[3]: https://github.com/d3/d3-drag</li>
+        <li>[4]: https://caniuse.com/pointer</li>
+        <li>[5]: https://caniuse.com/pointer</li>
+        <li>[6]: https://simblob.blogspot.com/2018/03/how-i-implement-my-interactive-diagrams.html</li>
+        <li>[7]: https://api.jqueryui.com/draggable/</li>
+        <li>[8]: https://mootools.net/more/docs/1.6.0/Drag/Drag</li>
+        <li>[9]: https://observablehq.com/@tomlarkworthy/manipulate</li>
+      </ol>
+    </div>
+  </div>
+  <footer>
+    <div>
+      <div>
+        <address>
+          Copyright © <time>2026</time> <a rel="author home copyright" href="https://www.redblobgames.com/">Red Blob Games</a><br><a href="https://www.redblobgames.com/blog/posts.xml"><svg viewBox="0 0 30 30" height="0.8em">
+              <rect width="30" height="30" rx="5" fill="orange"></rect>
+              <circle cx="7" cy="23" r="4" fill="white"></circle>
+              <path d="M 5,5 A 20,20,0,0,1,25,25 M 5,13 A 12,12,0,0,1,17,25" fill="none" stroke="white" stroke-width="4" stroke-linecap="square"></path>
+            </svg> RSS Feed</a>
+        </address>
+      </div>
+      <div>
+        <svg width="0" height="0">
+          <defs>
+            <filter id="drop-shadow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="0.5"></feGaussianBlur>
+              <feOffset dx="0.5" dy="1" result="offsetblur"></feOffset>
+              <feFlood flood-color="#000000"></feFlood>
+              <feComposite in2="offsetblur" operator="in"></feComposite>
+              <feMerge>
+                <feMergeNode></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+        
+        Created September 2014
+        with <a href="https://orgmode.org/">Emacs Org-mode</a>, from <a href="making-of.org">making-of.org</a> and <a href="https://d3js.org/">D3.js</a>.
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
