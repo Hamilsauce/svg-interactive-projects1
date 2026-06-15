@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Spatial Image Workspace POC</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --toolbar-height: 54px;
+      --panel: rgba(28, 28, 31, 0.92);
+      --panel-border: rgba(255, 255, 255, 0.12);
+      --text: #f2f2f3;
+      --muted: #a6a6ad;
+      --accent: #8ab4ff;
+      --workspace: #202124;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--workspace);
+      font: 14px/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      overscroll-behavior: none;
+    }
+    
+    button,
+    input {
+      font: inherit;
+    }
+    
+    #viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      touch-action: none;
+      cursor: grab;
+      background-color: var(--workspace);
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1.25px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.25px);
+      background-repeat: repeat;
+    }
+    
+    #viewport.is-panning {
+      cursor: grabbing;
+    }
+    
+    #viewport.is-drop-target {
+      outline: 3px solid var(--accent);
+      outline-offset: -3px;
+    }
+    
+    #world {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 1px;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+    
+    .image-card {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 8px 8px 30px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 7px;
+      background: #303134;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      cursor: move;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      transform-origin: 0 0;
+    }
+    
+    .image-card:hover {
+      border-color: rgba(255, 255, 255, 0.32);
+    }
+    
+    .image-card.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent), 0 10px 28px rgba(0, 0, 0, 0.34);
+    }
+    
+    .image-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 3px;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+    
+    .image-card .label {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 6px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #d8d8dc;
+      font-size: 12px;
+      pointer-events: none;
+    }
+    
+    #toolbar {
+      position: fixed;
+      z-index: 20;
+      top: max(8px, env(safe-area-inset-top));
+      left: 50%;
+      min-height: 42px;
+      max-width: calc(100vw - 16px);
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px;
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
+    #toolbar button,
+    #uploadLabel {
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    
+    #toolbar button:hover,
+    #uploadLabel:hover {
+      background: rgba(255, 255, 255, 0.13);
+    }
+    
+    #uploadLabel {
+      border-color: rgba(138, 180, 255, 0.6);
+      background: rgba(138, 180, 255, 0.16);
+    }
+    
+    #fileInput {
+      display: none;
+    }
+    
+    #zoomReadout {
+      min-width: 50px;
+      color: var(--muted);
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    #emptyState {
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      max-width: min(420px, calc(100vw - 44px));
+      padding: 18px 22px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center;
+      pointer-events: none;
+      background: rgba(25, 25, 28, 0.38);
+    }
+    
+    #hud {
+      position: fixed;
+      z-index: 10;
+      left: 10px;
+      bottom: max(10px, env(safe-area-inset-bottom));
+      max-width: calc(100vw - 20px);
+      padding: 6px 9px;
+      border: 1px solid var(--panel-border);
+      border-radius: 7px;
+      background: rgba(28, 28, 31, 0.78);
+      color: var(--muted);
+      font-size: 12px;
+      pointer-events: none;
+    }
+    
+    @media (max-width: 600px) {
+      #toolbar {
+        left: 8px;
+        right: 8px;
+        transform: none;
+        overflow-x: auto;
+      }
+      
+      #toolbar button,
+      #uploadLabel {
+        padding-inline: 9px;
+      }
+      
+      #hud {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main id="viewport" aria-label="Pan and zoom image workspace">
+    <div id="world"></div>
+  </main>
+  
+  <nav id="toolbar" aria-label="Workspace controls">
+    <label id="uploadLabel" for="fileInput">Upload images</label>
+    <input id="fileInput" type="file" accept="image/*" multiple />
+    <button id="fitButton" type="button">Fit all</button>
+    <button id="resetButton" type="button">Reset view</button>
+    <button id="clearButton" type="button">Clear</button>
+    <span id="zoomReadout" aria-live="polite">100%</span>
+  </nav>
+  
+  <div id="emptyState">Upload or drop images here. Drag empty space to pan, drag images to move them, and pinch or use the mouse wheel to zoom.</div>
+  <div id="hud">Desktop: drag empty space, wheel to zoom, Space-drag from anywhere. Mobile: one-finger pan on empty space, drag images, pinch to zoom.</div>
+  
+  <script>
+    (() => {
+      "use strict";
+      
+      const MIN_SCALE = 0.1;
+      const MAX_SCALE = 6;
+      const GRID_GAP_X = 350;
+      const GRID_GAP_Y = 285;
+      const GRID_COLUMNS = 4;
+      const GRID_ORIGIN_X = 70;
+      const GRID_ORIGIN_Y = 90;
+      
+      // false means a rightward pan gesture moves the board left, as requested.
+      // Set to true for the usual "grab the canvas and pull it" behavior.
+      const PAN_CONTENT_WITH_POINTER = false;
+      
+      const viewport = document.querySelector("#viewport");
+      const world = document.querySelector("#world");
+      const fileInput = document.querySelector("#fileInput");
+      const fitButton = document.querySelector("#fitButton");
+      const resetButton = document.querySelector("#resetButton");
+      const clearButton = document.querySelector("#clearButton");
+      const zoomReadout = document.querySelector("#zoomReadout");
+      const emptyState = document.querySelector("#emptyState");
+      
+      const state = {
+        view: { x: 64, y: 88, scale: 1 },
+        items: [],
+        selectedId: null,
+        nextId: 1,
+        pointers: new Map(),
+        gesture: null,
+        spaceDown: false,
+        objectUrls: new Set()
+      };
+      
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      
+      function screenToWorld(screenX, screenY, view = state.view) {
+        return {
+          x: (screenX - view.x) / view.scale,
+          y: (screenY - view.y) / view.scale
+        };
+      }
+      
+      function renderView() {
+        const { x, y, scale } = state.view;
+        world.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+        
+        const minor = Math.max(7, 24 * scale);
+        const major = minor * 5;
+        viewport.style.backgroundSize = `${major}px ${major}px, ${minor}px ${minor}px`;
+        viewport.style.backgroundPosition = `${x}px ${y}px, ${x}px ${y}px`;
+        zoomReadout.textContent = `${Math.round(scale * 100)}%`;
+      }
+      
+      function setSelected(id) {
+        if (state.selectedId === id) return;
+        if (state.selectedId != null) {
+          world.querySelector(`[data-id="${state.selectedId}"]`)?.classList.remove("selected");
+        }
+        state.selectedId = id;
+        if (id != null) {
+          world.querySelector(`[data-id="${id}"]`)?.classList.add("selected");
+        }
+      }
+      
+      function positionCard(item) {
+        item.element.style.transform = `translate3d(${item.x}px, ${item.y}px, 0)`;
+      }
+      
+      function createCard(item) {
+        const card = document.createElement("article");
+        card.className = "image-card";
+        card.dataset.id = String(item.id);
+        card.style.width = `${item.width + 16}px`;
+        card.setAttribute("aria-label", item.name);
+        
+        const image = document.createElement("img");
+        image.src = item.url;
+        image.alt = item.name;
+        image.draggable = false;
+        
+        const label = document.createElement("div");
+        label.className = "label";
+        label.textContent = item.name;
+        
+        card.append(image, label);
+        world.append(card);
+        item.element = card;
+        positionCard(item);
+      }
+      
+      function updateEmptyState() {
+        emptyState.hidden = state.items.length > 0;
+      }
+      
+      function zoomAt(nextScale, screenX, screenY) {
+        const previous = state.view;
+        const worldPoint = screenToWorld(screenX, screenY, previous);
+        const scale = clamp(nextScale, MIN_SCALE, MAX_SCALE);
+        
+        state.view = {
+          scale,
+          x: screenX - worldPoint.x * scale,
+          y: screenY - worldPoint.y * scale
+        };
+        renderView();
+      }
+      
+      function resetView() {
+        state.view = { x: 64, y: 88, scale: 1 };
+        renderView();
+      }
+      
+      function fitAll() {
+        if (!state.items.length) {
+          resetView();
+          return;
+        }
+        
+        let minX = Infinity;
+        let minY = Infinity;
+        let maxX = -Infinity;
+        let maxY = -Infinity;
+        
+        for (const item of state.items) {
+          minX = Math.min(minX, item.x);
+          minY = Math.min(minY, item.y);
+          maxX = Math.max(maxX, item.x + item.width + 16);
+          maxY = Math.max(maxY, item.y + item.height + 38);
+        }
+        
+        const boundsWidth = Math.max(1, maxX - minX);
+        const boundsHeight = Math.max(1, maxY - minY);
+        const padding = 44;
+        const toolbarAllowance = 68;
+        const availableWidth = Math.max(120, window.innerWidth - padding * 2);
+        const availableHeight = Math.max(120, window.innerHeight - toolbarAllowance - padding * 2);
+        const scale = clamp(
+          Math.min(availableWidth / boundsWidth, availableHeight / boundsHeight, 1.35),
+          MIN_SCALE,
+          MAX_SCALE
+        );
+        
+        state.view = {
+          scale,
+          x: window.innerWidth / 2 - (minX + boundsWidth / 2) * scale,
+          y: toolbarAllowance + availableHeight / 2 - (minY + boundsHeight / 2) * scale
+        };
+        renderView();
+      }
+      
+      function removeSelected() {
+        if (state.selectedId == null) return;
+        const index = state.items.findIndex(item => item.id === state.selectedId);
+        if (index === -1) return;
+        const [item] = state.items.splice(index, 1);
+        item.element.remove();
+        URL.revokeObjectURL(item.url);
+        state.objectUrls.delete(item.url);
+        state.selectedId = null;
+        updateEmptyState();
+      }
+      
+      function clearAll() {
+        for (const item of state.items) {
+          URL.revokeObjectURL(item.url);
+        }
+        state.objectUrls.clear();
+        state.items.length = 0;
+        state.selectedId = null;
+        world.replaceChildren();
+        updateEmptyState();
+        resetView();
+      }
+      
+      function loadImageMetadata(url) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+          image.onerror = () => reject(new Error("The image could not be decoded."));
+          image.src = url;
+        });
+      }
+      
+      async function addFiles(fileList) {
+        const files = [...fileList].filter(file => file.type.startsWith("image/"));
+        if (!files.length) return;
+        
+        const wasEmpty = state.items.length === 0;
+        
+        for (const file of files) {
+          const url = URL.createObjectURL(file);
+          state.objectUrls.add(url);
+          
+          try {
+            const natural = await loadImageMetadata(url);
+            const fitScale = Math.min(1, 300 / natural.width, 220 / natural.height);
+            const width = Math.max(24, Math.round(natural.width * fitScale));
+            const height = Math.max(24, Math.round(natural.height * fitScale));
+            const slot = state.items.length;
+            const col = slot % GRID_COLUMNS;
+            const row = Math.floor(slot / GRID_COLUMNS);
+            
+            const item = {
+              id: state.nextId++,
+              name: file.name,
+              url,
+              width,
+              height,
+              x: GRID_ORIGIN_X + col * GRID_GAP_X,
+              y: GRID_ORIGIN_Y + row * GRID_GAP_Y,
+              element: null
+            };
+            
+            state.items.push(item);
+            createCard(item);
+            setSelected(item.id);
+          } catch (error) {
+            console.warn(`Skipped ${file.name}:`, error);
+            URL.revokeObjectURL(url);
+            state.objectUrls.delete(url);
+          }
+        }
+        
+        updateEmptyState();
+        if (wasEmpty && state.items.length) fitAll();
+      }
+      
+      function beginPinch() {
+        const points = [...state.pointers.values()].slice(0, 2);
+        if (points.length < 2) return;
+        
+        const center = {
+          x: (points[0].x + points[1].x) / 2,
+          y: (points[0].y + points[1].y) / 2
+        };
+        const distance = Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+        
+        state.gesture = {
+          type: "pinch",
+          startDistance: Math.max(1, distance),
+          startScale: state.view.scale,
+          startCenter: center,
+          anchorWorld: screenToWorld(center.x, center.y)
+        };
+        viewport.classList.add("is-panning");
+      }
+      
+      function updatePinch() {
+        const points = [...state.pointers.values()].slice(0, 2);
+        if (points.length < 2 || state.gesture?.type !== "pinch") return;
+        
+        const center = {
+          x: (points[0].x + points[1].x) / 2,
+          y: (points[0].y + points[1].y) / 2
+        };
+        const distance = Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+        const scale = clamp(
+          state.gesture.startScale * (distance / state.gesture.startDistance),
+          MIN_SCALE,
+          MAX_SCALE
+        );
+        
+        const centerDelta = {
+          x: center.x - state.gesture.startCenter.x,
+          y: center.y - state.gesture.startCenter.y
+        };
+        const anchorScreen = PAN_CONTENT_WITH_POINTER ?
+          center :
+          {
+            x: state.gesture.startCenter.x - centerDelta.x,
+            y: state.gesture.startCenter.y - centerDelta.y
+          };
+        
+        state.view = {
+          scale,
+          x: anchorScreen.x - state.gesture.anchorWorld.x * scale,
+          y: anchorScreen.y - state.gesture.anchorWorld.y * scale
+        };
+        renderView();
+      }
+      
+      viewport.addEventListener("pointerdown", event => {
+        if (event.pointerType === "mouse" && ![0, 1].includes(event.button)) return;
+        
+        event.preventDefault();
+        viewport.setPointerCapture(event.pointerId);
+        const card = event.target.closest?.(".image-card");
+        
+        state.pointers.set(event.pointerId, {
+          x: event.clientX,
+          y: event.clientY,
+          cardId: card ? Number(card.dataset.id) : null
+        });
+        
+        if (state.pointers.size >= 2) {
+          beginPinch();
+          return;
+        }
+        
+        const shouldPan = state.spaceDown || event.button === 1 || !card;
+        if (shouldPan) {
+          if (!card) setSelected(null);
+          state.gesture = {
+            type: "pan",
+            pointerId: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            startViewX: state.view.x,
+            startViewY: state.view.y
+          };
+          viewport.classList.add("is-panning");
+          return;
+        }
+        
+        const id = Number(card.dataset.id);
+        const item = state.items.find(candidate => candidate.id === id);
+        if (!item) return;
+        
+        setSelected(id);
+        state.gesture = {
+          type: "drag",
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          startItemX: item.x,
+          startItemY: item.y,
+          itemId: id
+        };
+      });
+      
+      viewport.addEventListener("pointermove", event => {
+        const pointer = state.pointers.get(event.pointerId);
+        if (!pointer) return;
+        
+        event.preventDefault();
+        pointer.x = event.clientX;
+        pointer.y = event.clientY;
+        
+        if (state.pointers.size >= 2) {
+          if (state.gesture?.type !== "pinch") beginPinch();
+          updatePinch();
+          return;
+        }
+        
+        const gesture = state.gesture;
+        if (!gesture || gesture.pointerId !== event.pointerId) return;
+        
+        const deltaX = event.clientX - gesture.startX;
+        const deltaY = event.clientY - gesture.startY;
+        
+        if (gesture.type === "pan") {
+          const direction = PAN_CONTENT_WITH_POINTER ? 1 : -1;
+          state.view.x = gesture.startViewX + deltaX * direction;
+          state.view.y = gesture.startViewY + deltaY * direction;
+          renderView();
+          return;
+        }
+        
+        if (gesture.type === "drag") {
+          const item = state.items.find(candidate => candidate.id === gesture.itemId);
+          if (!item) return;
+          item.x = gesture.startItemX + deltaX / state.view.scale;
+          item.y = gesture.startItemY + deltaY / state.view.scale;
+          positionCard(item);
+        }
+      });
+      
+      function finishPointer(event) {
+        state.pointers.delete(event.pointerId);
+        if (state.pointers.size < 2 && state.gesture?.type === "pinch") {
+          state.gesture = null;
+        } else if (state.gesture?.pointerId === event.pointerId) {
+          state.gesture = null;
+        }
+        if (state.pointers.size === 0) viewport.classList.remove("is-panning");
+      }
+      
+      viewport.addEventListener("pointerup", finishPointer);
+      viewport.addEventListener("pointercancel", finishPointer);
+      viewport.addEventListener("lostpointercapture", finishPointer);
+      
+      viewport.addEventListener("wheel", event => {
+        event.preventDefault();
+        let delta = event.deltaY;
+        if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) delta *= 16;
+        if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) delta *= window.innerHeight;
+        const factor = Math.exp(-delta * 0.0014);
+        zoomAt(state.view.scale * factor, event.clientX, event.clientY);
+      }, { passive: false });
+      
+      viewport.addEventListener("dragover", event => {
+        event.preventDefault();
+        viewport.classList.add("is-drop-target");
+      });
+      
+      viewport.addEventListener("dragleave", event => {
+        if (event.relatedTarget && viewport.contains(event.relatedTarget)) return;
+        viewport.classList.remove("is-drop-target");
+      });
+      
+      viewport.addEventListener("drop", event => {
+        event.preventDefault();
+        viewport.classList.remove("is-drop-target");
+        addFiles(event.dataTransfer.files);
+      });
+      
+      fileInput.addEventListener("change", () => {
+        addFiles(fileInput.files);
+        fileInput.value = "";
+      });
+      
+      fitButton.addEventListener("click", fitAll);
+      resetButton.addEventListener("click", resetView);
+      clearButton.addEventListener("click", clearAll);
+      
+      window.addEventListener("keydown", event => {
+        if (event.code === "Space" && !event.repeat) {
+          state.spaceDown = true;
+          event.preventDefault();
+        }
+        if ((event.key === "Delete" || event.key === "Backspace") && state.selectedId != null) {
+          event.preventDefault();
+          removeSelected();
+        }
+        if ((event.ctrlKey || event.metaKey) && event.key === "0") {
+          event.preventDefault();
+          fitAll();
+        }
+      });
+      
+      window.addEventListener("keyup", event => {
+        if (event.code === "Space") state.spaceDown = false;
+      });
+      
+      window.addEventListener("resize", renderView);
+      window.addEventListener("beforeunload", () => {
+        for (const url of state.objectUrls) URL.revokeObjectURL(url);
+      });
+      
+      renderView();
+      updateEmptyState();
+    })();
+  </script>
+</body>
+
+</html>
