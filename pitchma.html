@@ -4,13 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Spatial Image Workspace POC</title>
+  <title>Spatial Image Workspace v2 — Resize + Effects</title>
   <style>
     :root {
       color-scheme: dark;
-      --toolbar-height: 54px;
-      --panel: rgba(28, 28, 31, 0.92);
-      --panel-border: rgba(255, 255, 255, 0.12);
+      --panel: rgba(28, 28, 31, 0.94);
+      --panel-border: rgba(255, 255, 255, 0.13);
       --text: #f2f2f3;
       --muted: #a6a6ad;
       --accent: #8ab4ff;
@@ -28,13 +27,14 @@
       margin: 0;
       overflow: hidden;
       background: var(--workspace);
-      font: 14px/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
+      font: 14px/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       overscroll-behavior: none;
     }
     
     button,
-    input {
+    input,
+    select {
       font: inherit;
     }
     
@@ -61,6 +61,10 @@
     }
     
     #world {
+      --handle-size: 15px;
+      --handle-offset: -7.5px;
+      --edge-hit-size: 14px;
+      --edge-hit-offset: -7px;
       position: absolute;
       left: 0;
       top: 0;
@@ -74,47 +78,166 @@
       position: absolute;
       left: 0;
       top: 0;
-      padding: 8px 8px 30px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 7px;
-      background: #303134;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
       cursor: move;
       user-select: none;
       -webkit-user-select: none;
       touch-action: none;
-      transform-origin: 0 0;
     }
     
-    .image-card:hover {
-      border-color: rgba(255, 255, 255, 0.32);
+    .image-surface {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      background: transparent;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
     
-    .image-card.selected {
+    .image-card:hover .image-surface {
+      border-color: rgba(255, 255, 255, 0.36);
+    }
+    
+    .image-card.selected .image-surface {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px var(--accent), 0 10px 28px rgba(0, 0, 0, 0.34);
+      box-shadow: 0 0 0 2px var(--accent), 0 10px 28px rgba(0, 0, 0, 0.38);
     }
     
     .image-card img {
       display: block;
       width: 100%;
-      height: auto;
-      border-radius: 3px;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 5px;
       pointer-events: none;
       -webkit-user-drag: none;
+      transform: translateZ(0);
     }
     
     .image-card .label {
       position: absolute;
-      left: 8px;
-      right: 8px;
-      bottom: 6px;
+      left: 0;
+      top: calc(100% + 6px);
+      max-width: 100%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(28, 28, 31, 0.78);
       color: #d8d8dc;
       font-size: 12px;
       pointer-events: none;
+    }
+    
+    .resize-handle {
+      position: absolute;
+      z-index: 4;
+      display: none;
+      width: var(--handle-size);
+      height: var(--handle-size);
+      border: 2px solid var(--accent);
+      border-radius: 3px;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+      touch-action: none;
+    }
+    
+    .image-card.selected .resize-handle {
+      display: block;
+    }
+    
+    /* Full-edge hit zones: grab anywhere along a selected edge, not only a tiny midpoint. */
+    .resize-handle[data-resize="n"],
+    .resize-handle[data-resize="s"] {
+      left: 12%;
+      right: 12%;
+      width: auto;
+      height: var(--edge-hit-size);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      transform: none;
+      cursor: ns-resize;
+    }
+    
+    .resize-handle[data-resize="n"] {
+      top: var(--edge-hit-offset);
+    }
+    
+    .resize-handle[data-resize="s"] {
+      bottom: var(--edge-hit-offset);
+    }
+    
+    .resize-handle[data-resize="e"],
+    .resize-handle[data-resize="w"] {
+      top: 12%;
+      bottom: 12%;
+      width: var(--edge-hit-size);
+      height: auto;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      transform: none;
+      cursor: ew-resize;
+    }
+    
+    .resize-handle[data-resize="e"] {
+      right: var(--edge-hit-offset);
+    }
+    
+    .resize-handle[data-resize="w"] {
+      left: var(--edge-hit-offset);
+    }
+    
+    .resize-handle[data-resize="n"]::after,
+    .resize-handle[data-resize="s"]::after,
+    .resize-handle[data-resize="e"]::after,
+    .resize-handle[data-resize="w"]::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: calc(var(--handle-size) * 1.25);
+      height: calc(var(--handle-size) * 0.48);
+      border: 2px solid var(--accent);
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    
+    .resize-handle[data-resize="e"]::after,
+    .resize-handle[data-resize="w"]::after {
+      width: calc(var(--handle-size) * 0.48);
+      height: calc(var(--handle-size) * 1.25);
+    }
+    
+    .resize-handle[data-resize="nw"] {
+      left: var(--handle-offset);
+      top: var(--handle-offset);
+      cursor: nwse-resize;
+    }
+    
+    .resize-handle[data-resize="ne"] {
+      right: var(--handle-offset);
+      top: var(--handle-offset);
+      cursor: nesw-resize;
+    }
+    
+    .resize-handle[data-resize="sw"] {
+      left: var(--handle-offset);
+      bottom: var(--handle-offset);
+      cursor: nesw-resize;
+    }
+    
+    .resize-handle[data-resize="se"] {
+      right: var(--handle-offset);
+      bottom: var(--handle-offset);
+      cursor: nwse-resize;
     }
     
     #toolbar {
@@ -163,10 +286,153 @@
       display: none;
     }
     
+    #versionBadge {
+      padding: 4px 7px;
+      border: 1px solid rgba(138, 180, 255, 0.42);
+      border-radius: 999px;
+      background: rgba(138, 180, 255, 0.12);
+      color: #bad2ff;
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    
     #zoomReadout {
       min-width: 50px;
       color: var(--muted);
       text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    #selectionTools {
+      position: fixed;
+      z-index: 40;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      pointer-events: auto;
+    }
+    
+    #selectionTools.open-left {
+      flex-direction: row-reverse;
+    }
+    
+    #selectionTools[hidden],
+    #effectsPanel[hidden] {
+      display: none;
+    }
+    
+    #effectsToggle {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      padding: 0;
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+      touch-action: manipulation;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
+    #effectsToggle:hover,
+    #effectsToggle[aria-expanded="true"] {
+      background: rgba(70, 70, 76, 0.98);
+    }
+    
+    #effectsToggle.has-effects {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    
+    #effectsToggle {
+      grid-template-rows: 22px auto;
+      min-width: 46px;
+      height: 50px;
+      padding: 4px 5px 3px;
+    }
+    
+    #effectsToggle svg {
+      width: 21px;
+      height: 21px;
+    }
+    
+    #effectsToggle .fx-label {
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+    
+    #effectsPanel {
+      width: min(244px, calc(100vw - 68px));
+      max-height: calc(100vh - 16px);
+      overflow: auto;
+      padding: 12px;
+      border: 1px solid var(--panel-border);
+      border-radius: 11px;
+      background: var(--panel);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      touch-action: pan-y;
+    }
+    
+    .effects-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-weight: 650;
+    }
+    
+    #resetEffects {
+      padding: 4px 7px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    
+    .effect-field {
+      display: grid;
+      grid-template-columns: 76px 1fr 42px;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    
+    .effect-field.select-field {
+      grid-template-columns: 76px 1fr;
+    }
+    
+    .effect-field select,
+    .effect-field input[type="range"] {
+      width: 100%;
+      min-width: 0;
+    }
+    
+    .effect-field select {
+      height: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      background: #35363a;
+      color: var(--text);
+    }
+    
+    .effect-value {
+      color: #d8d8dc;
+      text-align: right;
       font-variant-numeric: tabular-nums;
     }
     
@@ -217,11 +483,17 @@
       #hud {
         font-size: 11px;
       }
+      
+      #effectsToggle {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+      }
     }
   </style>
 </head>
 
-<body>
+<body data-build="resize-effects-v2">
   <main id="viewport" aria-label="Pan and zoom image workspace">
     <div id="world"></div>
   </main>
@@ -233,10 +505,79 @@
     <button id="resetButton" type="button">Reset view</button>
     <button id="clearButton" type="button">Clear</button>
     <span id="zoomReadout" aria-live="polite">100%</span>
+    <span id="versionBadge">v2 · resize + effects</span>
   </nav>
   
+  <aside id="selectionTools" aria-label="Selected image tools" hidden>
+    <button id="effectsToggle" type="button" title="Blend and effects" aria-label="Blend and effects" aria-controls="effectsPanel" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M4 7h9v2H4V7Zm0 8h5v2H4v-2Zm13-8h3v2h-3V7Zm-4 8h7v2h-7v-2ZM14 5h2v6h-2V5Zm-4 8h2v6h-2v-6Z" />
+      </svg>
+      <span class="fx-label">FX</span>
+    </button>
+    
+    <section id="effectsPanel" aria-label="Blend and effects controls" hidden>
+      <div class="effects-heading">
+        <span>Blend &amp; effects</span>
+        <button id="resetEffects" type="button">Reset</button>
+      </div>
+      
+      <label class="effect-field select-field">
+        <span>Blend</span>
+        <select id="blendMode">
+          <option value="normal">Normal</option>
+          <option value="multiply">Multiply</option>
+          <option value="screen">Screen</option>
+          <option value="overlay">Overlay</option>
+          <option value="darken">Darken</option>
+          <option value="lighten">Lighten</option>
+          <option value="color-dodge">Color dodge</option>
+          <option value="color-burn">Color burn</option>
+          <option value="hard-light">Hard light</option>
+          <option value="soft-light">Soft light</option>
+          <option value="difference">Difference</option>
+          <option value="exclusion">Exclusion</option>
+          <option value="hue">Hue</option>
+          <option value="saturation">Saturation</option>
+          <option value="color">Color</option>
+          <option value="luminosity">Luminosity</option>
+        </select>
+      </label>
+      
+      <label class="effect-field">
+        <span>Opacity</span>
+        <input id="opacityEffect" type="range" min="0" max="100" value="100" />
+        <output id="opacityValue" class="effect-value">100%</output>
+      </label>
+      
+      <label class="effect-field">
+        <span>Brightness</span>
+        <input id="brightnessEffect" type="range" min="0" max="200" value="100" />
+        <output id="brightnessValue" class="effect-value">100%</output>
+      </label>
+      
+      <label class="effect-field">
+        <span>Contrast</span>
+        <input id="contrastEffect" type="range" min="0" max="200" value="100" />
+        <output id="contrastValue" class="effect-value">100%</output>
+      </label>
+      
+      <label class="effect-field">
+        <span>Saturation</span>
+        <input id="saturationEffect" type="range" min="0" max="200" value="100" />
+        <output id="saturationValue" class="effect-value">100%</output>
+      </label>
+      
+      <label class="effect-field">
+        <span>Blur</span>
+        <input id="blurEffect" type="range" min="0" max="20" step="0.5" value="0" />
+        <output id="blurValue" class="effect-value">0px</output>
+      </label>
+    </section>
+  </aside>
+  
   <div id="emptyState">Upload or drop images here. Drag empty space to pan, drag images to move them, and pinch or use the mouse wheel to zoom.</div>
-  <div id="hud">Desktop: drag empty space, wheel to zoom, Space-drag from anywhere. Mobile: one-finger pan on empty space, drag images, pinch to zoom.</div>
+  <div id="hud">V2: select an image, drag any edge/corner to resize, or tap the FX button. Desktop: drag empty space, wheel to zoom, Space-drag. Mobile: drag images or handles, pinch to zoom.</div>
   
   <script>
     (() => {
@@ -244,11 +585,13 @@
       
       const MIN_SCALE = 0.1;
       const MAX_SCALE = 6;
+      const MIN_ITEM_SIZE = 42;
       const GRID_GAP_X = 350;
       const GRID_GAP_Y = 285;
       const GRID_COLUMNS = 4;
       const GRID_ORIGIN_X = 70;
       const GRID_ORIGIN_Y = 90;
+      const LABEL_ALLOWANCE = 28;
       
       // false means a rightward pan gesture moves the board left, as requested.
       // Set to true for the usual "grab the canvas and pull it" behavior.
@@ -262,6 +605,21 @@
       const clearButton = document.querySelector("#clearButton");
       const zoomReadout = document.querySelector("#zoomReadout");
       const emptyState = document.querySelector("#emptyState");
+      const selectionTools = document.querySelector("#selectionTools");
+      const effectsToggle = document.querySelector("#effectsToggle");
+      const effectsPanel = document.querySelector("#effectsPanel");
+      const resetEffects = document.querySelector("#resetEffects");
+      const blendMode = document.querySelector("#blendMode");
+      const opacityEffect = document.querySelector("#opacityEffect");
+      const brightnessEffect = document.querySelector("#brightnessEffect");
+      const contrastEffect = document.querySelector("#contrastEffect");
+      const saturationEffect = document.querySelector("#saturationEffect");
+      const blurEffect = document.querySelector("#blurEffect");
+      const opacityValue = document.querySelector("#opacityValue");
+      const brightnessValue = document.querySelector("#brightnessValue");
+      const contrastValue = document.querySelector("#contrastValue");
+      const saturationValue = document.querySelector("#saturationValue");
+      const blurValue = document.querySelector("#blurValue");
       
       const state = {
         view: { x: 64, y: 88, scale: 1 },
@@ -271,10 +629,26 @@
         pointers: new Map(),
         gesture: null,
         spaceDown: false,
+        effectsOpen: false,
         objectUrls: new Set()
       };
       
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      
+      function defaultEffects() {
+        return {
+          blendMode: "normal",
+          opacity: 100,
+          brightness: 100,
+          contrast: 100,
+          saturation: 100,
+          blur: 0
+        };
+      }
+      
+      function selectedItem() {
+        return state.items.find(item => item.id === state.selectedId) ?? null;
+      }
       
       function screenToWorld(screenX, screenY, view = state.view) {
         return {
@@ -287,34 +661,142 @@
         const { x, y, scale } = state.view;
         world.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
         
+        const handleScreenSize = window.matchMedia("(pointer: coarse)").matches ? 26 : 15;
+        const handleWorldSize = handleScreenSize / scale;
+        world.style.setProperty("--handle-size", `${handleWorldSize}px`);
+        world.style.setProperty("--handle-offset", `${-handleWorldSize / 2}px`);
+        const edgeHitScreenSize = window.matchMedia("(pointer: coarse)").matches ? 30 : 16;
+        const edgeHitWorldSize = edgeHitScreenSize / scale;
+        world.style.setProperty("--edge-hit-size", `${edgeHitWorldSize}px`);
+        world.style.setProperty("--edge-hit-offset", `${-edgeHitWorldSize / 2}px`);
+        
         const minor = Math.max(7, 24 * scale);
         const major = minor * 5;
         viewport.style.backgroundSize = `${major}px ${major}px, ${minor}px ${minor}px`;
         viewport.style.backgroundPosition = `${x}px ${y}px, ${x}px ${y}px`;
         zoomReadout.textContent = `${Math.round(scale * 100)}%`;
+        positionSelectionTools();
+      }
+      
+      function setEffectsOpen(open) {
+        state.effectsOpen = Boolean(open && state.selectedId != null);
+        effectsPanel.hidden = !state.effectsOpen;
+        effectsToggle.setAttribute("aria-expanded", String(state.effectsOpen));
+        positionSelectionTools();
       }
       
       function setSelected(id) {
-        if (state.selectedId === id) return;
+        if (state.selectedId === id) {
+          positionSelectionTools();
+          return;
+        }
+        
         if (state.selectedId != null) {
           world.querySelector(`[data-id="${state.selectedId}"]`)?.classList.remove("selected");
         }
+        
         state.selectedId = id;
+        state.effectsOpen = false;
+        effectsPanel.hidden = true;
+        effectsToggle.setAttribute("aria-expanded", "false");
+        
         if (id != null) {
           world.querySelector(`[data-id="${id}"]`)?.classList.add("selected");
+          const item = selectedItem();
+          if (item) syncEffectsPanel(item);
         }
+        
+        positionSelectionTools();
       }
       
       function positionCard(item) {
-        item.element.style.transform = `translate3d(${item.x}px, ${item.y}px, 0)`;
+        item.element.style.left = `${item.x}px`;
+        item.element.style.top = `${item.y}px`;
+        item.element.style.width = `${item.width}px`;
+        item.element.style.height = `${item.height}px`;
+        if (item.id === state.selectedId) positionSelectionTools();
+      }
+      
+      function applyEffects(item) {
+        const effects = item.effects;
+        item.imageElement.style.mixBlendMode = effects.blendMode;
+        item.imageElement.style.opacity = String(effects.opacity / 100);
+        item.imageElement.style.filter = [
+          `brightness(${effects.brightness}%)`,
+          `contrast(${effects.contrast}%)`,
+          `saturate(${effects.saturation}%)`,
+          `blur(${effects.blur}px)`
+        ].join(" ");
+        
+        if (item.id === state.selectedId) {
+          const isModified = effects.blendMode !== "normal" ||
+            effects.opacity !== 100 ||
+            effects.brightness !== 100 ||
+            effects.contrast !== 100 ||
+            effects.saturation !== 100 ||
+            effects.blur !== 0;
+          effectsToggle.classList.toggle("has-effects", isModified);
+        }
+      }
+      
+      function syncEffectsPanel(item) {
+        const effects = item.effects;
+        blendMode.value = effects.blendMode;
+        opacityEffect.value = String(effects.opacity);
+        brightnessEffect.value = String(effects.brightness);
+        contrastEffect.value = String(effects.contrast);
+        saturationEffect.value = String(effects.saturation);
+        blurEffect.value = String(effects.blur);
+        opacityValue.textContent = `${effects.opacity}%`;
+        brightnessValue.textContent = `${effects.brightness}%`;
+        contrastValue.textContent = `${effects.contrast}%`;
+        saturationValue.textContent = `${effects.saturation}%`;
+        blurValue.textContent = `${effects.blur}px`;
+        applyEffects(item);
+      }
+      
+      function positionSelectionTools() {
+        const item = selectedItem();
+        if (!item) {
+          selectionTools.hidden = true;
+          return;
+        }
+        
+        selectionTools.hidden = false;
+        const { x, y, scale } = state.view;
+        const cardLeft = x + item.x * scale;
+        const cardTop = y + item.y * scale;
+        const cardRight = cardLeft + item.width * scale;
+        const gap = 10;
+        const buttonWidth = window.innerWidth <= 600 ? 46 : 42;
+        const panelWidth = state.effectsOpen ? Math.min(244, window.innerWidth - 68) : 0;
+        const totalWidth = buttonWidth + (state.effectsOpen ? panelWidth + 8 : 0);
+        const canOpenRight = cardRight + gap + totalWidth <= window.innerWidth - 8;
+        const left = canOpenRight ?
+          cardRight + gap :
+          Math.max(8, cardLeft - gap - totalWidth);
+        
+        selectionTools.classList.toggle("open-left", !canOpenRight);
+        selectionTools.style.left = `${left}px`;
+        selectionTools.style.top = `${clamp(cardTop, 8, window.innerHeight - buttonWidth - 8)}px`;
+        
+        requestAnimationFrame(() => {
+          if (selectionTools.hidden) return;
+          const rect = selectionTools.getBoundingClientRect();
+          const currentTop = Number.parseFloat(selectionTools.style.top) || 8;
+          const correctedTop = clamp(currentTop, 8, Math.max(8, window.innerHeight - rect.height - 8));
+          selectionTools.style.top = `${correctedTop}px`;
+        });
       }
       
       function createCard(item) {
         const card = document.createElement("article");
         card.className = "image-card";
         card.dataset.id = String(item.id);
-        card.style.width = `${item.width + 16}px`;
         card.setAttribute("aria-label", item.name);
+        
+        const surface = document.createElement("div");
+        surface.className = "image-surface";
         
         const image = document.createElement("img");
         image.src = item.url;
@@ -325,10 +807,22 @@
         label.className = "label";
         label.textContent = item.name;
         
-        card.append(image, label);
+        surface.append(image);
+        card.append(surface, label);
+        
+        for (const direction of ["n", "ne", "e", "se", "s", "sw", "w", "nw"]) {
+          const handle = document.createElement("span");
+          handle.className = "resize-handle";
+          handle.dataset.resize = direction;
+          handle.setAttribute("role", "presentation");
+          card.append(handle);
+        }
+        
         world.append(card);
         item.element = card;
+        item.imageElement = image;
         positionCard(item);
+        applyEffects(item);
       }
       
       function updateEmptyState() {
@@ -367,8 +861,8 @@
         for (const item of state.items) {
           minX = Math.min(minX, item.x);
           minY = Math.min(minY, item.y);
-          maxX = Math.max(maxX, item.x + item.width + 16);
-          maxY = Math.max(maxY, item.y + item.height + 38);
+          maxX = Math.max(maxX, item.x + item.width);
+          maxY = Math.max(maxY, item.y + item.height + LABEL_ALLOWANCE);
         }
         
         const boundsWidth = Math.max(1, maxX - minX);
@@ -400,16 +894,18 @@
         URL.revokeObjectURL(item.url);
         state.objectUrls.delete(item.url);
         state.selectedId = null;
+        state.effectsOpen = false;
+        selectionTools.hidden = true;
         updateEmptyState();
       }
       
       function clearAll() {
-        for (const item of state.items) {
-          URL.revokeObjectURL(item.url);
-        }
+        for (const item of state.items) URL.revokeObjectURL(item.url);
         state.objectUrls.clear();
         state.items.length = 0;
         state.selectedId = null;
+        state.effectsOpen = false;
+        selectionTools.hidden = true;
         world.replaceChildren();
         updateEmptyState();
         resetView();
@@ -437,8 +933,8 @@
           try {
             const natural = await loadImageMetadata(url);
             const fitScale = Math.min(1, 300 / natural.width, 220 / natural.height);
-            const width = Math.max(24, Math.round(natural.width * fitScale));
-            const height = Math.max(24, Math.round(natural.height * fitScale));
+            const width = Math.max(MIN_ITEM_SIZE, Math.round(natural.width * fitScale));
+            const height = Math.max(MIN_ITEM_SIZE, Math.round(natural.height * fitScale));
             const slot = state.items.length;
             const col = slot % GRID_COLUMNS;
             const row = Math.floor(slot / GRID_COLUMNS);
@@ -451,7 +947,9 @@
               height,
               x: GRID_ORIGIN_X + col * GRID_GAP_X,
               y: GRID_ORIGIN_Y + row * GRID_GAP_Y,
-              element: null
+              effects: defaultEffects(),
+              element: null,
+              imageElement: null
             };
             
             state.items.push(item);
@@ -527,6 +1025,7 @@
         
         event.preventDefault();
         viewport.setPointerCapture(event.pointerId);
+        const handle = event.target.closest?.(".resize-handle");
         const card = event.target.closest?.(".image-card");
         
         state.pointers.set(event.pointerId, {
@@ -537,6 +1036,27 @@
         
         if (state.pointers.size >= 2) {
           beginPinch();
+          return;
+        }
+        
+        if (handle && card) {
+          const id = Number(card.dataset.id);
+          const item = state.items.find(candidate => candidate.id === id);
+          if (!item) return;
+          
+          setSelected(id);
+          state.gesture = {
+            type: "resize",
+            pointerId: event.pointerId,
+            direction: handle.dataset.resize,
+            startX: event.clientX,
+            startY: event.clientY,
+            startItemX: item.x,
+            startItemY: item.y,
+            startWidth: item.width,
+            startHeight: item.height,
+            itemId: id
+          };
           return;
         }
         
@@ -605,6 +1125,46 @@
           item.x = gesture.startItemX + deltaX / state.view.scale;
           item.y = gesture.startItemY + deltaY / state.view.scale;
           positionCard(item);
+          return;
+        }
+        
+        if (gesture.type === "resize") {
+          const item = state.items.find(candidate => candidate.id === gesture.itemId);
+          if (!item) return;
+          
+          const dx = deltaX / state.view.scale;
+          const dy = deltaY / state.view.scale;
+          const direction = gesture.direction;
+          let x = gesture.startItemX;
+          let y = gesture.startItemY;
+          let width = gesture.startWidth;
+          let height = gesture.startHeight;
+          
+          if (direction.includes("e")) width = gesture.startWidth + dx;
+          if (direction.includes("s")) height = gesture.startHeight + dy;
+          if (direction.includes("w")) {
+            width = gesture.startWidth - dx;
+            x = gesture.startItemX + dx;
+          }
+          if (direction.includes("n")) {
+            height = gesture.startHeight - dy;
+            y = gesture.startItemY + dy;
+          }
+          
+          if (width < MIN_ITEM_SIZE) {
+            if (direction.includes("w")) x = gesture.startItemX + gesture.startWidth - MIN_ITEM_SIZE;
+            width = MIN_ITEM_SIZE;
+          }
+          if (height < MIN_ITEM_SIZE) {
+            if (direction.includes("n")) y = gesture.startItemY + gesture.startHeight - MIN_ITEM_SIZE;
+            height = MIN_ITEM_SIZE;
+          }
+          
+          item.x = x;
+          item.y = y;
+          item.width = width;
+          item.height = height;
+          positionCard(item);
         }
       });
       
@@ -647,6 +1207,47 @@
         addFiles(event.dataTransfer.files);
       });
       
+      effectsToggle.addEventListener("click", () => {
+        setEffectsOpen(!state.effectsOpen);
+      });
+      
+      blendMode.addEventListener("change", () => {
+        const item = selectedItem();
+        if (!item) return;
+        item.effects.blendMode = blendMode.value;
+        applyEffects(item);
+      });
+      
+      const effectBindings = [
+        [opacityEffect, opacityValue, "opacity", "%"],
+        [brightnessEffect, brightnessValue, "brightness", "%"],
+        [contrastEffect, contrastValue, "contrast", "%"],
+        [saturationEffect, saturationValue, "saturation", "%"],
+        [blurEffect, blurValue, "blur", "px"]
+      ];
+      
+      for (const [input, output, property, suffix] of effectBindings) {
+        input.addEventListener("input", () => {
+          const item = selectedItem();
+          if (!item) return;
+          const value = Number(input.value);
+          item.effects[property] = value;
+          output.textContent = `${value}${suffix}`;
+          applyEffects(item);
+        });
+      }
+      
+      resetEffects.addEventListener("click", () => {
+        const item = selectedItem();
+        if (!item) return;
+        item.effects = defaultEffects();
+        syncEffectsPanel(item);
+      });
+      
+      document.addEventListener("pointerdown", event => {
+        if (state.effectsOpen && !selectionTools.contains(event.target)) setEffectsOpen(false);
+      }, true);
+      
       fileInput.addEventListener("change", () => {
         addFiles(fileInput.files);
         fileInput.value = "";
@@ -668,6 +1269,10 @@
         if ((event.ctrlKey || event.metaKey) && event.key === "0") {
           event.preventDefault();
           fitAll();
+        }
+        if (event.key === "Escape") {
+          if (state.effectsOpen) setEffectsOpen(false);
+          else setSelected(null);
         }
       });
       
